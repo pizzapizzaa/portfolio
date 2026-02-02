@@ -1,0 +1,378 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+
+const workExperience = [
+	{
+		title: 'Product Manager',
+		company: 'Verity Nature (a.k.a Blue Carbon S2C), Singapore',
+		period: 'Aug 2023 - Present',
+		description: 'As Product Manager at Verity Nature, I conceptualized and built software roadmap to translate physical nature-based conservation and restoration data into verifiable digital frameworks. My role involved leading specialized research and design workshops to facilitate innovation in MRV technology, ensuring that high-fidelity design mockups and interactive prototypes were technically aligned with complex environmental data requirements.',
+		responsibilities: [
+			'Working closely with Lead Developer, CTO, CEO, Co-founders to build strategy, roadmap & planning for multiple products which catered to various regions.',
+			'Jointly managing product design and development teams to ensure product roadmap and development are in alignment with business objectives.',
+			'Planning product development schedules and timelines to maintain a timely and efficient release pipeline.',
+			'Conceptualizing products from ideation to low-fi UI design to mid/hi-fi UI design together with designers, lead developer & CTO.',
+			'Supporting design team with UXUI design, marketing collateral design, corporate material design as needed.',
+			'Leading a fun and healthy team culture by hosting engaging virtual team-bonding events.'
+		]
+	},
+	{
+		title: 'Founder & Business Development Head',
+		company: 'Boulder Box Saigon, Vietnam',
+		period: 'Aug 2023 - Present',
+		description: 'As Founder & Business Development Head at Boulder Box Saigon, I led the creation of a niche boutique bouldering gym concept tailored to the Vietnamese sports market. From market research and wall construction to brand development and team building, I oversaw every aspect of the business with a clear vision for quality, community, and growth. Under my leadership, Boulder Box achieved a 250% increase in sales in its 2nd year, launched a PT program with a 100% client return rate, and hosted multiple successful community events.',
+		responsibilities: [
+			'Conducted comprehensive analysis of the Vietnamese sports market to identify opportunities and establish a niche for home bouldering gym.',
+			'Developed a compelling brand strategy to position Boulder Box Saigon as a leader in the local climbing community.',
+			'Led talent acquisition efforts to build a team of skilled professionals dedicated to delivering exceptional experiences for climbing enthusiasts. Boulder Box\'s PT program has a 100% returning rate.',
+			'Strategized, planned, and executed targeted marketing campaigns to raise brand awareness and engage the climbing community. Over 3 successful events with a total of 100+ customers attended in the past year.',
+			'Passionately built Boulder Box Saigon as a testament to personal vision and a love for climbing, creating a space that bridges sport, lifestyle, and community.'
+		],
+		projectLink: '/projects/boulder-box-saigon'
+	},
+	{
+		title: 'Head of Digital Product Research & Design',
+		company: 'Mission+, Singapore',
+		period: '2021 - 2022',
+		description: 'As Head of Digital Product Research & Design at Mission+, I led product strategy, research, and design execution across multiple client engagements.',
+		responsibilities: [
+			'Established and implemented comprehensive Research & Design roadmaps for both internal development initiatives and client engagement projects.',
+			'Aligned the roadmap with organizational objectives, client needs, and emerging market trends to ensure innovative and impactful outcomes.',
+			'Initiated usability testing, user interviews, and hypothesis validation processes to uncover actionable insights and enhance user satisfaction.',
+			'Developed and refined product prototypes to validate ideas quickly and efficiently, fostering an iterative design approach.',
+			'Bridged the gap between users, customers, business owners, stakeholders, and technical teams by facilitating a unified understanding of goals, challenges, and solutions.',
+			'Led the conceptualization of new product ideas through rapid design prototyping methods, enabling swift iteration and alignment with user expectations.',
+			'Utilised statistical research, data analysis, and productivity metrics to provide clear, evidence-based insights that drive informed decision-making.'
+		]
+	},
+	{
+		title: 'Lead UX/UI Design',
+		company: 'Mercedes-Benz Mobility AG, Germany / Mercedes-Benz Financial Services, Singapore',
+		period: '2019 - 2023',
+		description: 'As Lead UX/UI Designer at Mercedes-Benz Mobility, I co-led research and design efforts across the aftersales customer journey for markets including AAP, Australia, New Zealand, and Europe. I directed end to end product design, from user research and hypothesis validation to prototyping, testing, and production, ensuring solutions were both user-centered and business-focused.',
+		responsibilities: [
+			'Co-led research and design initiatives for the Mercedes-Benz Financial Services aftersales customer journey, focusing on AAP, AU, NZ, and European markets.',
+			'Strategized, planned, and executed user interviews and studies to gather actionable insights and validate product hypotheses.',
+			'Analyzed UX research data to develop customer-driven product design roadmaps, ensuring alignment with business goals and user needs.',
+			'Managed the end-to-end design roadmap for the markets I was in charged of, overseeing the product lifecycle from concept creation to design, usability testing, development readiness, and production stages.',
+			'Collaborated effectively with stakeholders, including designers, product owners, developers, and chief product owners, to ensure seamless execution of projects.',
+			'Established and advocated design philosophies and best practices within cross-functional teams, fostering a culture of design excellence.',
+			'Delivered high-quality design mockups and interactive prototypes for a range of products, ensuring alignment with user requirements and brand standards.',
+			'Organized and facilitated research and design workshops to drive collaboration and innovation within internal teams.'
+		],
+		projectLinks: ['/projects/mbfs-sea', '/projects/mbfs-australia']
+	}
+];
+
+const skills = [
+	'Business Development & Brand Strategy',
+	'Product Conceptualization',
+	'Product & Team Management',
+	'Client & Stakeholder Management',
+	'Product Leadership & Design Operations',
+	'UX Research & Strategy',
+	'Product Strategy & Lifecycle Management',
+	'UX/UI Design & Product Execution'
+];
+
+const tools = [
+	{ name: 'Framer', icon: 'framer-icon.png' },
+	{ name: 'Figma', icon: 'figma-icon.png' },
+	{ name: 'Photoshop', icon: 'photoshop-icon.png' },
+	{ name: 'Illustrator', icon: 'illustrator-icon.png' },
+	{ name: 'Sketch', icon: 'sketch-icon.png' },
+	{ name: 'ClickUp', icon: 'clickup-icon.png' },
+	{ name: 'Spline', icon: 'spline-icon.png' },
+	{ name: 'Blender', icon: 'blender-icon.png' }
+];
+
+const languages = [
+	{ name: 'English', level: 100 },
+	{ name: 'Vietnamese', level: 100 },
+	{ name: 'Mandarin', level: 50 },
+	{ name: 'Swedish', level: 30 },
+	{ name: 'Arabic', level: 20 }
+];
+
+const education = [
+	{
+		institution: 'Institute of Project Management',
+		credential: 'Certified Associate Project Management',
+		year: '2021'
+	},
+	{
+		institution: 'Orita Sinclair, Singapore',
+		credential: 'Design Communication',
+		year: '2018'
+	},
+	{
+		institution: 'Hoa Sen University, Vietnam',
+		credential: 'Certificate in Graphic Design',
+		year: '2017'
+	}
+];
+
+const latestProjects = [
+	{
+		title: 'Verity Nature / MRV Digital Solutions',
+		description: 'Design and develop a one-stop MRV system focused on the ESG market.',
+		image: 'https://framerusercontent.com/images/Qvs1jPyfuwtZY87j62Wtn5iRxo.jpg?width=2048&height=1536',
+		href: '/projects/verity-nature'
+	},
+	{
+		title: "Boulder Box Saigon - Vietnam's First Boutique Bouldering Concept",
+		description: 'Designed, built, and (virtually) manage a top-rated bouldering gym in Saigon, Vietnam.',
+		image: 'https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072',
+		href: '/projects/boulder-box-saigon'
+	},
+	{
+		title: 'MBFS / After-sale Digital Solution SEA - Part 1',
+		description: 'Led the UX/UI Research & Design for Southeast Asian Countries',
+		image: 'https://framerusercontent.com/images/YNJxLvljj0beQaZhJtUjR06bb5o.png?width=610&height=372',
+		href: '/projects/mbfs-sea'
+	},
+	{
+		title: 'MBFS / Digital Payment Solutions',
+		description: 'Led the UX/UI research & Design for MBFS Australia',
+		image: 'https://framerusercontent.com/images/KGU57THf6aveoLZImn65vJZYU.png?width=1398&height=898',
+		href: '/projects/mbfs-australia'
+	}
+];
+---
+
+<Layout title="Olivia Nguyen - Product Leader & Designer">
+	<Header />
+	<main class="pt-24">
+		<!-- Section 1: Hero -->
+		<section id="section-1" class="min-h-screen flex items-center justify-center px-4 py-24">
+			<div class="text-center max-w-4xl">
+				<h1 class="text-h1 font-heading font-bold mb-8">Olivia Nguyen</h1>
+				<div class="space-y-6">
+					<div class="flex items-center justify-center gap-3">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary">
+							<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+						</svg>
+						<p class="text-nav text-white">contact@olivianguyen.rocks</p>
+					</div>
+					<div class="flex items-center justify-center gap-3">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary">
+							<path d="M216,40H40A16,16,0,0,0,24,56V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,176H40V56H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
+						</svg>
+						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="text-nav text-white hover:text-primary transition-colors border-b border-primary pb-0.5">
+							linkedin.com/in/huyennguyenthu
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section 2: Summary -->
+		<section id="section-2" class="min-h-screen flex items-center py-24">
+			<div class="max-w-[1280px] mx-auto px-8 md:px-16 w-full">
+				<h2 class="text-h2 font-heading font-bold text-white mb-12">Summary</h2>
+				<div class="text-body space-y-6 text-white/90 max-w-4xl">
+					<p class="leading-relaxed">
+						Olivia is a product leader with 10+ years of experience in software development, product strategy, and UX/UI design. 
+						She has driven innovation across <strong>fintech, climate tech, and mobility</strong> - leading teams at Mission+, Mercedes-Benz, and Verity Nature. 
+						Her work spans financial platforms, sustainability tools, and user-centered digital experiences.
+					</p>
+					<p class="leading-relaxed">
+						Olivia blends <strong>systems thinking</strong> with empathy-driven design and data-informed decision-making. 
+						She also solo-founded a bouldering gym in Saigon, bootstrapping it from concept to launch and achieving <strong>250% sales growth</strong> in year 2.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section 3: Work Experience -->
+		<section id="section-3" class="min-h-screen py-24">
+			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
+				<h2 class="text-h2 font-heading font-bold text-white mb-8">Work & Business Management Experience</h2>
+				<p class="text-body text-white/80 mb-16 max-w-3xl">
+					For clarity and brevity, I've included a condensed version of my work history here. 
+					To view the full details, please feel free to visit my <a href="https://www.linkedin.com/in/huyennguyenthu/" target="_blank" rel="noopener" class="text-primary hover:text-white transition-colors border-b border-primary pb-0.5">LinkedIn profile</a>.
+				</p>
+
+				<div class="space-y-16">
+					{workExperience.map((job, index) => (
+						<div class="border-l-2 border-primary/30 pl-8 relative">
+							<div class="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full"></div>
+							<h3 class="text-[24px] font-heading font-bold text-primary mb-2">{job.title}</h3>
+							<p class="text-nav text-cyan mb-2">{job.company}</p>
+							<p class="text-nav text-primary mb-6">{job.period}</p>
+							<p class="text-body text-white/90 mb-6 leading-relaxed">{job.description}</p>
+							
+							{job.projectLink && (
+								<div class="mb-6">
+									<a href={job.projectLink} class="group block">
+										<div class="relative aspect-[3/2] max-w-md rounded-xl overflow-hidden border border-white/10 hover:scale-[1.02] transition-transform">
+											<img 
+												src="https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072" 
+												alt="Boulder Box Saigon"
+												class="w-full h-full object-cover"
+											/>
+											<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
+											<div class="absolute bottom-0 left-0 right-0 p-4">
+												<p class="text-nav font-bold text-white">Boulder Box Saigon - Vietnam's First Boutique Bouldering Concept</p>
+											</div>
+											<div class="absolute top-3 right-3">
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
+													<path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
+												</svg>
+											</div>
+										</div>
+									</a>
+								</div>
+							)}
+
+							<div class="space-y-3">
+								{job.responsibilities.map(resp => (
+									<p class="text-body text-white/80 flex gap-3">
+										<span class="text-primary flex-shrink-0">—</span>
+										<span>{resp}</span>
+									</p>
+								))}
+							</div>
+						</div>
+					))}
+				</div>
+
+				<div class="mt-16 text-center">
+					<a href="/projects" class="inline-flex items-center gap-3 px-8 py-4 bg-primary hover:bg-primary/80 text-black font-heading font-semibold rounded-full transition-colors">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-5 h-5 fill-current">
+							<path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"></path>
+						</svg>
+						<span>View Recent Projects</span>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section 4: Skills & Tools -->
+		<section id="section-4" class="min-h-screen py-24">
+			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
+				<h2 class="text-h2 font-heading font-bold text-primary mb-12">Skills & Tools</h2>
+
+				<!-- Skills Grid -->
+				<div class="grid md:grid-cols-2 gap-6 mb-16">
+					{skills.map(skill => (
+						<div class="border border-primary/20 rounded-lg p-6 hover:border-primary/40 transition-colors">
+							<p class="text-nav font-heading text-white">{skill}</p>
+						</div>
+					))}
+				</div>
+
+				<!-- Tools Grid -->
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+					{tools.map(tool => (
+						<div class="flex flex-col items-center gap-3 text-center">
+							<div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-2xl">
+								{tool.name.charAt(0)}
+							</div>
+							<p class="text-nav text-white">{tool.name}</p>
+						</div>
+					))}
+				</div>
+
+				<!-- Languages -->
+				<div class="mb-16">
+					<h3 class="text-[24px] font-heading font-bold text-white mb-8">Languages</h3>
+					<div class="space-y-6 max-w-2xl">
+						{languages.map(lang => (
+							<div>
+								<div class="flex justify-between mb-2">
+									<span class="text-nav text-primary font-semibold">{lang.name}</span>
+								</div>
+								<div class="w-full h-2 bg-primary/20 rounded-full overflow-hidden">
+									<div class="h-full bg-primary rounded-full transition-all" style={`width: ${lang.level}%`}></div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<!-- Education -->
+				<div>
+					<h3 class="text-[24px] font-heading font-bold text-white mb-8">Education & Certificates</h3>
+					<div class="space-y-6">
+						{education.map(edu => (
+							<div class="border-l-2 border-primary/30 pl-6 relative">
+								<div class="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full"></div>
+								<p class="text-nav font-semibold text-primary mb-1">{edu.institution}</p>
+								<p class="text-body text-cyan">{edu.credential} - {edu.year}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section 5: Latest Projects -->
+		<section id="section-5" class="py-24 border-t border-white/10">
+			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
+				<h2 class="text-h2 font-heading font-bold text-primary mb-12">Latest Projects</h2>
+				
+				<div class="grid md:grid-cols-2 gap-6 mb-16">
+					{latestProjects.map(project => (
+						<a href={project.href} class="group block">
+							<div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 hover:scale-[1.02] transition-transform">
+								<img 
+									src={project.image} 
+									alt={project.title}
+									class="w-full h-full object-cover"
+								/>
+								<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
+								<div class="absolute bottom-0 left-0 right-0 p-6">
+									<h3 class="text-nav font-heading font-bold text-white mb-2">{project.title}</h3>
+									<p class="text-sm text-white/80">{project.description}</p>
+								</div>
+								<div class="absolute top-4 right-4">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
+										<path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
+									</svg>
+								</div>
+							</div>
+						</a>
+					))}
+				</div>
+
+				<!-- Contact Links -->
+				<div class="border-t border-white/10 pt-16">
+					<h2 class="text-h2 font-heading font-bold text-primary mb-12">Links</h2>
+					
+					<div class="flex gap-6 mb-12">
+						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="w-10 h-10 bg-[#007EBB] hover:bg-[#007EBB]/80 transition-colors rounded-lg flex items-center justify-center">
+							<span class="sr-only">LinkedIn</span>
+							<svg class="w-5 h-5 fill-white" viewBox="0 0 40 40">
+								<path d="M9.78 13.339A2.348 2.348 0 0 1 9 11.546c0-.712.26-1.336.78-1.82S10.97 9 11.79 9c.82 0 1.464.242 1.983.725.52.484.78 1.091.78 1.82 0 .73-.26 1.31-.78 1.794-.52.483-1.18.725-1.983.725-.803 0-1.49-.242-2.01-.725Zm4.335 2.771v14.813h-4.68V16.11h4.68Zm15.576 1.751c1.02 1.108 1.53 2.628 1.53 4.563v8.525h-4.444v-7.924c0-.976-.254-1.734-.759-2.274s-1.186-.812-2.038-.812c-.853 0-1.534.27-2.039.812-.505.54-.758 1.298-.758 2.274v7.924h-4.47V16.357h4.47v1.935c.452-.645 1.063-1.155 1.83-1.53.766-.375 1.628-.562 2.587-.562 1.708 0 3.073.554 4.091 1.661Z"/>
+							</svg>
+						</a>
+						<a href="https://instagram.com/travelandboulder" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-[#FAAD4F] via-[#DD2A7B] to-[#515BD4] hover:opacity-80 transition-opacity rounded-lg flex items-center justify-center">
+							<span class="sr-only">Instagram</span>
+							<svg class="w-5 h-5 fill-white" viewBox="0 0 40 40">
+								<path d="M26.147 8.2H13.924A6.132 6.132 0 0 0 7.8 14.326V25.51a6.132 6.132 0 0 0 6.124 6.126h12.223a6.132 6.132 0 0 0 6.124-6.126V14.326A6.132 6.132 0 0 0 26.147 8.2ZM9.96 14.326a3.97 3.97 0 0 1 3.964-3.965h12.223a3.969 3.969 0 0 1 3.964 3.964v11.186a3.969 3.969 0 0 1-3.964 3.965H13.924A3.97 3.97 0 0 1 9.96 25.51V14.326Z"/><path d="M20.035 25.615a5.704 5.704 0 0 0 5.697-5.698 5.703 5.703 0 0 0-5.697-5.698 5.703 5.703 0 0 0-5.696 5.698 5.703 5.703 0 0 0 5.696 5.698Zm0-9.234a3.54 3.54 0 0 1 3.536 3.537 3.54 3.54 0 0 1-3.536 3.537 3.54 3.54 0 0 1-3.535-3.537 3.54 3.54 0 0 1 3.535-3.537Zm6.225-1.241a1.536 1.536 0 1 0-1.535-1.535c0 .846.687 1.534 1.534 1.534Z"/>
+							</svg>
+						</a>
+					</div>
+
+					<div class="grid md:grid-cols-2 gap-6 max-w-3xl">
+						<div class="flex items-center gap-3">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary flex-shrink-0">
+								<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+							</svg>
+							<p class="text-nav text-white">contact@olivianguyen.rocks</p>
+						</div>
+						<div class="flex items-center gap-3">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary flex-shrink-0">
+								<path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
+							</svg>
+							<p class="text-nav text-white">+65 9450 9286 / +84 906916216</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</Layout>
+
