@@ -145,21 +145,21 @@ const latestProjects = [
 	<Header />
 	<main class="pt-24">
 		<!-- Section 1: Hero -->
-		<section id="section-1" class="min-h-screen flex items-center justify-center px-4 py-24">
+		<section id="section-1" class="min-h-screen flex items-center justify-center px-4 py-30">
 			<div class="text-center max-w-4xl">
-				<h1 class="text-h1 font-heading font-bold mb-8">Olivia Nguyen</h1>
+				<h1 class="text-h1 font-heading font-bold mb-8 animate-fade-in-up delay-200">Olivia Nguyen</h1>
 				<div class="space-y-6">
-					<div class="flex items-center justify-center gap-3">
+					<div class="flex items-center justify-center gap-3 animate-fade-in-up delay-300">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary">
 							<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
 						</svg>
 						<p class="text-nav text-white">contact@olivianguyen.rocks</p>
 					</div>
-					<div class="flex items-center justify-center gap-3">
+					<div class="flex items-center justify-center gap-3 animate-fade-in-up delay-400">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary">
 							<path d="M216,40H40A16,16,0,0,0,24,56V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,176H40V56H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
 						</svg>
-						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="text-nav text-white hover:text-primary transition-colors border-b border-primary pb-0.5">
+						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="text-nav text-white hover:text-primary transition-smooth border-b border-primary pb-0.5">
 							linkedin.com/in/huyennguyenthu
 						</a>
 					</div>
@@ -168,16 +168,16 @@ const latestProjects = [
 		</section>
 
 		<!-- Section 2: Summary -->
-		<section id="section-2" class="min-h-screen flex items-center py-24">
+		<section id="section-2" class="min-h-screen flex items-center py-30">
 			<div class="max-w-[1280px] mx-auto px-8 md:px-16 w-full">
-				<h2 class="text-h2 font-heading font-bold text-white mb-12">Summary</h2>
+				<h2 class="text-h2 font-heading font-bold text-white mb-12 animate-fade-in-up">Summary</h2>
 				<div class="text-body space-y-6 text-white/90 max-w-4xl">
-					<p class="leading-relaxed">
+					<p class="leading-relaxed animate-fade-in-up delay-100">
 						Olivia is a product leader with 10+ years of experience in software development, product strategy, and UX/UI design. 
 						She has driven innovation across <strong>fintech, climate tech, and mobility</strong> - leading teams at Mission+, Mercedes-Benz, and Verity Nature. 
 						Her work spans financial platforms, sustainability tools, and user-centered digital experiences.
 					</p>
-					<p class="leading-relaxed">
+					<p class="leading-relaxed animate-fade-in-up delay-200">
 						Olivia blends <strong>systems thinking</strong> with empathy-driven design and data-informed decision-making. 
 						She also solo-founded a bouldering gym in Saigon, bootstrapping it from concept to launch and achieving <strong>250% sales growth</strong> in year 2.
 					</p>
@@ -186,17 +186,17 @@ const latestProjects = [
 		</section>
 
 		<!-- Section 3: Work Experience -->
-		<section id="section-3" class="min-h-screen py-24">
+		<section id="section-3" class="min-h-screen py-30">
 			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
-				<h2 class="text-h2 font-heading font-bold text-white mb-8">Work & Business Management Experience</h2>
-				<p class="text-body text-white/80 mb-16 max-w-3xl">
+				<h2 class="text-h2 font-heading font-bold text-white mb-8 animate-fade-in-up">Work & Business Management Experience</h2>
+				<p class="text-body text-white/80 mb-16 max-w-3xl animate-fade-in-up delay-100">
 					For clarity and brevity, I've included a condensed version of my work history here. 
-					To view the full details, please feel free to visit my <a href="https://www.linkedin.com/in/huyennguyenthu/" target="_blank" rel="noopener" class="text-primary hover:text-white transition-colors border-b border-primary pb-0.5">LinkedIn profile</a>.
+					To view the full details, please feel free to visit my <a href="https://www.linkedin.com/in/huyennguyenthu/" target="_blank" rel="noopener" class="text-primary hover:text-white transition-smooth border-b border-primary pb-0.5">LinkedIn profile</a>.
 				</p>
 
 				<div class="space-y-16">
 					{workExperience.map((job, index) => (
-						<div class="border-l-2 border-primary/30 pl-8 relative">
+						<div class="border-l-2 border-primary/30 pl-8 relative animate-fade-in-up" style={`animation-delay: ${(index + 2) * 100}ms`}>
 							<div class="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full"></div>
 							<h3 class="text-[24px] font-heading font-bold text-primary mb-2">{job.title}</h3>
 							<p class="text-nav text-cyan mb-2">{job.company}</p>
@@ -206,7 +206,7 @@ const latestProjects = [
 							{job.projectLink && (
 								<div class="mb-6">
 									<a href={job.projectLink} class="group block">
-										<div class="relative aspect-[3/2] max-w-md rounded-xl overflow-hidden border border-white/10 hover:scale-[1.02] transition-transform">
+										<div class="relative aspect-[3/2] max-w-md rounded-xl overflow-hidden border border-white/10 card-hover">
 											<img 
 												src="https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072" 
 												alt="Boulder Box Saigon"
@@ -217,7 +217,7 @@ const latestProjects = [
 												<p class="text-nav font-bold text-white">Boulder Box Saigon - Vietnam's First Boutique Bouldering Concept</p>
 											</div>
 											<div class="absolute top-3 right-3">
-												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-spring">
 													<path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
 												</svg>
 											</div>
@@ -250,24 +250,24 @@ const latestProjects = [
 		</section>
 
 		<!-- Section 4: Skills & Tools -->
-		<section id="section-4" class="min-h-screen py-24">
+		<section id="section-4" class="min-h-screen py-30">
 			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
-				<h2 class="text-h2 font-heading font-bold text-primary mb-12">Skills & Tools</h2>
+				<h2 class="text-h2 font-heading font-bold text-primary mb-12 animate-fade-in-up">Skills & Tools</h2>
 
 				<!-- Skills Grid -->
-				<div class="grid md:grid-cols-2 gap-6 mb-16">
-					{skills.map(skill => (
-						<div class="border border-primary/20 rounded-lg p-6 hover:border-primary/40 transition-colors">
+				<div class="grid md:grid-cols-2 gap-6 mb-18">
+					{skills.map((skill, index) => (
+						<div class="border border-primary/20 rounded-lg p-6 card-hover animate-fade-in-up" style={`animation-delay: ${(index + 1) * 50}ms`}>
 							<p class="text-nav font-heading text-white">{skill}</p>
 						</div>
 					))}
 				</div>
 
 				<!-- Tools Grid -->
-				<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-					{tools.map(tool => (
-						<div class="flex flex-col items-center gap-3 text-center">
-							<div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-2xl">
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-18">
+					{tools.map((tool, index) => (
+						<div class="flex flex-col items-center gap-3 text-center animate-scale-in" style={`animation-delay: ${(index + 1) * 80}ms`}>
+							<div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-2xl hover:bg-white/10 transition-smooth">
 								{tool.name.charAt(0)}
 							</div>
 							<p class="text-nav text-white">{tool.name}</p>
@@ -276,16 +276,16 @@ const latestProjects = [
 				</div>
 
 				<!-- Languages -->
-				<div class="mb-16">
-					<h3 class="text-[24px] font-heading font-bold text-white mb-8">Languages</h3>
+				<div class="mb-18">
+					<h3 class="text-[24px] font-heading font-bold text-white mb-8 animate-fade-in-up">Languages</h3>
 					<div class="space-y-6 max-w-2xl">
-						{languages.map(lang => (
-							<div>
+						{languages.map((lang, index) => (
+							<div class="animate-fade-in-up" style={`animation-delay: ${(index + 1) * 100}ms`}>
 								<div class="flex justify-between mb-2">
 									<span class="text-nav text-primary font-semibold">{lang.name}</span>
 								</div>
 								<div class="w-full h-2 bg-primary/20 rounded-full overflow-hidden">
-									<div class="h-full bg-primary rounded-full transition-all" style={`width: ${lang.level}%`}></div>
+									<div class="h-full bg-primary rounded-full transition-smooth" style={`width: ${lang.level}%`}></div>
 								</div>
 							</div>
 						))}
@@ -294,10 +294,10 @@ const latestProjects = [
 
 				<!-- Education -->
 				<div>
-					<h3 class="text-[24px] font-heading font-bold text-white mb-8">Education & Certificates</h3>
+					<h3 class="text-[24px] font-heading font-bold text-white mb-8 animate-fade-in-up">Education & Certificates</h3>
 					<div class="space-y-6">
-						{education.map(edu => (
-							<div class="border-l-2 border-primary/30 pl-6 relative">
+						{education.map((edu, index) => (
+							<div class="border-l-2 border-primary/30 pl-6 relative animate-fade-in-up" style={`animation-delay: ${(index + 1) * 100}ms`}>
 								<div class="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full"></div>
 								<p class="text-nav font-semibold text-primary mb-1">{edu.institution}</p>
 								<p class="text-body text-cyan">{edu.credential} - {edu.year}</p>
@@ -309,14 +309,14 @@ const latestProjects = [
 		</section>
 
 		<!-- Section 5: Latest Projects -->
-		<section id="section-5" class="py-24 border-t border-white/10">
+		<section id="section-5" class="py-30 border-t border-white/10">
 			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
-				<h2 class="text-h2 font-heading font-bold text-primary mb-12">Latest Projects</h2>
+				<h2 class="text-h2 font-heading font-bold text-primary mb-12 animate-fade-in-up">Latest Projects</h2>
 				
-				<div class="grid md:grid-cols-2 gap-6 mb-16">
-					{latestProjects.map(project => (
-						<a href={project.href} class="group block">
-							<div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 hover:scale-[1.02] transition-transform">
+				<div class="grid md:grid-cols-2 gap-6 mb-18">
+					{latestProjects.map((project, index) => (
+						<a href={project.href} class="group block animate-scale-in" style={`animation-delay: ${(index + 1) * 100}ms`}>
+							<div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 card-hover">
 								<img 
 									src={project.image} 
 									alt={project.title}
@@ -328,7 +328,7 @@ const latestProjects = [
 									<p class="text-sm text-white/80">{project.description}</p>
 								</div>
 								<div class="absolute top-4 right-4">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-spring">
 										<path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
 									</svg>
 								</div>
@@ -338,17 +338,17 @@ const latestProjects = [
 				</div>
 
 				<!-- Contact Links -->
-				<div class="border-t border-white/10 pt-16">
-					<h2 class="text-h2 font-heading font-bold text-primary mb-12">Links</h2>
+				<div class="border-t border-white/10 pt-18">
+					<h2 class="text-h2 font-heading font-bold text-primary mb-12 animate-fade-in-up">Links</h2>
 					
-					<div class="flex gap-6 mb-12">
-						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="w-10 h-10 bg-[#007EBB] hover:bg-[#007EBB]/80 transition-colors rounded-lg flex items-center justify-center">
+					<div class="flex gap-6 mb-12 animate-fade-in-up delay-100">
+						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="w-10 h-10 bg-[#007EBB] hover:bg-[#007EBB]/80 transition-smooth rounded-lg flex items-center justify-center hover:scale-110">
 							<span class="sr-only">LinkedIn</span>
 							<svg class="w-5 h-5 fill-white" viewBox="0 0 40 40">
 								<path d="M9.78 13.339A2.348 2.348 0 0 1 9 11.546c0-.712.26-1.336.78-1.82S10.97 9 11.79 9c.82 0 1.464.242 1.983.725.52.484.78 1.091.78 1.82 0 .73-.26 1.31-.78 1.794-.52.483-1.18.725-1.983.725-.803 0-1.49-.242-2.01-.725Zm4.335 2.771v14.813h-4.68V16.11h4.68Zm15.576 1.751c1.02 1.108 1.53 2.628 1.53 4.563v8.525h-4.444v-7.924c0-.976-.254-1.734-.759-2.274s-1.186-.812-2.038-.812c-.853 0-1.534.27-2.039.812-.505.54-.758 1.298-.758 2.274v7.924h-4.47V16.357h4.47v1.935c.452-.645 1.063-1.155 1.83-1.53.766-.375 1.628-.562 2.587-.562 1.708 0 3.073.554 4.091 1.661Z"/>
 							</svg>
 						</a>
-						<a href="https://instagram.com/travelandboulder" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-[#FAAD4F] via-[#DD2A7B] to-[#515BD4] hover:opacity-80 transition-opacity rounded-lg flex items-center justify-center">
+						<a href="https://instagram.com/travelandboulder" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-[#FAAD4F] via-[#DD2A7B] to-[#515BD4] hover:opacity-80 transition-smooth rounded-lg flex items-center justify-center hover:scale-110">
 							<span class="sr-only">Instagram</span>
 							<svg class="w-5 h-5 fill-white" viewBox="0 0 40 40">
 								<path d="M26.147 8.2H13.924A6.132 6.132 0 0 0 7.8 14.326V25.51a6.132 6.132 0 0 0 6.124 6.126h12.223a6.132 6.132 0 0 0 6.124-6.126V14.326A6.132 6.132 0 0 0 26.147 8.2ZM9.96 14.326a3.97 3.97 0 0 1 3.964-3.965h12.223a3.969 3.969 0 0 1 3.964 3.964v11.186a3.969 3.969 0 0 1-3.964 3.965H13.924A3.97 3.97 0 0 1 9.96 25.51V14.326Z"/><path d="M20.035 25.615a5.704 5.704 0 0 0 5.697-5.698 5.703 5.703 0 0 0-5.697-5.698 5.703 5.703 0 0 0-5.696 5.698 5.703 5.703 0 0 0 5.696 5.698Zm0-9.234a3.54 3.54 0 0 1 3.536 3.537 3.54 3.54 0 0 1-3.536 3.537 3.54 3.54 0 0 1-3.535-3.537 3.54 3.54 0 0 1 3.535-3.537Zm6.225-1.241a1.536 1.536 0 1 0-1.535-1.535c0 .846.687 1.534 1.534 1.534Z"/>
@@ -357,13 +357,13 @@ const latestProjects = [
 					</div>
 
 					<div class="grid md:grid-cols-2 gap-6 max-w-3xl">
-						<div class="flex items-center gap-3">
+						<div class="flex items-center gap-3 animate-fade-in-up delay-200">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary flex-shrink-0">
 								<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
 							</svg>
 							<p class="text-nav text-white">contact@olivianguyen.rocks</p>
 						</div>
-						<div class="flex items-center gap-3">
+						<div class="flex items-center gap-3 animate-fade-in-up delay-300">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary flex-shrink-0">
 								<path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
 							</svg>

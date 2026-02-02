@@ -20,7 +20,14 @@ const { title, description = 'Portfolio' } = Astro.props;
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700;1,900&family=Inter:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet" />
     <title>{title}</title>
   </head>
-  <body class="bg-black text-white font-body overflow-x-hidden">
+  <body class="bg-black text-white font-body overflow-x-hidden relative">
+    <div class="fixed inset-0 w-full h-full -z-10">
+      <img 
+        src="/assets/bg-image-01.jpg" 
+        alt="Background" 
+        class="absolute inset-0 w-full h-full object-cover opacity-20"
+      />
+    </div>
     <slot />
   </body>
 </html>
