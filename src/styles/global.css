@@ -123,7 +123,7 @@ body {
   left: 0;
   right: 0;
   margin: 0 auto;
-  z-index: 50;
+  z-index: 9999;
   width: calc(100% - 2rem);
   max-width: 720px;
   animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
