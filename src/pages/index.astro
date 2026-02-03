@@ -363,65 +363,63 @@ const latestProjects = [
 	</div>
 </section>
 
-<!-- Section 5: Latest Projects -->
-<section id="section-5" class="py-30 border-t border-white/10">
-	<div class="max-w-[1280px] mx-auto" style="padding-left: 120px; padding-right: 120px;">
-		<h2 class="text-h2 font-heading font-bold text-primary mb-12 animate-fade-in-up">Latest Projects</h2>
+	<!-- Section 5: Latest Projects -->
+	<section id="section-5" class="projects-section-wrapper">
+		<div class="projects-section-content">
+			<h2 class="projects-title">Latest Projects</h2>
 		
-		<div class="grid md:grid-cols-2 gap-6 mb-18">
-			{latestProjects.map((project, index) => (
-				<a href={project.href} class="group block animate-scale-in" style={`animation-delay: ${(index + 1) * 100}ms`}>
-					<div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 card-hover">
+			<div class="project-card-list">
+				{latestProjects.map((project, index) => (
+					<a href={project.href} class="project-card">
+					<div class="projects-card-image">
 						<img 
 							src={project.image} 
 							alt={project.title}
-							class="w-full h-full object-cover"
 							/>
-						<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
-						<div class="absolute bottom-0 left-0 right-0 p-6">
-							<h3 class="text-nav font-heading font-bold text-white mb-2">{project.title}</h3>
-							<p class="text-sm text-white/80">{project.description}</p>
-						</div>
-						<div class="absolute top-4 right-4">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-spring">
-								<path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
-							</svg>
+						<div class="projects-card-gradient"></div>
+						<div class="projects-card-content">
+							<h3 class="projects-card-title">{project.title}</h3>
+							<p class="projects-card-description">{project.description}</p>
 						</div>
 					</div>
 				</a>
-			))}
+				))}
+			</div>
 		</div>
+	</section>
 
-		<!-- Links Section -->
-		<div class="links-section">
-			<h2 class="links-title">Links</h2>
-			
-			<div class="links-socials">
-				<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="links-social-button">
-				<img src="/assets/linkedin.svg" alt="LinkedIn" />
-			</a>
-			<a href="https://www.instagram.com/boulderbox.saigon/" target="_blank" rel="noopener" class="links-social-button">
-				<img src="/assets/instagram.svg" alt="Instagram" />
-			</a>
-		</div>
+	<!-- Section 6: Links -->
+	<section id="section-6" class="links-wrapper">
+		<div class="links-content">
+			<div class="links-section">
+				<h2 class="links-title">Links</h2>
+				
+				<div class="links-socials">
+					<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="link-linkedin">
+						<img src="/assets/linkedin.svg" alt="LinkedIn" />
+					</a>
+					<a href="https://www.instagram.com/boulderbox.saigon/" target="_blank" rel="noopener" class="link-instagram">
+						<img src="/assets/instagram.svg" alt="Instagram" />
+					</a>
+				</div>
 
-			<div class="links-contacts">
-				<div class="links-contact-item">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-						<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
-					</svg>
-					<p>contact@olivianguyen.rocks</p>
-				</div>
-				<div class="links-contact-item">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-						<path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
-					</svg>
-					<p>+65 9450 9286 / +84 906916216</p>
-				</div>
+				<div class="links-contacts">
+					<div class="link-email">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+							<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+						</svg>
+						<p>contact@olivianguyen.rocks</p>
+					</div>
+					<div class="link-contact-numbers">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+							<path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
+						</svg>
+						<p>+65 9450 9286 / +84 906916216</p>
+					</div>
 			</div>
 		</div>
 	</div>
-</section>
+	</section>
 	</main>
 </Layout>
 
