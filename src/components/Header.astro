@@ -28,21 +28,20 @@ const navItems = [
 ];
 ---
 
-<header class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[720px] px-4 animate-fade-in delay-100">
-  <nav class="relative bg-white/10 backdrop-blur-[40px] rounded-full px-1.5 py-1.5 flex items-center justify-center gap-1 shadow-lg shadow-black/5 border border-white/5" style="height: 64px;">
+<header class="header-wrapper">
+  <nav class="header-content">
     {navItems.map((item, index) => (
       <a
         href={item.href}
-        class="nav-item group relative flex items-center gap-3 px-5 py-3 rounded-full transition-all duration-300 text-nav flex-1 justify-center h-full"
+        class="header-menu-item"
         data-section={item.href}
       >
-        <div class="nav-icon-container relative w-6 h-6 z-10 flex-shrink-0">
+        <div class="header-menu-item-icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 256 256"
             fill="currentColor"
-            class="nav-icon-default absolute inset-0 w-full h-full transition-all duration-300"
-            style="fill: rgb(255, 255, 255);"
+            class="icon-default"
           >
             <path d={item.icon} />
           </svg>
@@ -50,114 +49,30 @@ const navItems = [
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 256 256"
             fill="currentColor"
-            class="nav-icon-hover absolute inset-0 w-full h-full opacity-0 transition-all duration-300"
-            style="fill: rgb(71, 53, 31);"
+            class="icon-hover"
           >
             <path d={item.icon} />
           </svg>
         </div>
-        <div class="nav-text-container relative whitespace-nowrap z-10">
-          <span class="nav-text-default transition-all duration-300 font-semibold text-[15px]" style="color: rgb(255, 255, 255);">
+        <div class="header-menu-item-text">
+          <span class="text-default">
             {item.name}
           </span>
-          <span class="nav-text-hover absolute top-0 left-0 opacity-0 transition-all duration-300 font-semibold text-[15px]" style="color: rgb(71, 53, 31);">
+          <span class="text-hover">
             {item.name}
           </span>
         </div>
-        <div class="nav-bg absolute inset-0 bg-white rounded-full opacity-0 scale-95 transition-all duration-300"></div>
+        <div class="menu-item-bg"></div>
       </a>
     ))}
   </nav>
 </header>
 
-<style>
-  .nav-item:hover .nav-icon-default {
-    opacity: 0;
-  }
-  
-  .nav-item:hover .nav-icon-hover {
-    opacity: 1;
-  }
-
-  .nav-item:hover .nav-text-default {
-    opacity: 0;
-  }
-
-  .nav-item:hover .nav-text-hover {
-    opacity: 1;
-  }
-
-  .nav-item:hover .nav-bg {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* Active state for current section */
-  .nav-item.active .nav-icon-default {
-    opacity: 0;
-  }
-  
-  .nav-item.active .nav-icon-hover {
-    opacity: 1;
-  }
-
-  .nav-item.active .nav-text-default {
-    opacity: 0;
-  }
-
-  .nav-item.active .nav-text-hover {
-    opacity: 1;
-  }
-
-  .nav-item.active .nav-bg {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* Responsive styling */
-  @media (max-width: 1199px) {
-    header {
-      max-width: 100%;
-    }
-  }
-
-  @media (max-width: 809px) {
-    header {
-      max-width: 312px;
-    }
-
-    nav {
-      gap: 0;
-      padding: 0.25rem;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-
-    .nav-item {
-      padding: 0.75rem;
-      aspect-ratio: 1;
-      width: 48px;
-      height: 48px;
-      flex: none;
-      justify-content: center;
-    }
-
-    .nav-text-container {
-      display: none;
-    }
-
-    .nav-icon-container {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-  }
-</style>
-
 <script>
   // Intersection Observer for active nav state
   document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-item');
+    const navLinks = document.querySelectorAll('.header-menu-item');
 
     const observer = new IntersectionObserver(
       (entries) => {

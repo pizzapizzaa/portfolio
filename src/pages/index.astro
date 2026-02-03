@@ -153,7 +153,10 @@ const latestProjects = [
 			<div class="max-w-4xl w-full">
 				<!-- Name -->
 				<div style="margin-bottom: 64px;" class="animate-fade-in-up delay-200">
-					<h1 class="text-[80px] md:text-[120px] leading-none font-heading font-bold text-white">Olivia Nguyen</h1>
+					<h1 class="text-[80px] md:text-[120px] leading-none font-heading font-bold text-white" style="margin-bottom: 48px;">Olivia Nguyen</h1>
+					<p class="text-[20px] leading-relaxed max-w-3xl" style="color: rgb(255, 184, 0);">
+						Product leader with 10+ years of experience in software development, product strategy, and UX/UI design.
+					</p>
 				</div>
 				
 				<!-- Contact Links -->
@@ -198,68 +201,71 @@ const latestProjects = [
 		</section>
 
 		<!-- Section 2: Summary -->
-		<section id="section-2" class="min-h-screen flex items-center py-30">
-			<div class="max-w-[1280px] mx-auto px-8 md:px-16 w-full">
-				<div class="mb-16">
-					<h2 class="text-h2 font-heading font-bold mb-12 animate-fade-in-up" style="color: rgb(255, 184, 0);">Summary</h2>
-					<div class="text-body space-y-6 max-w-4xl">
-						<p class="leading-relaxed animate-fade-in-up delay-100" style="color: rgb(255, 255, 255);">
+		<section id="section-2" class="summary-wrapper">
+			<div class="summary-content">
+				<div>
+					<h2 class="summary-title">Summary</h2>
+					<div class="summary-description">
+						<p class="animate-fade-in-up delay-100">
 							Olivia is a product leader with 10+ years of experience in software development, product strategy, and UX/UI design. 
 							She has driven innovation across fintech, climate tech, and mobility - leading teams at Mission+, Mercedes-Benz, and Verity Nature. 
 							Her work spans financial platforms, sustainability tools, and user-centered digital experiences.
 						</p>
-						<p class="leading-relaxed animate-fade-in-up delay-200" style="color: rgb(255, 255, 255);">
+						<p class="animate-fade-in-up delay-200">
 							Olivia blends systems thinking with empathy-driven design and data-informed decision-making. 
 							She also solo-founded a bouldering gym in Saigon, bootstrapping it from concept to launch.
 						</p>
 					</div>
 				</div>
 				
-				<!-- Quote Box with Backdrop Blur -->
-				<div class="mb-16 animate-fade-in-up delay-300">
-					<div class="h-px bg-gradient-to-r from-primary/50 via-primary to-primary/50 mb-12"></div>
-					<div class="rounded-2xl p-8 border border-white/10" style="backdrop-filter: blur(40px); background-color: rgba(0, 0, 0, 0.4);">
-						<p class="text-[18px] leading-relaxed italic" style="color: rgb(255, 255, 255);">
-							I lead with clarity, empathy, and purpose - whether building products or communities. To me, meaningful impact starts with empowering people to thrive in the most sustainable & effective ways.
-						</p>
-					</div>
+				<div class="summary-quoted-message">
+					<p>
+						I lead with clarity, empathy, and purpose - whether building products or communities. To me, meaningful impact starts with empowering people to thrive in the most sustainable & effective ways.
+					</p>
 				</div>
 			</div>
 		</section>
 
 		<!-- Section 3: Work Experience -->
-		<section id="section-3" class="min-h-screen py-30">
-			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
-				<h2 class="text-h2 font-heading font-bold text-white mb-8 animate-fade-in-up">Work & Business Management Experience</h2>
-				<p class="text-body text-white/80 mb-16 max-w-3xl animate-fade-in-up delay-100">
-					For clarity and brevity, I've included a condensed version of my work history here. 
-					To view the full details, please feel free to visit my <a href="https://www.linkedin.com/in/huyennguyenthu/" target="_blank" rel="noopener" class="text-primary hover:text-white transition-smooth border-b border-primary pb-0.5">LinkedIn profile</a>.
-				</p>
+	<section id="section-3" class="experience-wrapper">
+		<div class="experience-content">
+			<h2 class="experience-title">Work & Business Management Experience</h2>
+			<p class="experience-intro">
+				For clarity and brevity, I've included a condensed version of my work history here. 
+				To view the full details, please feel free to visit my <a href="https://www.linkedin.com/in/huyennguyenthu/" target="_blank" rel="noopener" class="experience-link">LinkedIn profile</a>.
+			</p>
 
-				<div class="space-y-16">
-					{workExperience.map((job, index) => (
-						<div class="border-l-2 border-primary/30 pl-8 relative animate-fade-in-up" style={`animation-delay: ${(index + 2) * 100}ms`}>
-							<div class="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full"></div>
-							<h3 class="text-[24px] font-heading font-bold text-primary mb-2">{job.title}</h3>
-							<p class="text-nav text-cyan mb-2">{job.company}</p>
-							<p class="text-nav text-primary mb-6">{job.period}</p>
-							<p class="text-body text-white/90 mb-6 leading-relaxed">{job.description}</p>
+			<div class="experience-list">
+				{workExperience.map((job, index) => (
+					<div class="experience-item">
+						<div class="experience-decorations">
+							<div class="experience-decoration-line"></div>
+							<div class="experience-decoration-dot"></div>
+						</div>
+						<div class="experience-details">
+							<div class="experience-header">
+								<h3 class="experience-job-title">{job.title}</h3>
+								<p class="experience-period">{job.period}</p>
+							</div>
+							<p class="experience-company">{job.company}</p>
+							<p class="experience-description">{job.description}</p>
 							
 							{job.projectLink && (
-								<div class="mb-6">
-									<a href={job.projectLink} class="group block">
-										<div class="relative aspect-[3/2] max-w-md rounded-xl overflow-hidden border border-white/10 card-hover">
+								<div class="experience-project">
+									<p class="experience-project-label">Selected Projects</p>
+									<a href={job.projectLink} class="experience-project-card">
+										<div class="experience-project-image">
 											<img 
 												src="https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072" 
 												alt="Boulder Box Saigon"
-												class="w-full h-full object-cover"
 											/>
-											<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
-											<div class="absolute bottom-0 left-0 right-0 p-4">
-												<p class="text-nav font-bold text-white">Boulder Box Saigon - Vietnam's First Boutique Bouldering Concept</p>
+											<div class="experience-project-overlay"></div>
+											<div class="experience-project-info">
+												<p class="experience-project-title">Boulder Box Saigon - Vietnam's First Boutique Bouldering Concept</p>
+												<p class="experience-project-subtitle">Designed, built, and (virtually) manage a top-rated bouldering gym in Saigon, Vietnam.</p>
 											</div>
-											<div class="absolute top-3 right-3">
-												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-spring">
+											<div class="experience-project-icon">
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
 													<path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
 												</svg>
 											</div>
@@ -268,153 +274,154 @@ const latestProjects = [
 								</div>
 							)}
 
-							<div class="space-y-3">
+							<div class="experience-responsibilities">
 								{job.responsibilities.map(resp => (
-									<p class="text-body text-white/80 flex gap-3">
-										<span class="text-primary flex-shrink-0">—</span>
+									<p class="experience-responsibility">
+										<span class="experience-bullet">—</span>
 										<span>{resp}</span>
 									</p>
 								))}
 							</div>
 						</div>
-					))}
-				</div>
-
-				<div class="mt-16 text-center">
-					<a href="/projects" class="inline-flex items-center gap-3 px-8 py-4 bg-primary hover:bg-primary/80 text-black font-heading font-semibold rounded-full transition-colors">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-5 h-5 fill-current">
-							<path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"></path>
-						</svg>
-						<span>View Recent Projects</span>
-					</a>
-				</div>
+					</div>
+				))}
 			</div>
-		</section>
+
+			<div class="experience-cta">
+				<a href="/projects" class="experience-button">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+						<path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"></path>
+					</svg>
+					<span>View Recent Projects</span>
+				</a>
+			</div>
+		</div>
+	</section>
 
 		<!-- Section 4: Skills & Tools -->
-		<section id="section-4" class="min-h-screen py-30">
-			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
-				<h2 class="text-h2 font-heading font-bold text-primary mb-12 animate-fade-in-up">Skills & Tools</h2>
+	<section id="section-4" class="skills-wrapper">
+		<div class="skills-content">
+			<h2 class="skills-title">Skills & Tools</h2>
 
-				<!-- Skills Grid -->
-				<div class="grid md:grid-cols-2 gap-6 mb-18">
-					{skills.map((skill, index) => (
-						<div class="border border-primary/20 rounded-lg p-6 card-hover animate-fade-in-up" style={`animation-delay: ${(index + 1) * 50}ms`}>
-							<p class="text-nav font-heading text-white">{skill}</p>
+			<!-- Skills Grid -->
+			<div class="skills-grid">
+				{skills.map((skill, index) => (
+					<div class="skills-item">
+						<div class="skills-decoration"></div>
+						<p class="skills-text">{skill}</p>
+					</div>
+				))}
+			</div>
+
+			<!-- Tools Grid -->
+			<div class="skills-tools">
+				{tools.map((tool, index) => (
+					<div class="skills-tool">
+						<div class="skills-tool-icon">
+							<img src={`/${tool.icon}`} alt={tool.name} />
+						</div>
+						<p class="skills-tool-name">{tool.name}</p>
+					</div>
+				))}
+			</div>
+
+			<!-- Languages -->
+			<div class="skills-languages">
+				<h3 class="skills-languages-title">Languages</h3>
+				<div class="skills-languages-list">
+					{languages.map((lang, index) => (
+						<div class="skills-language">
+							<p class="skills-language-name">{lang.name}</p>
+							<div class="skills-language-bar">
+								<div class="skills-language-bar-bg"></div>
+								<div class="skills-language-bar-fill" style={`width: ${lang.level}%`}></div>
+							</div>
 						</div>
 					))}
-				</div>
-
-				<!-- Tools Grid -->
-				<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-18">
-					{tools.map((tool, index) => (
-						<div class="flex flex-col items-center gap-3 text-center animate-scale-in" style={`animation-delay: ${(index + 1) * 80}ms`}>
-							<div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-2xl hover:bg-white/10 transition-smooth">
-								{tool.name.charAt(0)}
-							</div>
-							<p class="text-nav text-white">{tool.name}</p>
-						</div>
-					))}
-				</div>
-
-				<!-- Languages -->
-				<div class="mb-18">
-					<h3 class="text-[24px] font-heading font-bold text-white mb-8 animate-fade-in-up">Languages</h3>
-					<div class="space-y-6 max-w-2xl">
-						{languages.map((lang, index) => (
-							<div class="animate-fade-in-up" style={`animation-delay: ${(index + 1) * 100}ms`}>
-								<div class="flex justify-between mb-2">
-									<span class="text-nav text-primary font-semibold">{lang.name}</span>
-								</div>
-								<div class="w-full h-2 bg-primary/20 rounded-full overflow-hidden">
-									<div class="h-full bg-primary rounded-full transition-smooth" style={`width: ${lang.level}%`}></div>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-
-				<!-- Education -->
-				<div>
-					<h3 class="text-[24px] font-heading font-bold text-white mb-8 animate-fade-in-up">Education & Certificates</h3>
-					<div class="space-y-6">
-						{education.map((edu, index) => (
-							<div class="border-l-2 border-primary/30 pl-6 relative animate-fade-in-up" style={`animation-delay: ${(index + 1) * 100}ms`}>
-								<div class="absolute -left-2 top-0 w-4 h-4 bg-primary rounded-full"></div>
-								<p class="text-nav font-semibold text-primary mb-1">{edu.institution}</p>
-								<p class="text-body text-cyan">{edu.credential} - {edu.year}</p>
-							</div>
-						))}
-					</div>
 				</div>
 			</div>
-		</section>
 
-		<!-- Section 5: Latest Projects -->
-		<section id="section-5" class="py-30 border-t border-white/10">
-			<div class="max-w-[1280px] mx-auto px-8 md:px-16">
-				<h2 class="text-h2 font-heading font-bold text-primary mb-12 animate-fade-in-up">Latest Projects</h2>
-				
-				<div class="grid md:grid-cols-2 gap-6 mb-18">
-					{latestProjects.map((project, index) => (
-						<a href={project.href} class="group block animate-scale-in" style={`animation-delay: ${(index + 1) * 100}ms`}>
-							<div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 card-hover">
-								<img 
-									src={project.image} 
-									alt={project.title}
-									class="w-full h-full object-cover"
-								/>
-								<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
-								<div class="absolute bottom-0 left-0 right-0 p-6">
-									<h3 class="text-nav font-heading font-bold text-white mb-2">{project.title}</h3>
-									<p class="text-sm text-white/80">{project.description}</p>
-								</div>
-								<div class="absolute top-4 right-4">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-spring">
-										<path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
-									</svg>
-								</div>
+			<!-- Education -->
+			<div class="skills-education">
+				<h3 class="skills-education-title">Education & Certificates</h3>
+				<div class="skills-education-list">
+					{education.map((edu, index) => (
+						<div class="skills-education-item">
+							<div class="skills-education-decorations">
+								<div class="skills-education-decoration-line"></div>
+								<div class="skills-education-decoration-dot"></div>
 							</div>
-						</a>
-					))}
-				</div>
-
-				<!-- Contact Links -->
-				<div class="border-t border-white/10 pt-18">
-					<h2 class="text-h2 font-heading font-bold text-primary mb-12 animate-fade-in-up">Links</h2>
-					
-					<div class="flex gap-6 mb-12 animate-fade-in-up delay-100">
-						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="w-10 h-10 bg-[#007EBB] hover:bg-[#007EBB]/80 transition-smooth rounded-lg flex items-center justify-center hover:scale-110">
-							<span class="sr-only">LinkedIn</span>
-							<svg class="w-5 h-5 fill-white" viewBox="0 0 40 40">
-								<path d="M9.78 13.339A2.348 2.348 0 0 1 9 11.546c0-.712.26-1.336.78-1.82S10.97 9 11.79 9c.82 0 1.464.242 1.983.725.52.484.78 1.091.78 1.82 0 .73-.26 1.31-.78 1.794-.52.483-1.18.725-1.983.725-.803 0-1.49-.242-2.01-.725Zm4.335 2.771v14.813h-4.68V16.11h4.68Zm15.576 1.751c1.02 1.108 1.53 2.628 1.53 4.563v8.525h-4.444v-7.924c0-.976-.254-1.734-.759-2.274s-1.186-.812-2.038-.812c-.853 0-1.534.27-2.039.812-.505.54-.758 1.298-.758 2.274v7.924h-4.47V16.357h4.47v1.935c.452-.645 1.063-1.155 1.83-1.53.766-.375 1.628-.562 2.587-.562 1.708 0 3.073.554 4.091 1.661Z"/>
-							</svg>
-						</a>
-						<a href="https://instagram.com/travelandboulder" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-[#FAAD4F] via-[#DD2A7B] to-[#515BD4] hover:opacity-80 transition-smooth rounded-lg flex items-center justify-center hover:scale-110">
-							<span class="sr-only">Instagram</span>
-							<svg class="w-5 h-5 fill-white" viewBox="0 0 40 40">
-								<path d="M26.147 8.2H13.924A6.132 6.132 0 0 0 7.8 14.326V25.51a6.132 6.132 0 0 0 6.124 6.126h12.223a6.132 6.132 0 0 0 6.124-6.126V14.326A6.132 6.132 0 0 0 26.147 8.2ZM9.96 14.326a3.97 3.97 0 0 1 3.964-3.965h12.223a3.969 3.969 0 0 1 3.964 3.964v11.186a3.969 3.969 0 0 1-3.964 3.965H13.924A3.97 3.97 0 0 1 9.96 25.51V14.326Z"/><path d="M20.035 25.615a5.704 5.704 0 0 0 5.697-5.698 5.703 5.703 0 0 0-5.697-5.698 5.703 5.703 0 0 0-5.696 5.698 5.703 5.703 0 0 0 5.696 5.698Zm0-9.234a3.54 3.54 0 0 1 3.536 3.537 3.54 3.54 0 0 1-3.536 3.537 3.54 3.54 0 0 1-3.535-3.537 3.54 3.54 0 0 1 3.535-3.537Zm6.225-1.241a1.536 1.536 0 1 0-1.535-1.535c0 .846.687 1.534 1.534 1.534Z"/>
-							</svg>
-						</a>
+							<div class="skills-education-details">
+								<p class="skills-education-institution">{edu.institution}</p>
+								<p class="skills-education-credential">{edu.credential} - {edu.year}</p>
+							</div>
 					</div>
-
-					<div class="grid md:grid-cols-2 gap-6 max-w-3xl">
-						<div class="flex items-center gap-3 animate-fade-in-up delay-200">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary flex-shrink-0">
-								<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
-							</svg>
-							<p class="text-nav text-white">contact@olivianguyen.rocks</p>
-						</div>
-						<div class="flex items-center gap-3 animate-fade-in-up delay-300">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary flex-shrink-0">
-								<path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
-							</svg>
-							<p class="text-nav text-white">+65 9450 9286 / +84 906916216</p>
-						</div>
-					</div>
+				))}
 				</div>
 			</div>
-		</section>
+		</div>
+	</div>
+</section>
+
+<!-- Section 5: Latest Projects -->
+<section id="section-5" class="py-30 border-t border-white/10">
+	<div class="max-w-[1280px] mx-auto" style="padding-left: 120px; padding-right: 120px;">
+		<h2 class="text-h2 font-heading font-bold text-primary mb-12 animate-fade-in-up">Latest Projects</h2>
+		
+		<div class="grid md:grid-cols-2 gap-6 mb-18">
+			{latestProjects.map((project, index) => (
+				<a href={project.href} class="group block animate-scale-in" style={`animation-delay: ${(index + 1) * 100}ms`}>
+					<div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 card-hover">
+						<img 
+							src={project.image} 
+							alt={project.title}
+							class="w-full h-full object-cover"
+							/>
+						<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
+						<div class="absolute bottom-0 left-0 right-0 p-6">
+							<h3 class="text-nav font-heading font-bold text-white mb-2">{project.title}</h3>
+							<p class="text-sm text-white/80">{project.description}</p>
+						</div>
+						<div class="absolute top-4 right-4">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-spring">
+								<path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
+							</svg>
+						</div>
+					</div>
+				</a>
+			))}
+		</div>
+
+		<!-- Links Section -->
+		<div class="links-section">
+			<h2 class="links-title">Links</h2>
+			
+			<div class="links-socials">
+				<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="links-social-button">
+				<img src="/assets/linkedin.svg" alt="LinkedIn" />
+			</a>
+			<a href="https://www.instagram.com/boulderbox.saigon/" target="_blank" rel="noopener" class="links-social-button">
+				<img src="/assets/instagram.svg" alt="Instagram" />
+			</a>
+		</div>
+
+			<div class="links-contacts">
+				<div class="links-contact-item">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+						<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+					</svg>
+					<p>contact@olivianguyen.rocks</p>
+				</div>
+				<div class="links-contact-item">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+						<path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
+					</svg>
+					<p>+65 9450 9286 / +84 906916216</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 	</main>
 </Layout>
 
