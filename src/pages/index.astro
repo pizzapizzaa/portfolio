@@ -143,25 +143,55 @@ const latestProjects = [
 
 <Layout title="Olivia Nguyen - Product Leader & Designer">
 	<Header />
+	
+	<!-- Blurred Background Overlay - Activates after Hero Section -->
+	<div id="blur-overlay" class="fixed inset-0 pointer-events-none opacity-0 transition-opacity duration-500 -z-10" style="backdrop-filter: blur(40px); background-color: rgba(0, 0, 0, 0.1);"></div>
+	
 	<main class="pt-24">
 		<!-- Section 1: Hero -->
 		<section id="section-1" class="min-h-screen flex items-center justify-center px-4 py-30">
-			<div class="text-center max-w-4xl">
-				<h1 class="text-h1 font-heading font-bold mb-8 animate-fade-in-up delay-200">Olivia Nguyen</h1>
-				<div class="space-y-6">
-					<div class="flex items-center justify-center gap-3 animate-fade-in-up delay-300">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary">
+			<div class="max-w-4xl w-full">
+				<!-- Name -->
+				<div style="margin-bottom: 64px;" class="animate-fade-in-up delay-200">
+					<h1 class="text-[80px] md:text-[120px] leading-none font-heading font-bold text-white">Olivia Nguyen</h1>
+				</div>
+				
+				<!-- Contact Links -->
+				<div class="grid md:grid-cols-2 gap-x-12 gap-y-6">
+					<!-- Email -->
+					<div class="flex items-center gap-4 animate-fade-in-up delay-300">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 flex-shrink-0" style="fill: rgb(255, 184, 0)">
 							<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
 						</svg>
-						<p class="text-nav text-white">contact@olivianguyen.rocks</p>
+						<p class="text-[16px] leading-relaxed text-white">contact@olivianguyen.rocks</p>
 					</div>
-					<div class="flex items-center justify-center gap-3 animate-fade-in-up delay-400">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary">
-							<path d="M216,40H40A16,16,0,0,0,24,56V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,176H40V56H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
+					
+					<!-- LinkedIn -->
+					<div class="flex items-center gap-4 animate-fade-in-up delay-400">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 flex-shrink-0" style="fill: rgb(255, 184, 0)">
+							<path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path>
 						</svg>
-						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="text-nav text-white hover:text-primary transition-smooth border-b border-primary pb-0.5">
+						<a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="text-[16px] leading-relaxed text-white hover:text-primary transition-smooth underline decoration-primary underline-offset-4">
 							linkedin.com/in/huyennguyenthu
 						</a>
+					</div>
+					
+					<!-- Phone -->
+					<div class="flex items-center gap-4 animate-fade-in-up delay-500">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 flex-shrink-0" style="fill: rgb(255, 184, 0)">
+							<path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
+						</svg>
+						<a href="tel:+6594509286" rel="noopener" class="text-[16px] leading-relaxed text-white hover:text-primary transition-smooth underline decoration-primary underline-offset-4">
+							+65 94509286
+						</a>
+					</div>
+					
+					<!-- Location -->
+					<div class="flex items-center gap-4 animate-fade-in-up delay-600">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 flex-shrink-0" style="fill: rgb(255, 184, 0)">
+							<path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"></path>
+						</svg>
+						<p class="text-[16px] leading-relaxed text-white">Singapore / Vietnam</p>
 					</div>
 				</div>
 			</div>
@@ -170,17 +200,29 @@ const latestProjects = [
 		<!-- Section 2: Summary -->
 		<section id="section-2" class="min-h-screen flex items-center py-30">
 			<div class="max-w-[1280px] mx-auto px-8 md:px-16 w-full">
-				<h2 class="text-h2 font-heading font-bold text-white mb-12 animate-fade-in-up">Summary</h2>
-				<div class="text-body space-y-6 text-white/90 max-w-4xl">
-					<p class="leading-relaxed animate-fade-in-up delay-100">
-						Olivia is a product leader with 10+ years of experience in software development, product strategy, and UX/UI design. 
-						She has driven innovation across <strong>fintech, climate tech, and mobility</strong> - leading teams at Mission+, Mercedes-Benz, and Verity Nature. 
-						Her work spans financial platforms, sustainability tools, and user-centered digital experiences.
-					</p>
-					<p class="leading-relaxed animate-fade-in-up delay-200">
-						Olivia blends <strong>systems thinking</strong> with empathy-driven design and data-informed decision-making. 
-						She also solo-founded a bouldering gym in Saigon, bootstrapping it from concept to launch and achieving <strong>250% sales growth</strong> in year 2.
-					</p>
+				<div class="mb-16">
+					<h2 class="text-h2 font-heading font-bold mb-12 animate-fade-in-up" style="color: rgb(255, 184, 0);">Summary</h2>
+					<div class="text-body space-y-6 max-w-4xl">
+						<p class="leading-relaxed animate-fade-in-up delay-100" style="color: rgb(255, 255, 255);">
+							Olivia is a product leader with 10+ years of experience in software development, product strategy, and UX/UI design. 
+							She has driven innovation across fintech, climate tech, and mobility - leading teams at Mission+, Mercedes-Benz, and Verity Nature. 
+							Her work spans financial platforms, sustainability tools, and user-centered digital experiences.
+						</p>
+						<p class="leading-relaxed animate-fade-in-up delay-200" style="color: rgb(255, 255, 255);">
+							Olivia blends systems thinking with empathy-driven design and data-informed decision-making. 
+							She also solo-founded a bouldering gym in Saigon, bootstrapping it from concept to launch.
+						</p>
+					</div>
+				</div>
+				
+				<!-- Quote Box with Backdrop Blur -->
+				<div class="mb-16 animate-fade-in-up delay-300">
+					<div class="h-px bg-gradient-to-r from-primary/50 via-primary to-primary/50 mb-12"></div>
+					<div class="rounded-2xl p-8 border border-white/10" style="backdrop-filter: blur(40px); background-color: rgba(0, 0, 0, 0.4);">
+						<p class="text-[18px] leading-relaxed italic" style="color: rgb(255, 255, 255);">
+							I lead with clarity, empathy, and purpose - whether building products or communities. To me, meaningful impact starts with empowering people to thrive in the most sustainable & effective ways.
+						</p>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -376,3 +418,29 @@ const latestProjects = [
 	</main>
 </Layout>
 
+<script>
+	// Activate blur overlay when scrolling past Hero section
+	document.addEventListener('DOMContentLoaded', () => {
+		const blurOverlay = document.getElementById('blur-overlay');
+		const heroSection = document.getElementById('section-1');
+		
+		if (!blurOverlay || !heroSection) return;
+		
+		const handleScroll = () => {
+			const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+			const scrollPosition = window.scrollY;
+			
+			// Activate blur when scrolled past 50% of hero section
+			if (scrollPosition > heroSection.offsetHeight * 0.5) {
+				blurOverlay.classList.remove('opacity-0');
+				blurOverlay.classList.add('opacity-100');
+			} else {
+				blurOverlay.classList.remove('opacity-100');
+				blurOverlay.classList.add('opacity-0');
+			}
+		};
+		
+		window.addEventListener('scroll', handleScroll);
+		handleScroll(); // Check initial state
+	});
+</script>
