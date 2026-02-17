@@ -1,0 +1,18 @@
+---
+const { } = Astro.props;
+---
+<nav class="site-nav">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#section-2">Summary</a></li>
+    <li><a href="#section-3">Experience</a></li>
+    <li><a href="#section-4">Skills</a></li>
+    <li><a href="/projects">Projects</a></li>
+  </ul>
+</nav>
+
+<style>
+.site-nav{display:flex;justify-content:center;padding:16px 0}
+.site-nav ul{display:flex;gap:18px;margin:0;padding:0;list-style:none}
+.site-nav a{color:inherit;text-decoration:none;font-weight:600}
+</style>

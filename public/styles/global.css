@@ -1,0 +1,56 @@
+/* Minimal global stylesheet extracted from the Framer export (critical parts)
+   - Keep this small; we'll iteratively copy more selectors from the exported HTML
+*/
+:root{
+  --bg:#000;
+  --accent:#ffb800;
+  --muted:#bbb;
+  --page-max:980px;
+}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:#fff;font-family:Albert Sans,system-ui,Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+.container{max-width:var(--page-max);margin:48px auto;padding:0 20px}
+h2{color:var(--accent);margin-bottom:12px}
+main{min-height:100vh}
+
+/* small utilities */
+.projects-grid{display:grid;gap:16px}
+
+@media (min-width:700px){
+  .projects-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Extracted Framer tokens & essential layout/typography rules (critical subset) */
+:root{
+  --token-e4b792f2-1fbf-44a5-a4fc-91dd16d9baf2:#fff;
+  --token-46846698-a415-43e7-a89c-e221bfa4cd7a:#000;
+  --token-82178dec-395c-411b-b8b1-3ba67b8138b1:#ffb800;
+  --token-cc7a7772-aace-4066-b3db-5638d2e63e09:#47351f;
+  --token-d8cbe8b7-34d1-40ac-b0a9-b7d4ed4df136:#fff;
+}
+
+/* basic font fallbacks + load helpers (prefer hosted fonts) */
+body{font-family:Albert Sans,Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+
+/* Framer root layout helper used by the export — keep container responsive */
+.framer-veqJF{background-color:var(--token-46846698-a415-43e7-a89c-e221bfa4cd7a,#000);display:flex;flex-direction:column;align-items:center;width:100%;max-width:1200px;margin:0 auto;padding:0;box-sizing:border-box}
+.framer-veqJF .framer-1dspoau{padding:120px 0 63px;width:100%;box-sizing:border-box}
+.framer-veqJF .framer-19ty9tu-container{position:sticky;top:10px;will-change:transform}
+
+/* text presets: headings and body from Framer export */
+.framer-PnAj3 .framer-styles-preset-v2ox4l{font-family:"Albert Sans",sans-serif;font-weight:700;letter-spacing:-.04em;line-height:0.9;color:var(--token-e4b792f2-1fbf-44a5-a4fc-91dd16d9baf2)}
+.framer-ax3uG .framer-styles-preset-1ch0mx2 h2{font-family:"Albert Sans",sans-serif;font-weight:700;letter-spacing:-.02em;color:var(--token-82178dec-395c-411b-b8b1-3ba67b8138b1);line-height:1}
+.framer-dvot0 .framer-styles-preset-4mnsbq p{font-family:"Albert Sans",sans-serif;font-size:18px;line-height:1.7;color:var(--token-e4b792f2-1fbf-44a5-a4fc-91dd16d9baf2)}
+
+/* utility for Framer text modules used in many sections */
+.framer-text{color:inherit;line-height:1.3}
+
+/* responsive adjustments copied from Framer export (critical breakpoints) */
+@media (max-width:809.98px){
+  .framer-veqJF .framer-1dspoau{padding:63px 0 0}
+  .framer-veqJF{max-width:375px}
+}
+
+/* keep project card grid consistent with Framer spacing */
+.projects-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+

@@ -1,0 +1,57 @@
+---
+import Layout from '../../components/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const title = 'Latest Projects — Olivia Nguyen';
+
+const projects = [
+  {
+    title: 'Verity Nature / MRV Digital Solutions',
+    description: 'Design and develop a one-stop MRV system focused on the ESG market.',
+    link: '/projects/verity-nature-mrv-solutions',
+    image: 'https://framerusercontent.com/images/Qvs1jPyfuwtZY87j62Wtn5iRxo.jpg?width=2048&height=1536'
+  },
+  {
+    title: 'Boulder Box Saigon - Vietnam’s First Boutique Bouldering Concept',
+    description: 'Designed, built, and (virtually) manage a top-rated bouldering gym in Saigon, Vietnam.',
+    link: '/projects/boulder-box-saigon',
+    image: 'https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072'
+  },
+  {
+    title: 'MBFS / After-sale Digital Solution SEA - Part 1',
+    description: 'Led the UX/UI Research & Design for Southeast Asian Countries',
+    link: '/projects/mbfs-part-one',
+    image: 'https://framerusercontent.com/images/YNJxLvljj0beQaZhJtUjR06bb5o.png?width=610&height=372'
+  }
+];
+---
+
+<Layout title={title}>
+  <head slot="head">
+    <meta name="description" content="Latest projects by Olivia Nguyen" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <script type="module" src="/js/astro-appear.mjs" defer></script>
+  </head>
+
+  <main>
+    <Nav />
+
+    <section id="latest-projects" class="container">
+      <h1>Latest Projects</h1>
+      <p class="lead">Some text here.</p>
+
+      <div class="projects-grid">
+        {projects.map(project => (
+          <ProjectCard title={project.title} description={project.description} link={project.link} image={project.image} />
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <style>
+    .container{max-width:980px;margin:48px auto;padding:0 20px}
+    h1{color:var(--token-82178dec-395c-411b-b8b1-3ba67b8138b1, #ffb800)}
+    .lead{color:var(--token-e4b792f2-1fbf-44a5-a4fc-91dd16d9baf2, #fff);margin-bottom:20px}
+  </style>
+</Layout>

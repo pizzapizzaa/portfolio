@@ -116,6 +116,97 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
+/* Apply consistent vertical spacing (top only) to sections inside project detail pages */
+.project-detail-page-content > * {
+  padding-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .project-detail-page-content > * {
+    padding-top: 3rem;
+  }
+}
+
+/* Make live project wrapper bottom padding match section top padding */
+.live-project-wrapper {
+  padding-bottom: 2rem !important;
+}
+
+@media (min-width: 768px) {
+  .live-project-wrapper {
+    padding-bottom: 3rem !important;
+  }
+}
+
+/* Normalize widths of project detail sections to a single centered column */
+.project-detail-page-content [class*="max-w-"] {
+  max-width: 900px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+}
+
+/* Allow specific sections to opt-out of the automatic project page spacing */
+.project-detail-page-content > .no-section-spacing {
+  padding-top: 0;
+}
+
+/* Force padding for Project Overview if utilities are overridden */
+.project-overview-section-wrapper {
+  padding-top: 36px !important;
+}
+
+.project-overview-title {
+  padding-top: 24px !important;
+}
+
+/* Force padding for Objectives section to override any global resets */
+.objectives-section {
+  padding-top: 2.25rem !important; /* match bottom (36px) */
+  padding-bottom: 2.25rem !important; /* matches pb-[36px] */
+}
+
+/* Force the objectives list top padding to 16px in case utilities are overridden */
+.project-overview-section-wrapper .objectives-list {
+  padding-top: 16px !important;
+}
+
+/* Force padding for Key Challenges section to ensure symmetric spacing */
+.key-challenges-section {
+  padding-top: 2.25rem !important; /* 36px */
+  padding-bottom: 2.25rem !important; /* 36px */
+}
+
+/* Global H4 override: ensure consistent 20px sizing across site */
+h4 {
+  font-size: 20px !important;
+}
+
+/* Global paragraph override: enforce 15px across site */
+p {
+  font-size: 15px !important;
+}
+
+/* Ensure project header keeps its bottom padding even when other rules opt-out */
+.project-header {
+  padding-bottom: 36px !important;
+}
+
+/* Ensure header inner wrapper keeps explicit top padding */
+.project-header .project-header-inner {
+  padding-top: 24px !important;
+}
+
+/* Force 24px top padding for specific section H4 headings */
+.section-h4 {
+  padding-top: 24px !important;
+}
+
+/* Force 24px top padding for section-level H3 headings (Key Highlights, Responsibilities) */
+.section-h3 {
+  padding-top: 24px !important;
+}
+
 /* ===== Header Navigation Styles ===== */
 .header-wrapper {
   position: fixed;
@@ -327,6 +418,108 @@ body {
   margin-bottom: 4rem;
 }
 
+/* ===== Links / Contact Section Styles (Boulder Box) ===== */
+.links-content {
+  border-top: 0 !important;
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .links-content {
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.links-section {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.links-title {
+  font-weight: 900;
+  font-size: 42px;
+  color: rgb(255,184,0);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-style: normal;
+}
+
+@media (min-width: 768px) {
+  .links-title { font-size: 64px; }
+}
+
+.links-socials {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.link-linkedin, .link-instagram {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: transform 0.25s ease;
+}
+
+.link-linkedin img, .link-instagram img {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.link-linkedin:hover, .link-instagram:hover { transform: scale(1.06); }
+
+.links-contacts {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.link-email, .link-contact-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgb(255,255,255);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.link-email svg, .link-contact-numbers svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  fill: rgb(255,184,0);
+}
+
+.links-contacts p { margin: 0; }
+
+/* Force 12px padding for More Projects card overlays (override utility conflicts) */
+.more-projects-section .more-project-overlay {
+  padding: 12px !important;
+}
+
+/* Apply same forced padding to Latest Projects card content on index page */
+.projects-section-wrapper .projects-card-content {
+  padding: 12px !important;
+}
+
+
+
 .summary-title {
   font-size: 3rem;
   line-height: 1;
@@ -335,6 +528,122 @@ body {
   margin-bottom: 3rem;
   color: rgb(255, 184, 0);
   animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Sub-title styling used on project pages (not a paragraph) */
+.sub-title {
+  font-size: 18px;
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .sub-title { font-size: 26px; }
+}
+
+/* Global H3 override: set consistent 26px sizing */
+h3 {
+  font-size: 26px !important;
+}
+
+/* Force 16px bottom padding for h3 inside project detail pages (Boulder Box) */
+.project-detail-page-content h3 {
+  padding-bottom: 16px !important;
+}
+
+/* Left-align everything on Boulder Box project page only */
+.left-align-page {
+  text-align: left !important;
+}
+.left-align-page .text-center {
+  text-align: left !important;
+}
+.left-align-page .items-center {
+  align-items: flex-start !important;
+}
+.left-align-page .justify-center {
+  justify-content: flex-start !important;
+}
+.left-align-page .mx-auto {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.left-align-page img {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: block !important;
+}
+.left-align-page .project-hero-img > div,
+.left-align-page .project-overview-img,
+.left-align-page .more-projects-section,
+.left-align-page .project-case-study-content,
+.left-align-page .project-detail-page-content > * {
+  align-items: flex-start !important;
+}
+
+/* Center the metadata grid (Role / Platform / Duration) on Boulder Box page */
+.left-align-page .project-brief-wrapper .project-brief-role,
+.left-align-page .project-brief-wrapper .project-brief-platform,
+.left-align-page .project-brief-wrapper .project-brief-duration {
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.left-align-page .project-brief-wrapper .project-brief-role p,
+.left-align-page .project-brief-wrapper .project-brief-platform p,
+.left-align-page .project-brief-wrapper .project-brief-duration p {
+  text-align: center !important;
+}
+
+/* Remove all image hover/scale/transition effects on Boulder Box page */
+.left-align-page img,
+.left-align-page picture img,
+.left-align-page .more-projects-section img,
+.left-align-page .project-img-01,
+.left-align-page .project-img-02 {
+  transform: none !important;
+  transition: none !important;
+}
+
+.left-align-page img:hover,
+.left-align-page a:hover img,
+.left-align-page .group:hover img,
+.left-align-page .group:focus img,
+.left-align-page .group:active img {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Keep hover/interaction for project cards, only suppress image transforms/transitions.
+   The image-specific rules above handle disabling image hover effects; avoid disabling
+   parent/group hover states so project cards can retain their interactive styles. */
+
+/* Center the visit website button specifically on Boulder Box page */
+.left-align-page .visit-website-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+.left-align-page .centered-visit-button {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Restore interactive hover for project cards in More Projects while keeping images static */
+.left-align-page .more-projects-section a.group {
+  transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.36s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform, box-shadow;
+}
+.left-align-page .more-projects-section a.group:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.45) !important;
+  border-color: rgba(255,184,0,0.12) !important;
 }
 
 .summary-description {
@@ -1080,4 +1389,30 @@ body {
 .link-contact-numbers p {
   font-size: 15px;
   color: rgb(255, 255, 255);
+}
+
+/* Tailwind custom backdrop-blur fallbacks — ensure blur utilities work
+   even if theme mapping isn't generated by the pipeline. */
+@layer utilities {
+  .backdrop-blur-40 {
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+  }
+
+  .backdrop-blur-64 {
+    -webkit-backdrop-filter: blur(64px);
+    backdrop-filter: blur(64px);
+  }
+
+  /* Support the arbitrary-value class names generated by Tailwind
+     (e.g. `backdrop-blur-[64px]`). Brackets must be escaped in CSS. */
+  .backdrop-blur-\[40px\] {
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+  }
+
+  .backdrop-blur-\[64px\] {
+    -webkit-backdrop-filter: blur(64px);
+    backdrop-filter: blur(64px);
+  }
 }

@@ -1,0 +1,41 @@
+---
+const { title = '', description = '', link = '#', image = '' } = Astro.props;
+---
+
+<a class="project-card" href={link} data-border="true">
+  <div class="thumb" aria-hidden>
+    <div class="inner" aria-hidden style={image ? `background-image: url('${image}'); background-size: cover; background-position: center;` : ''}></div>
+    <div class="shadow" aria-hidden></div>
+    <div class="overlay">
+      <div class="meta">
+        <h4>{title}</h4>
+        <p>{description}</p>
+      </div>
+      <div class="icon" aria-hidden>
+        <!-- simple arrow icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="none"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z" fill="currentColor"></path></svg>
+      </div>
+    </div>
+  </div>
+</a>
+
+<style>
+.project-card{display:block;text-decoration:none;color:inherit;border-radius:12px;padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));transition:transform .18s ease,box-shadow .18s ease}
+.project-card[data-border="true"]{border:1px solid rgba(255,255,255,0.06)}
+.project-card:hover{transform:translateY(-4px);box-shadow:0 6px 20px rgba(0,0,0,.45)}
+
+.project-card .thumb{position:relative;overflow:hidden;border-radius:12px;margin-bottom:12px;aspect-ratio:1.5;min-height:160px}
+.project-card .thumb .inner{position:absolute;top:-5%;left:-5%;width:110%;height:110%;background-size:cover;background-position:center;transition:all .18s ease}
+.project-card:hover .thumb .inner{top:0;left:0;width:100%;height:100%}
+.project-card .thumb .shadow{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0) 19%, rgba(0,0,0,1) 100%);opacity:1;border-radius:inherit;pointer-events:none}
+.project-card .thumb .overlay{position:absolute;left:16px;right:16px;bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:2}
+.project-card .thumb .meta{color:var(--token-e4b792f2-1fbf-44a5-a4fc-91dd16d9baf2,#fff)}
+.project-card .thumb h4{margin:0;font-size:20px}
+.project-card .thumb p{margin:6px 0 0;color:rgba(255,255,255,0.85);font-size:.92rem}
+.project-card .thumb .icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);border-radius:999px;color:var(--token-cc7a7772-aace-4066-b3db-5638d2e63e09,#47351f);transition:transform .18s ease}
+.project-card:hover .thumb .icon{transform:translateY(-2px)}
+
+.project-card[data-border="true"]:after{content:"";position:absolute;inset:12px;border-radius:10px;pointer-events:none;border:0;box-sizing:border-box}
+
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+</style>

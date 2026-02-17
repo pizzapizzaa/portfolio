@@ -1,0 +1,2 @@
+BACKUP: original exported Framer HTML removed from active file to avoid Astro compiler parser panic.
+If you want the complete original restored, copy this file's content from the Git history or your local backup. (Full backup not stored to keep workspace small.)

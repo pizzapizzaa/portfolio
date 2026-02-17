@@ -1,386 +1,374 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
 ---
 
 <Layout title="Boulder Box Saigon - Olivia Nguyen">
-  <Header />
-  
-  <main class="min-h-screen bg-black text-white relative">
-    <!-- Background Image with Blur Overlay -->
-    <div class="fixed inset-0 z-0">
-      <img 
-        src="https://framerusercontent.com/images/DTu3cz6fsBdt5kBPSFt6zyDp9I.jpg?scale-down-to=2048" 
-        alt="Background"
-        class="w-full h-full object-cover"
-      />
-    </div>
-    <div class="fixed inset-0 z-10 backdrop-blur-40 bg-black/40"></div>
+  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <img 
+      src="https://framerusercontent.com/images/kCis6S97sFpCg5n83WdYjK3V7YI.jpg?display=high&framer-optimize=heavy" 
+      alt="Background"
+      class="w-full h-full object-cover"
+    />
+  </div>
+  <div class="fixed inset-0 z-10 backdrop-blur-[64px] bg-black/60 pointer-events-none"></div>
 
-    <!-- Content Container -->
-    <div class="relative z-20">
+  <main class="relative z-20 min-h-screen text-white font-body w-full flex flex-col items-center project-detail-page-wrapper">
+    <div class="w-full max-w-[960px] px-8 py-12 md:px-16 md:py-24 animate-fade-in-up flex flex-col items-center project-detail-page-content left-align-page">
       <!-- Back Button -->
-      <div class="max-w-[1280px] mx-auto px-8 md:px-16 pt-32 pb-8">
-        <a href="/#section-4" class="inline-flex items-center gap-3 text-white hover:text-primary transition-all group">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary group-hover:-translate-x-1 transition-transform">
-            <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
-          </svg>
-          <span class="underline decoration-primary underline-offset-4">Back to Home Page</span>
+      <div class="flex items-center justify-center gap-4 mb-24">
+        <a href="/" class="text-[16px] text-white hover:text-primary transition-colors underline decoration-white hover:decoration-primary underline-offset-4 decoration-1 font-medium back-home-btn">
+          Back to Home Page
         </a>
-      </div>
-
-      <!-- Hero Image -->
-      <div class="max-w-[1280px] mx-auto px-8 md:px-16 pb-12">
-        <div class="w-full aspect-[3/2] rounded-2xl overflow-hidden border border-white/10">
-          <img 
-            src="https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072" 
-            alt="Boulder Box Saigon"
-            class="w-full h-full object-cover"
-          />
-        </div>
       </div>
 
       <!-- Project Header -->
-      <div class="max-w-[1280px] mx-auto px-8 md:px-16 pb-16">
-        <h1 class="text-[40px] md:text-[56px] leading-tight font-heading font-bold text-primary mb-4">
-          Boulder Box Saigon - Vietnam's First Boutique Bouldering Concept
-        </h1>
-        <p class="text-[17px] text-white/80">
-          Business Owner, Product Management, Business Management
-        </p>
-      </div>
-
-      <!-- About The Project -->
-      <div class="max-w-[1280px] mx-auto px-8 md:px-16 pb-16 grid md:grid-cols-[300px_1fr] gap-8 md:gap-16">
-        <div>
-          <h3 class="text-[16px] font-heading font-semibold text-primary mb-4">About The Project</h3>
+      <div class="mb-0 flex flex-col items-center text-center gap-10 pb-[36px] animate-fade-in-up delay-200 no-section-spacing project-header">
+        <div class="max-w-[800px] pt-6 project-header-inner" style="padding-top:24px !important;">
+          <h1 class="text-[42px] md:text-[72px] lg:text-[84px] font-heading font-black leading-[1.05] text-[rgb(255,184,0)] mb-8 tracking-tighter uppercase italic project-title">
+            Boulder Box Saigon
+          </h1>
+          <h3 class="sub-title">
+            Vietnam’s First Boutique Bouldering Concept – A Journey of Business Ownership, Product Strategy, and Community Building.
+          </h3>
         </div>
-        
-        <div class="prose prose-invert max-w-none space-y-6">
-          <div class="space-y-2 text-[17px]">
-            <p><strong>Role:</strong> Founder & Business Development Head</p>
-            <p><strong>Platform:</strong> Physical Facility + Community-driven Experience</p>
-            <p><strong>Duration:</strong> August 2023 - Current</p>
-          </div>
-
-          <div class="border-t border-white/10 my-8"></div>
-
-          <h3 class="text-[28px] font-heading font-bold text-white">Project Overview</h3>
-          <p class="text-[17px] text-white/90 leading-relaxed">
-            <strong>Boulder Box Saigon</strong> was born out of a personal passion for climbing and a clear market opportunity: the lack of accessible, high-quality bouldering spaces in Vietnam. As both <strong>Founder and Business Development Head</strong>, I led the entire venture - from market research and construction to branding, team-building, and business growth.
-          </p>
-          <p class="text-[17px] text-white/90 leading-relaxed">
-            The goal was to <strong>introduce a new concept of home-scale bouldering gyms</strong> tailored to urban lifestyles, while fostering a tight-knit climbing community. With no blueprint to follow in the local context, the project demanded not only creative thinking and operational rigor, but also cultural adaptation and deep customer empathy.
-          </p>
-
-          <img 
-            src="https://framerusercontent.com/images/WP4CqbcYZRbpVo0Ka8Au5OOod6E.png?width=7008&height=4120" 
-            alt="Boulder Box Saigon Overview"
-            class="w-full rounded-lg my-8"
-          />
-
-          <h3 class="text-[28px] font-heading font-bold text-white">Objectives</h3>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>Launch a boutique bouldering facility that brings <strong>sport climbing into the urban home and lifestyle space</strong>.</li>
-            <li>Build a <strong>community-centered climbing culture</strong> in Ho Chi Minh City.</li>
-            <li>Drive sustainable growth through <strong>quality coaching</strong>, customer retention, and experiential engagement.</li>
-            <li>Establish Boulder Box as <strong>a recognized local leader in Vietnam's emerging climbing scene</strong>.</li>
-          </ul>
-
-          <h3 class="text-[28px] font-heading font-bold text-white mt-12">Key Challenges</h3>
-          
-          <h4 class="text-[18px] font-heading font-semibold text-primary mt-6">Market Unknowns</h4>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>Climbing was still <strong>a niche sport in Vietnam</strong>, with limited public facilities and low consumer familiarity.</li>
-            <li>No prior local models for <strong>home bouldering gym businesses</strong>, requiring everything from scratch—market education, pricing structures, and design logic.</li>
-          </ul>
-
-          <h4 class="text-[18px] font-heading font-semibold text-primary mt-6">Operational Demands</h4>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>Sourcing <strong>safe and durable construction materials</strong> for custom climbing walls locally was difficult.</li>
-            <li>Balancing <strong>space constraints</strong> with varied route-setting styles and safety features took iterative on-site problem-solving.</li>
-          </ul>
-
-          <h4 class="text-[18px] font-heading font-semibold text-primary mt-6">Talent Scarcity</h4>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>Vietnam had <strong>few trained climbing professionals</strong>, especially in coaching and route-setting.</li>
-            <li>Required a strong focus on hiring, training, and retaining the right people to deliver consistent, high-quality experiences.</li>
-          </ul>
-
-          <h3 class="text-[28px] font-heading font-bold text-white mt-12">Approach & Execution</h3>
-          
-          <h4 class="text-[22px] font-heading font-semibold text-white mt-8">1. Market Research & Concept Development</h4>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>Conducted a comprehensive <strong>competitive and cultural analysis</strong> of Vietnam's sports and fitness market.</li>
-            <li>Identified gaps in <strong>indoor sport accessibility</strong>, growing interest in climbing, and a desire for boutique fitness experiences.</li>
-            <li>Developed a unique positioning: <strong>"climbing meets lifestyle,"</strong> blending sport, design, and community.</li>
-            <li>Drafted the layout design & planning, together with a 3D mockup for the construction team to follow.</li>
-          </ul>
-
-          <div class="grid md:grid-cols-2 gap-4 my-8">
-            <img 
-              src="https://framerusercontent.com/images/v3Cs6EI7Vtr4AGopxo8c0N4HPOE.png?width=1534&height=1086" 
-              alt="Design Planning"
-              class="w-full rounded-lg"
-            />
-            <img 
-              src="https://framerusercontent.com/images/teF3e14A7ZL8PWrbvwwN56JRAUM.png?width=1464&height=996" 
-              alt="3D Mockup"
-              class="w-full rounded-lg"
-            />
-          </div>
-          
-          <div class="grid md:grid-cols-2 gap-4 my-8">
-            <img 
-              src="https://framerusercontent.com/images/FLneznV2IBwbvIXKSsdXiTrMi4s.png?width=1340&height=434" 
-              alt="Layout Design"
-              class="w-full rounded-lg"
-            />
-            <img 
-              src="https://framerusercontent.com/images/nbJO4z9IrJ5VM84voy8Qdrn4C8.png?width=1398&height=552" 
-              alt="Construction Plan"
-              class="w-full rounded-lg"
-            />
-          </div>
-
-          <h4 class="text-[22px] font-heading font-semibold text-white mt-8">2. Facility Construction & Design Oversight</h4>
-          <p class="text-[17px] text-white/90 leading-relaxed">
-            Oversaw the end-to-end design & construction of <strong>custom-built bouldering walls</strong>, with an emphasis on:
-          </p>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>Well-designed physical layout to accommodate both <strong>technical climbers</strong> and <strong>first-timers</strong>, optimizing spatial flow and customer experience.</li>
-            <li>Craftsmanship quality</li>
-            <li>Safety standards</li>
-            <li>Modularity for route versatility</li>
-          </ul>
-
-          <img 
-            src="https://framerusercontent.com/images/rXrwu3C1AgdX4CSjJE6wyeEoa4.jpg?width=4032&height=3024" 
-            alt="Construction Process"
-            class="w-full rounded-lg my-8"
-          />
-
-          <h4 class="text-[22px] font-heading font-semibold text-white mt-8">3. Brand Development & Community Building</h4>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>Created a strong <strong>visual identity and messaging system</strong> for Boulder Box Saigon.</li>
-            <li>Positioned the brand as <strong>approachable, creative, and community-first</strong>—distinct from more commercial gyms.</li>
-            <li>Launched a <strong>PT program</strong> with certified coaches, which achieved a <strong>100% return rate</strong> in its first year.</li>
-            <li>Organized <strong>over three climbing events</strong>, drawing <strong>160+ participants</strong>, helping to organically grow brand presence.</li>
-          </ul>
-
-          <div class="grid md:grid-cols-2 gap-4 my-8">
-            <img 
-              src="https://framerusercontent.com/images/iGcEaG2wBa5dKlZSyFt9yxEnQ1s.png?width=1270&height=744" 
-              alt="Community Events"
-              class="w-full rounded-lg"
-            />
-            <img 
-              src="https://framerusercontent.com/images/olwKawlsiT2V6Bs7RaASHxvc.png?width=1156&height=602" 
-              alt="Brand Identity"
-              class="w-full rounded-lg"
-            />
-          </div>
-
-          <h4 class="text-[22px] font-heading font-semibold text-white mt-8">4. Business Development & Growth Strategy</h4>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>Directed <strong>sales, pricing strategy, and customer acquisition efforts</strong>, resulting in <strong>250% year-over-year sales growth</strong></li>
-            <li><strong>Rapid word-of-mouth traction</strong> within the local expat and youth fitness community</li>
-            <li>Implemented scalable business operations, including <strong>booking, memberships, merchandise, and private coaching</strong>.</li>
-            <li>Implemented scalable group climbing coaching framework to collaborate with schools, universities and colleges.</li>
-          </ul>
-
-          <img 
-            src="https://framerusercontent.com/images/IbCSvUpu1Jg6nj9qCEZdQtXTYEg.png?width=2268&height=1927" 
-            alt="Business Growth"
-            class="w-full rounded-lg my-8"
-          />
-
-          <h3 class="text-[28px] font-heading font-bold text-white mt-12">Key Highlights</h3>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li><strong>First-of-its-kind concept</strong> for Vietnam's boutique bouldering gym market</li>
-            <li><strong>250% year-over-year sales growth</strong></li>
-            <li><strong>100% PT program retention rate</strong></li>
-            <li>Created a <strong>locally loved brand and climbing space</strong> in under 12 months</li>
-            <li>Grew a team of passionate climbing professionals through <strong>careful recruitment and coaching</strong></li>
-          </ul>
-
-          <h3 class="text-[28px] font-heading font-bold text-white mt-12">My Role & Responsibilities</h3>
-          <p class="text-[17px] text-white/90 leading-relaxed">
-            As <strong>Founder & Business Development Head</strong>, I was/am responsible for:
-          </p>
-          <ul class="list-disc list-outside ml-6 space-y-3 text-[17px] text-white/90">
-            <li>End-to-end <strong>business and product strategy</strong></li>
-            <li>Hands-on <strong>construction management and vendor coordination</strong></li>
-            <li>Leading <strong>branding, marketing, and community activation</strong></li>
-            <li>Hiring and managing a <strong>team of climbing coaches and staff</strong></li>
-            <li>Driving <strong>sales, customer retention, and operational excellence</strong></li>
-            <li>Cultivating <strong>a culture of passion, creativity, and belonging</strong> in every aspect of the Boulder Box experience</li>
-          </ul>
-
-          <img 
-            src="https://framerusercontent.com/images/uJwS1xgb1lsJdVwL9305bzRTYE.png?width=1592&height=1360" 
-            alt="Team and Culture"
-            class="w-full rounded-lg my-8"
-          />
+        <div class="visit-website-wrapper w-full">
+          <a href="https://bbo.fitness" target="_blank" class="group bg-transparent text-white p-[8px] font-bold text-[16px] hover:scale-105 transition-all duration-300 inline-flex items-center gap-3 underline decoration-white/20 hover:decoration-white underline-offset-4 visit-website-link centered-visit-button">
+            VISIT WEBSITE
+          </a>
         </div>
       </div>
 
-      <!-- Achievements -->
-      <div class="max-w-[1280px] mx-auto px-8 md:px-16 pb-16 grid md:grid-cols-[300px_1fr] gap-8 md:gap-16">
-        <div>
-          <h3 class="text-[16px] font-heading font-semibold text-primary mb-4">Achievements</h3>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-4">
+      <!-- Hero Image -->
+      <div class="mt-0 mb-0 project-hero-img no-section-spacing">
+        <div class="rounded-[32px] overflow-hidden border border-white/10 shadow-3xl p-6 md:p-8">
           <img 
             src="https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072" 
-            alt="Achievement 1"
-            class="w-full rounded-lg"
-          />
-          <img 
-            src="https://framerusercontent.com/images/umH43pokxYacNsiG2HLBERhbRlM.jpg?width=3239&height=2159" 
-            alt="Achievement 2"
-            class="w-full rounded-lg"
-          />
-          <img 
-            src="https://framerusercontent.com/images/HO2bzjM0vCYaWrfN9JnITS95eaE.jpg?width=1080&height=850" 
-            alt="Achievement 3"
-            class="w-full rounded-lg"
-          />
-          <img 
-            src="https://framerusercontent.com/images/1hFRhC9FF0eW5z8Zg7XafjVre8.jpg?width=1080&height=1284" 
-            alt="Achievement 4"
-            class="w-full rounded-lg"
+            alt="Boulder Box Saigon"
+            class="w-full aspect-[16/10] md:aspect-[3/2] object-cover"
           />
         </div>
       </div>
 
-      <!-- Live Project Link -->
-      <div class="max-w-[1280px] mx-auto px-8 md:px-16 pb-24">
-        <a 
-          href="https://bbo.fitness" 
-          target="_blank" 
-          rel="noopener"
-          class="inline-flex items-center gap-3 text-[16px] font-heading font-semibold text-primary hover:text-white transition-colors underline decoration-primary underline-offset-4"
-        >
-          <span>Live Project</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-5 h-5 fill-current">
-            <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
-          </svg>
+      <!-- Details Section -->
+      <div class="space-y-48 w-full flex flex-col items-center project-case-study-content">
+        <div class="space-y-16 w-full flex flex-col items-center">
+          <!-- Metadata Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-12 border-y border-white/10 w-full mt-0 project-brief-wrapper">
+            <div class="space-y-3 text-center project-brief-role">
+              <h4 class="text-[rgb(255,184,0)] text-[20px] font-bold uppercase tracking-[0.2em]">Role</h4>
+              <p class="text-[18px] font-semibold text-white">Founder & BD Head</p>
+            </div>
+            <div class="space-y-3 text-center border-x border-white/10 md:px-4 project-brief-platform">
+              <h4 class="text-[rgb(255,184,0)] text-[20px] font-bold uppercase tracking-[0.2em]">Platform</h4>
+              <p class="text-[18px] font-semibold text-white">Physical & Digital Community</p>
+            </div>
+            <div class="space-y-3 text-center project-brief-duration">
+              <h4 class="text-[rgb(255,184,0)] text-[20px] font-bold uppercase tracking-[0.2em]">Duration</h4>
+              <p class="text-[18px] font-semibold text-white">Aug 2023 - Present</p>
+            </div>
+          </div>
+
+          <div class="max-w-[800px] mx-auto space-y-10 mt-[36px] pt-[36px] animate-fade-in-up delay-100 flex flex-col items-center project-overview-section-wrapper">
+            <div class="text-center space-y-4">
+              <h3 class="pt-[24px] text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight project-overview-title">Project Overview</h3>
+            </div>
+            <p class="text-[19px] md:text-[21px] text-white/80 leading-relaxed text-center project-overview-content">
+              <strong class="text-white font-bold">Boulder Box Saigon</strong> was born out of a personal passion for climbing and a clear market opportunity: the lack of accessible, high-quality bouldering spaces in Vietnam. As both <strong class="text-white font-bold">Founder and Business Development Head</strong>, I led the entire venture - from market research and construction to branding, team-building, and business growth.
+            </p>
+            <p class="text-[18px] md:text-[20px] text-white/80 leading-relaxed text-center project-overview-content">
+              The goal was to <strong class="text-white font-bold">introduce a new concept of home-scale bouldering gyms</strong> tailored to urban lifestyles, while fostering a tight-knit climbing community. With no blueprint to follow in the local context, the project demanded not only creative thinking and operational rigor, but also cultural adaptation and deep customer empathy.
+            </p>
+              <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
+              <img 
+                src="https://framerusercontent.com/images/WP4CqbcYZRbpVo0Ka8Au5OOod6E.png?width=7008&height=4120" 
+                alt="Overview"
+                class="rounded-[32px] border border-white/10 shadow-2xl w-full"
+              />
+            </div>
+          </div>
+
+          <div class="max-w-[800px] mx-auto space-y-12 flex flex-col items-center pt-[36px] pb-[36px] objectives-section">
+            <h3 class="text-[32px] md:text-[45px] font-heading font-black text-white leading-tight text-center">Objectives</h3>
+            <ul class="space-y-6 pt-4 text-[18px] md:text-[20px] text-white/80 max-w-[700px] mx-auto objectives-list" style="padding-top:16px !important;">
+              <li class="flex gap-4">
+                <span class="text-primary mt-1.5 flex-shrink-0">•</span>
+                <p>Launch a boutique bouldering facility that brings <strong class="text-white">sport climbing into the urban home and lifestyle space</strong>.</p>
+              </li>
+              <li class="flex gap-4">
+                <span class="text-primary mt-1.5 flex-shrink-0">•</span>
+                <p>Build a <strong class="text-white">community-centered climbing culture</strong> in Ho Chi Minh City.</p>
+              </li>
+              <li class="flex gap-4">
+                <span class="text-primary mt-1.5 flex-shrink-0">•</span>
+                <p>Drive sustainable growth through <strong class="text-white">quality coaching</strong>, customer retention, and experiential engagement.</p>
+              </li>
+              <li class="flex gap-4">
+                <span class="text-primary mt-1.5 flex-shrink-0">•</span>
+                <p>Establish Boulder Box as <strong class="text-white">a recognized local leader in Vietnam’s emerging climbing scene</strong>.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="max-w-[800px] mx-auto space-y-3 animate-fade-in-up delay-200 key-challenges-section">
+            <div class="text-center space-y-4">
+              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight">Key Challenges</h3>
+            </div>
+            
+            <div class="space-y-3 py-4">
+              <div class="space-y-8 py-6 px-8 md:py-8 md:px-12 rounded-[32px]">
+                <h4 class="text-primary font-heading font-bold text-[20px] uppercase tracking-wider text-center pt-4" style="padding-top:16px !important; color:#FFEE8C !important;">Market Unknowns</h4>
+                <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80">
+                  <li class="flex gap-5">
+                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
+                    <p>Climbing was still <strong class="text-white">a niche sport in Vietnam</strong>, with limited public facilities and low consumer familiarity.</p>
+                  </li>
+                  <li class="flex gap-5">
+                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
+                    <p>No prior local models for <strong class="text-white">home bouldering gym businesses</strong>, requiring everything from scratch—market education, pricing structures, and design logic.</p>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="space-y-8 py-6 px-8 md:py-8 md:px-12 rounded-[32px]">
+                <h4 class="text-primary font-heading font-bold text-[20px] uppercase tracking-wider text-center pt-4" style="padding-top:16px !important; color:#FFEE8C !important;">Operational Demands</h4>
+                <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80">
+                  <li class="flex gap-5">
+                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
+                    <p>Sourcing <strong class="text-white">safe and durable construction materials</strong> for custom climbing walls locally was difficult.</p>
+                  </li>
+                  <li class="flex gap-5">
+                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
+                    <p>Balancing <strong class="text-white">space constraints</strong> with varied route-setting styles and safety features took iterative on-site problem-solving.</p>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="space-y-8 py-6 px-8 md:py-8 md:px-12 rounded-[32px]">
+                <h4 class="text-primary font-heading font-bold text-[20px] uppercase tracking-wider text-center pt-4" style="padding-top:16px !important; color:#FFEE8C !important;">Talent Scarcity</h4>
+                <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80">
+                  <li class="flex gap-5">
+                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
+                    <p>Vietnam had <strong class="text-white">few trained climbing professionals</strong>, especially in coaching and route-setting.</p>
+                  </li>
+                  <li class="flex gap-5">
+                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
+                    <p>Required a strong focus on hiring, training, and retaining the right people to deliver consistent, high-quality experiences.</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="max-w-[900px] mx-auto space-y-20 animate-fade-in-up delay-300">
+            <div class="text-center space-y-4">
+              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight">Approach & Execution</h3>
+            </div>
+            
+            <div class="space-y-24">
+              <div class="space-y-10">
+                <div class="space-y-6 text-center">
+                  <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">1. Market Research & Concept Development</h4>
+                  <p class="text-[18px] md:text-[20px] text-white/70 max-w-[700px] mx-auto">
+                    A deep dive into local habits to create a "climbing meets lifestyle" philosophy.
+                  </p>
+                </div>
+                <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80 max-w-[800px] mx-auto">
+                  <li class="flex gap-5">
+                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
+                    <p>Conducted a comprehensive <strong class="text-white">competitive and cultural analysis</strong> of Vietnam’s sports and fitness market.</p>
+                  </li>
+                  <li class="flex gap-5">
+                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
+                    <p>Identified gaps in <strong class="text-white">indoor sport accessibility</strong>, growing interest in climbing, and a desire for boutique fitness experiences.</p>
+                  </li>
+                </ul>
+                <!-- Market research images moved to Facility Construction section -->
+              </div>
+
+              <div class="space-y-12">
+                <div class="space-y-6 text-center">
+                  <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">2. Facility Construction & Design Oversight</h4>
+                  <p class="text-[18px] md:text-[20px] text-white/70 max-w-[700px] mx-auto text-left">
+                    Oversaw end-to-end design & construction of custom climbing walls with precise operational flow.
+                  </p>
+                </div>
+                <div class="pt-8 flex flex-col items-center">
+                  <div class="flex flex-col items-center gap-8 pt-10 w-full more-projects-section">
+                    <img src="https://framerusercontent.com/images/v3Cs6EI7Vtr4AGopxo8c0N4HPOE.png?width=1534&height=1086" alt="Layout 1" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
+                    <img src="https://framerusercontent.com/images/teF3e14A7ZL8PWrbvwwN56JRAUM.png?width=1464&height=996" alt="Layout 2" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
+                    <img src="https://framerusercontent.com/images/FLneznV2IBwbvIXKSsdXiTrMi4s.png?width=1340&height=434" alt="Layout 3" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
+                    <img src="https://framerusercontent.com/images/nbJO4z9IrJ5VM84voy8Qdrn4C8.png?width=1398&height=552" alt="Layout 4" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
+                  </div>
+
+                  <img src="https://framerusercontent.com/images/rXrwu3C1AgdX4CSjJE6wyeEoa4.jpg?width=4032&height=3024" alt="Construction detail" class="rounded-[32px] border border-white/10 shadow-2xl w-full max-w-[1000px] mx-auto mt-8"/>
+                </div>
+              </div>
+
+              <div class="space-y-12">
+                <div class="space-y-6 text-center">
+                  <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">3. Brand Development & Community</h4>
+                  <p class="text-[18px] md:text-[20px] text-white/70 max-w-[700px] mx-auto">
+                    Positioned as approachable and creative, achieving a 100% PT return rate.
+                  </p>
+                </div>
+                 <div class="flex flex-col items-center gap-8 pt-10">
+                   <img src="https://framerusercontent.com/images/iGcEaG2wBa5dKlZSyFt9yxEnQ1s.png?width=1270&height=744" alt="Branding" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
+                   <img src="https://framerusercontent.com/images/olwKawlsiT2V6Bs7RaASHxvc.png?width=1156&height=602" alt="Community" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
+                 </div>
+              </div>
+
+              <div class="space-y-12">
+                <div class="space-y-6 text-center">
+                  <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">4. Business Growth Strategy</h4>
+                  <p class="text-[18px] md:text-[20px] text-white/70 max-w-[700px] mx-auto">
+                    Directing sales and customer acquisition for 250% YoY growth.
+                  </p>
+                </div>
+                <div class="pt-8">
+                  <img src="https://framerusercontent.com/images/IbCSvUpu1Jg6nj9qCEZdQtXTYEg.png?width=2268&height=1927" alt="Growth" class="rounded-[32px] border border-white/10 shadow-2xl w-full"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="max-w-[800px] mx-auto space-y-12 pt-16 border-t border-white/10">
+            <div class="text-center space-y-4">
+              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight section-h3">Key Highlights</h3>
+            </div>
+            <ul class="space-y-8 text-[19px] md:text-[22px] text-white/80">
+              <li class="flex gap-6 items-center p-6 bg-white/5 border border-white/10 rounded-2xl">
+                <span class="text-primary text-[32px] font-black">250%</span>
+                <p>Year-over-year sales growth from launch</p>
+              </li>
+              <li class="flex gap-6 items-center p-6 bg-white/5 border border-white/10 rounded-2xl">
+                <span class="text-primary text-[32px] font-black">100%</span>
+                <p>PT program retention rate in year one</p>
+              </li>
+              <li class="flex gap-6 items-center p-6 bg-white/5 border border-white/10 rounded-2xl">
+                <span class="text-primary text-[32px] font-black">160+</span>
+                <p>Participants in organic community events</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="max-w-[800px] mx-auto space-y-12">
+            <div class="text-center space-y-4">
+              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight section-h3">Responsibilities</h3>
+            </div>
+            <div class="grid grid-cols-1 gap-6">
+              <div class="p-8 bg-white/5 border border-white/10 rounded-[32px] hover:bg-white/10 transition-colors">
+                <p class="text-[19px] md:text-[21px] text-white/90 leading-relaxed text-center font-medium">
+                  End-to-end business and product strategy, construction management, branding, and team leadership.
+                </p>
+              </div>
+              <img src="https://framerusercontent.com/images/uJwS1xgb1lsJdVwL9305bzRTYE.png?width=1592&height=1360" alt="Roles" class="rounded-[32px] border border-white/10 shadow-2xl w-full mx-auto"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gallery Section -->
+      <div class="mt-48 mb-32 space-y-16">
+        <div class="text-center">
+          <h3 class="text-[40px] md:text-[60px] font-heading font-black text-[rgb(255,184,0)] mb-12">Gallery</h3>
+        </div>
+        <div class="flex flex-col items-center gap-8 max-w-[1000px] mx-auto">
+          <img src="https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072" class="rounded-[32px] border border-white/10 w-full max-w-[1000px] mx-auto shadow-xl project-img-01"/>
+          <img src="https://framerusercontent.com/images/umH43pokxYacNsiG2HLBERhbRlM.jpg" class="rounded-[32px] border border-white/10 w-full max-w-[1000px] mx-auto shadow-xl project-img-02"/>
+          <img src="https://framerusercontent.com/images/HO2bzjM0vCYaWrfN9JnITS95eaE.jpg" class="rounded-[32px] border border-white/10 w-full max-w-[1000px] mx-auto shadow-xl"/>
+          <img src="https://framerusercontent.com/images/1hFRhC9FF0eW5z8Zg7XafjVre8.jpg" class="rounded-[32px] border border-white/10 w-full max-w-[1000px] mx-auto shadow-xl"/>
+        </div>
+      </div>
+
+      <!-- Live Project Button -->
+          <div class="flex flex-col items-center justify-center mb-48 gap-8 live-project-wrapper">
+          <a
+            href="https://bbo.fitness"
+            target="_blank"
+            rel="noopener"
+            class="text-[20px] md:text-[20px] font-heading font-black text-primary hover:text-white transition-all"
+          >
+          <span class="underline decoration-primary underline-offset-12 decoration-4 group-hover:decoration-white transition-colors">VISIT BBO.FITNESS</span>
         </a>
       </div>
 
-      <!-- More Projects -->
-      <div class="max-w-[1280px] mx-auto px-8 md:px-16 pb-24">
-        <h2 class="text-[40px] md:text-[56px] leading-tight font-heading font-bold mb-12">More Projects</h2>
-        
-        <div class="grid md:grid-cols-3 gap-6">
+      <!-- More Projects Section -->
+      <div class="mb-48 pt-24 border-t border-white/10 more-projects-section">
+        <div class="text-center mb-16">
+          <h2 class="text-[40px] md:text-[64px] font-heading font-black text-[rgb(255,184,0)]">More Projects</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-10">
           <!-- Verity Nature -->
-          <a href="/projects/verity-nature" class="group block">
-            <div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 hover:scale-[1.02] transition-transform">
-              <img 
-                src="https://framerusercontent.com/images/Qvs1jPyfuwtZY87j62Wtn5iRxo.jpg?width=2048&height=1536" 
-                alt="Verity Nature"
-                class="w-full h-full object-cover"
-              />
-              <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-[16px] font-heading font-bold mb-2">Verity Nature / MRV Digital Solutions</h3>
-                <p class="text-[14px] text-white/80">Design and develop a one-stop MRV system focused on the ESG market.</p>
-              </div>
-              <div class="absolute top-4 right-4 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-current group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
-                  <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
-                </svg>
-              </div>
+          <a href="/projects/verity-nature" class="group relative block rounded-3xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-500 shadow-2xl">
+            <div class="aspect-[4/5] w-full overflow-hidden">
+              <img src="https://framerusercontent.com/images/Qvs1jPyfuwtZY87j62Wtn5iRxo.jpg" alt="Verity Nature" class="w-full h-full object-cover opacity-70"/>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 more-project-overlay space-y-3">
+              <h3 class="text-[20px] font-heading font-black text-white leading-tight">Verity Nature / MRV Digital Solutions</h3>
+              <p class="text-[14px] text-white/70 line-clamp-2">Design and develop a one-stop MRV system focused on the ESG market.</p>
             </div>
           </a>
 
-          <!-- MBFS Part 1 -->
-          <a href="/projects/mbfs-sea" class="group block">
-            <div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 hover:scale-[1.02] transition-transform">
-              <img 
-                src="https://framerusercontent.com/images/YNJxLvljj0beQaZhJtUjR06bb5o.png?width=610&height=372" 
-                alt="MBFS SEA"
-                class="w-full h-full object-cover"
-              />
-              <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-[16px] font-heading font-bold mb-2">MBFS / After-sale Digital Solution SEA - Part 1</h3>
-                <p class="text-[14px] text-white/80">Led the UX/UI Research & Design for Southeast Asian Countries</p>
-              </div>
-              <div class="absolute top-4 right-4 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-current group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
-                  <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
-                </svg>
-              </div>
+          <!-- MBFS SEA -->
+          <a href="/projects/mbfs-sea" class="group relative block rounded-3xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-500 shadow-2xl">
+            <div class="aspect-[4/5] w-full overflow-hidden">
+              <img src="https://framerusercontent.com/images/YNJxLvljj0beQaZhJtUjR06bb5o.png" alt="MBFS SEA" class="w-full h-full object-cover opacity-70"/>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 more-project-overlay space-y-3">
+              <h3 class="text-[20px] font-heading font-black text-white leading-tight">MBFS / After-sale Digital Solution SEA</h3>
+              <p class="text-[14px] text-white/70 line-clamp-2">Led the UX/UI Research & Design for Southeast Asian Countries</p>
             </div>
           </a>
 
-          <!-- MBFS Part 2 -->
-          <a href="/projects/mbfs-australia" class="group block">
-            <div class="relative aspect-[3/2] rounded-2xl overflow-hidden border border-white/10 hover:scale-[1.02] transition-transform">
-              <img 
-                src="https://framerusercontent.com/images/KGU57THf6aveoLZImn65vJZYU.png?width=1398&height=898" 
-                alt="MBFS Australia"
-                class="w-full h-full object-cover"
-              />
-              <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-[16px] font-heading font-bold mb-2">MBFS / Digital Payment Solutions</h3>
-                <p class="text-[14px] text-white/80">Led the UX/UI research & Design for MBFS Australia</p>
-              </div>
-              <div class="absolute top-4 right-4 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-current group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
-                  <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path>
-                </svg>
-              </div>
+          <!-- MBFS Australia -->
+          <a href="/projects/mbfs-australia" class="group relative block rounded-3xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-500 shadow-2xl">
+            <div class="aspect-[4/5] w-full overflow-hidden">
+              <img src="https://framerusercontent.com/images/KGU57THf6aveoLZImn65vJZYU.png" alt="MBFS Australia" class="w-full h-full object-cover opacity-70"/>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 more-project-overlay space-y-3">
+              <h3 class="text-[20px] font-heading font-black text-white leading-tight">MBFS / Digital Payment Solutions</h3>
+              <p class="text-[14px] text-white/70 line-clamp-2">Led the UX/UI research & Design for MBFS Australia</p>
             </div>
           </a>
         </div>
       </div>
 
-      <!-- Footer / Contact Section -->
-      <section class="border-t border-white/10 py-24">
-        <div class="max-w-[1280px] mx-auto px-8 md:px-16">
-          <h2 class="text-[40px] md:text-[56px] leading-tight font-heading font-bold text-primary mb-12">Links</h2>
-          
-          <div class="grid md:grid-cols-2 gap-8 mb-12">
-            <!-- Email -->
-            <div class="flex items-center gap-4">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary flex-shrink-0">
-                <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
-              </svg>
-              <p class="text-[16px]">contact@olivianguyen.rocks</p>
-            </div>
-
-            <!-- Phone -->
-            <div class="flex items-center gap-4">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 fill-primary flex-shrink-0">
-                <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
-              </svg>
-              <p class="text-[16px]">+65 9450 9286 / +84 906916216</p>
-            </div>
+      <!-- Links/Footer Section -->
+      <section class="links-content">
+        <div class="links-section">
+          <h2 class="links-title">Links</h2>
+          <div class="links-socials">
+            <a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="link-linkedin">
+              <img src="/assets/linkedin.svg" alt="LinkedIn">
+            </a>
+            <a href="https://www.instagram.com/boulderbox.saigon/" target="_blank" rel="noopener" class="link-instagram">
+              <img src="/assets/instagram.svg" alt="Instagram">
+            </a>
           </div>
 
-          <!-- Social Links -->
-          <div class="flex gap-4">
-            <a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="w-10 h-10 bg-primary hover:bg-primary/80 transition-colors rounded-lg flex items-center justify-center">
-              <span class="sr-only">LinkedIn</span>
-              <svg class="w-5 h-5" viewBox="0 0 40 40" fill="none">
-                <path d="M9.78 13.339A2.348 2.348 0 0 1 9 11.546c0-.712.26-1.336.78-1.82S10.97 9 11.79 9c.82 0 1.464.242 1.983.725.52.484.78 1.091.78 1.82 0 .73-.26 1.31-.78 1.794-.52.483-1.18.725-1.983.725-.803 0-1.49-.242-2.01-.725Zm4.335 2.771v14.813h-4.68V16.11h4.68Zm15.576 1.751c1.02 1.108 1.53 2.628 1.53 4.563v8.525h-4.444v-7.924c0-.976-.254-1.734-.759-2.274s-1.186-.812-2.038-.812c-.853 0-1.534.27-2.039.812-.505.54-.758 1.298-.758 2.274v7.924h-4.47V16.357h4.47v1.935c.452-.645 1.063-1.155 1.83-1.53.766-.375 1.628-.562 2.587-.562 1.708 0 3.073.554 4.091 1.661Z" fill="black"/>
+          <div class="links-contacts">
+            <div class="link-email">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
               </svg>
-            </a>
-            <a href="https://instagram.com/travelandboulder" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-[#FAAD4F] via-[#DD2A7B] to-[#515BD4] hover:opacity-80 transition-opacity rounded-lg flex items-center justify-center">
-              <span class="sr-only">Instagram</span>
-              <svg class="w-5 h-5" viewBox="0 0 40 40" fill="none">
-                <path d="M26.147 8.2H13.924A6.132 6.132 0 0 0 7.8 14.326V25.51a6.132 6.132 0 0 0 6.124 6.126h12.223a6.132 6.132 0 0 0 6.124-6.126V14.326A6.132 6.132 0 0 0 26.147 8.2ZM9.96 14.326a3.97 3.97 0 0 1 3.964-3.965h12.223a3.969 3.969 0 0 1 3.964 3.964v11.186a3.969 3.969 0 0 1-3.964 3.965H13.924A3.97 3.97 0 0 1 9.96 25.51V14.326Z" fill="white"/>
-                <path d="M20.035 25.615a5.704 5.704 0 0 0 5.697-5.698 5.703 5.703 0 0 0-5.697-5.698 5.703 5.703 0 0 0-5.696 5.698 5.703 5.703 0 0 0 5.696 5.698Zm0-9.234a3.54 3.54 0 0 1 3.536 3.537 3.54 3.54 0 0 1-3.536 3.537 3.54 3.54 0 0 1-3.535-3.537 3.54 3.54 0 0 1 3.535-3.537Zm6.225-1.241a1.536 1.536 0 1 0-1.535-1.535c0 .846.687 1.534 1.534 1.534Z" fill="white"/>
+              <p>contact@olivianguyen.rocks</p>
+            </div>
+
+            <div class="link-contact-numbers">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
               </svg>
-            </a>
+              <p>+65 9450 9286 / +84 906916216</p>
+            </div>
           </div>
         </div>
       </section>
+    </div>
+  </main>
+</Layout>
     </div>
   </main>
 </Layout>
