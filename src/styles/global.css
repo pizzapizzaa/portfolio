@@ -546,15 +546,15 @@ p.quoted-text {
 
 /* Sub-title styling used on project pages (not a paragraph) */
 .sub-title {
-  font-size: 18px;
+  font-size: 20px !important;
   color: rgba(255,255,255,0.9);
-  font-weight: 500;
+  font-weight: 700 !important;
   line-height: 1.45;
   margin: 0;
 }
 
 @media (min-width: 768px) {
-  .sub-title { font-size: 26px; }
+  .sub-title { font-size: 20px !important; }
 }
 
 /* Global H3 override: set consistent 26px sizing */
