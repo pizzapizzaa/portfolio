@@ -184,7 +184,21 @@ h4 {
 
 /* Global paragraph override: enforce 15px across site */
 p {
-  font-size: 15px !important;
+  font-size: 16.5px !important;
+}
+
+/* Hero intro on landing: override global paragraph size */
+.hero-intro {
+  font-size: 24px !important;
+}
+
+/* Quoted text style: bold and 20px */
+/* Use a more specific selector to override the global `p` rule */
+.quoted-text,
+p.quoted-text {
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  margin: 1rem 0;
 }
 
 /* Ensure project header keeps its bottom padding even when other rules opt-out */
@@ -681,15 +695,16 @@ h3 {
 }
 
 .summary-quoted-message p {
-  font-size: 24px;
+  /* Unified quoted message style: override master `p` */
+  font-size: 20px !important;
   line-height: 1.75;
-  font-weight: 700;
+  font-weight: 700 !important;
   color: rgb(255, 255, 255);
 }
 
 @media (min-width: 768px) {
   .summary-quoted-message p {
-    font-size: 28px;
+    font-size: 20px !important;
   }
 }
 
