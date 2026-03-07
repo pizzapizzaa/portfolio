@@ -55,7 +55,7 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
 
       <!-- Details Section -->
       <div class="space-y-48 w-full flex flex-col items-center project-case-study-content">
-        <div class="space-y-16 w-full flex flex-col items-center">
+        <div class="space-y-0 w-full flex flex-col items-center">
           <!-- Metadata Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-12 border-y border-white/10 w-full mt-0 project-brief-wrapper">
             <div class="space-y-3 text-center project-brief-role">
@@ -72,9 +72,9 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
             </div>
           </div>
 
-          <div class="max-w-[800px] mx-auto space-y-10 mt-[36px] pt-[36px] animate-fade-in-up delay-100 flex flex-col items-center project-overview-section-wrapper">
+          <div class="max-w-[800px] mx-auto space-y-10 animate-fade-in-up delay-100 flex flex-col items-center project-overview-section-wrapper case-section">
             <div class="text-center space-y-4">
-              <h3 class="pt-[24px] text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight project-overview-title">Project Overview</h3>
+              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight project-overview-title">Project Overview</h3>
             </div>
             <p class="text-[19px] md:text-[21px] text-white/80 leading-relaxed text-center project-overview-content">
               <strong class="text-white font-bold">Boulder Box Saigon</strong> was born out of a personal passion for climbing and a clear market opportunity: the lack of accessible, high-quality bouldering spaces in Vietnam. As both <strong class="text-white font-bold">Founder and Business Development Head</strong>, I led the entire venture - from market research and construction to branding, team-building, and business growth.
@@ -82,28 +82,28 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
             <p class="text-[18px] md:text-[20px] text-white/80 leading-relaxed text-center project-overview-content">
               The goal was to <strong class="text-white font-bold">introduce a new concept of home-scale bouldering gyms</strong> tailored to urban lifestyles, while fostering a tight-knit climbing community. With no blueprint to follow in the local context, the project demanded not only creative thinking and operational rigor, but also cultural adaptation and deep customer empathy.
             </p>
-              <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
+              <div class="py-8 md:py-12 group w-full project-overview-img">
               <img 
                 src="/assets/projects/bbo-image-03.avif" 
                 alt="Overview"
                 class="rounded-[32px] border border-white/10 shadow-2xl w-full"
               />
             </div>
-              <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
+              <div class="py-8 md:py-12 group w-full project-overview-img">
               <img 
                 src="/assets/projects/bbo-image-04.avif" 
                 alt="Overview"
                 class="rounded-[32px] border border-white/10 shadow-2xl w-full"
               />
             </div>
-              <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
+              <div class="py-8 md:py-12 group w-full project-overview-img">
               <img 
                 src="/assets/projects/bbo-image-05.avif" 
                 alt="Overview"
                 class="rounded-[32px] border border-white/10 shadow-2xl w-full"
               />
             </div>
-              <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
+              <div class="py-8 md:py-12 group w-full project-overview-img">
               <img 
                 src="/assets/projects/bbo-image-06.avif" 
                 alt="Overview"
@@ -112,8 +112,8 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
             </div>
           </div>
 
-          <div class="max-w-[800px] mx-auto space-y-12 flex flex-col items-center pt-[36px] pb-[36px] objectives-section">
-            <h3 class="text-[32px] md:text-[45px] font-heading font-black text-white leading-tight text-center">Objectives</h3>
+          <div class="max-w-[800px] mx-auto space-y-12 flex flex-col items-center objectives-section case-section">
+            <h3 class="text-[32px] md:text-[45px] font-heading font-black text-[rgb(255,184,0)] leading-tight text-center">Objectives</h3>
             <ul class="space-y-6 pt-4 text-[18px] md:text-[20px] text-white/80 max-w-[700px] mx-auto objectives-list" style="padding-top:16px !important;">
               <li class="flex gap-4">
                 <span class="text-primary mt-1.5 flex-shrink-0">•</span>
@@ -134,7 +134,7 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
             </ul>
           </div>
 
-          <div class="max-w-[800px] mx-auto space-y-3 animate-fade-in-up delay-200 key-challenges-section">
+          <div class="max-w-[800px] mx-auto space-y-3 animate-fade-in-up delay-200 key-challenges-section case-section">
             <div class="text-center space-y-4">
               <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight">Key Challenges</h3>
             </div>
@@ -184,12 +184,12 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
             </div>
           </div>
 
-          <div class="max-w-[900px] mx-auto space-y-20 animate-fade-in-up delay-300">
-            <div class="text-center space-y-4">
-              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight">Approach & Execution</h3>
-            </div>
-            
-            <div class="space-y-24">
+          <div class="max-w-[900px] mx-auto space-y-20 animate-fade-in-up delay-300 case-section">
+              <div class="text-center space-y-4">
+                <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight">Approach & Execution</h3>
+              </div>
+              
+              <div class="space-y-32">
               <div class="space-y-10">
                 <div class="space-y-6 text-center">
                   <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">1. Market Research & Concept Development</h4>
@@ -200,14 +200,13 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
                 <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80 max-w-[800px] mx-auto">
                   <li class="flex gap-5">
                     <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Conducted a comprehensive <strong class="text-white">competitive and cultural analysis</strong> of Vietnam’s sports and fitness market.</p>
+                    <p>Conducted a comprehensive competitive and cultural analysis of Vietnam’s sports and fitness market.</p>
                   </li>
                   <li class="flex gap-5">
                     <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Identified gaps in <strong class="text-white">indoor sport accessibility</strong>, growing interest in climbing, and a desire for boutique fitness experiences.</p>
+                    <p>Identified gaps in indoor sport accessibility, growing interest in climbing, and a desire for boutique fitness experiences.</p>
                   </li>
                 </ul>
-                <!-- Market research images moved to Facility Construction section -->
               </div>
 
               <div class="space-y-12">
@@ -236,7 +235,7 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
             </div>
           </div>
 
-          <div class="max-w-[800px] mx-auto space-y-12 pt-16">
+          <div class="max-w-[800px] mx-auto space-y-12 animate-fade-in-up delay-200 key-highlights-section case-section">
             <div class="text-center space-y-4">
               <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight section-h3">Key Highlights</h3>
             </div>
@@ -256,7 +255,7 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
             </div>
           </div>
 
-          <div class="max-w-[800px] mx-auto space-y-12">
+          <div class="max-w-[800px] mx-auto space-y-12 animate-fade-in-up delay-200 responsibilities-section case-section">
             <div class="text-center space-y-4">
               <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight section-h3">Responsibilities</h3>
             </div>
@@ -272,13 +271,18 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
       </div>
 
       <!-- Gallery Section -->
-      <GalleryCarousel 
-        images={[
-          '/assets/projects/bbo-image-03.avif',
-          '/assets/projects/bbo-image-09.avif'
-        ]}
-        title="Gallery"
-      />
+      <div class="case-section">
+        <GalleryCarousel 
+          images={[
+            '/assets/projects/bbo-image-01.avif',
+            '/assets/projects/bbo-image-02.webp',
+            '/assets/projects/bbo-image-10.webp',
+            '/assets/projects/bbo-image-11.avif',
+            '/assets/projects/bbo-image-12.webp'
+          ]}
+          title="Gallery"
+        />
+      </div>
 
       <!-- Live Project Button -->
           <div class="flex flex-col items-center justify-center mb-48 gap-8 live-project-wrapper">
@@ -366,9 +370,6 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
           </div>
         </div>
       </section>
-    </div>
-  </main>
-</Layout>
     </div>
   </main>
 </Layout>

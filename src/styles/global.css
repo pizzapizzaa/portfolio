@@ -151,30 +151,12 @@ body {
   padding-top: 0;
 }
 
-/* Force padding for Project Overview if utilities are overridden */
-.project-overview-section-wrapper {
-  padding-top: 36px !important;
-}
-
-.project-overview-title {
-  padding-top: 24px !important;
-}
-
-/* Force padding for Objectives section to override any global resets */
-.objectives-section {
-  padding-top: 2.25rem !important; /* match bottom (36px) */
-  padding-bottom: 2.25rem !important; /* matches pb-[36px] */
-}
-
-/* Force the objectives list top padding to 16px in case utilities are overridden */
-.project-overview-section-wrapper .objectives-list {
-  padding-top: 16px !important;
-}
-
-/* Force padding for Key Challenges section to ensure symmetric spacing */
-.key-challenges-section {
-  padding-top: 2.25rem !important; /* 36px */
-  padding-bottom: 2.25rem !important; /* 36px */
+/* Unified section spacing for project case study blocks */
+.project-detail-page-content .case-section {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 4rem !important;
+  padding-bottom: 4rem !important;
 }
 
 /* Global H4 override: ensure consistent 20px sizing across site */
@@ -213,11 +195,6 @@ p.quoted-text {
 
 /* Force 24px top padding for specific section H4 headings */
 .section-h4 {
-  padding-top: 24px !important;
-}
-
-/* Force 24px top padding for section-level H3 headings (Key Highlights, Responsibilities) */
-.section-h3 {
   padding-top: 24px !important;
 }
 
