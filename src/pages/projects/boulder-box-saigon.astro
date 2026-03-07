@@ -1,11 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import GalleryCarousel from '../../components/GalleryCarousel.astro';
 ---
 
 <Layout title="Boulder Box Saigon - Olivia Nguyen">
+  <Header basePath="/" />
+
   <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
     <img 
-      src="https://framerusercontent.com/images/kCis6S97sFpCg5n83WdYjK3V7YI.jpg?display=high&framer-optimize=heavy" 
+      src="/assets/projects/bbo-image-01.avif" 
       alt="Background"
       class="w-full h-full object-cover"
     />
@@ -42,7 +46,7 @@ import Layout from '../../layouts/Layout.astro';
       <div class="mt-0 mb-0 project-hero-img no-section-spacing">
         <div class="rounded-[32px] overflow-hidden border border-white/10 shadow-3xl p-6 md:p-8">
           <img 
-            src="https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072" 
+            src="/assets/projects/bbo-image-01.avif" 
             alt="Boulder Box Saigon"
             class="w-full aspect-[16/10] md:aspect-[3/2] object-cover"
           />
@@ -80,7 +84,28 @@ import Layout from '../../layouts/Layout.astro';
             </p>
               <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
               <img 
-                src="https://framerusercontent.com/images/WP4CqbcYZRbpVo0Ka8Au5OOod6E.png?width=7008&height=4120" 
+                src="/assets/projects/bbo-image-03.avif" 
+                alt="Overview"
+                class="rounded-[32px] border border-white/10 shadow-2xl w-full"
+              />
+            </div>
+              <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
+              <img 
+                src="/assets/projects/bbo-image-04.avif" 
+                alt="Overview"
+                class="rounded-[32px] border border-white/10 shadow-2xl w-full"
+              />
+            </div>
+              <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
+              <img 
+                src="/assets/projects/bbo-image-05.avif" 
+                alt="Overview"
+                class="rounded-[32px] border border-white/10 shadow-2xl w-full"
+              />
+            </div>
+              <div class="py-8 md:py-12 mt-[24px] mb-[24px] md:mt-[48px] md:mb-[48px] group w-full project-overview-img" style="padding-top:36px;padding-bottom:36px;">
+              <img 
+                src="/assets/projects/bbo-image-06.avif" 
                 alt="Overview"
                 class="rounded-[32px] border border-white/10 shadow-2xl w-full"
               />
@@ -192,16 +217,6 @@ import Layout from '../../layouts/Layout.astro';
                     Oversaw end-to-end design & construction of custom climbing walls with precise operational flow.
                   </p>
                 </div>
-                <div class="pt-8 flex flex-col items-center">
-                  <div class="flex flex-col items-center gap-8 pt-10 w-full more-projects-section">
-                    <img src="https://framerusercontent.com/images/v3Cs6EI7Vtr4AGopxo8c0N4HPOE.png?width=1534&height=1086" alt="Layout 1" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
-                    <img src="https://framerusercontent.com/images/teF3e14A7ZL8PWrbvwwN56JRAUM.png?width=1464&height=996" alt="Layout 2" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
-                    <img src="https://framerusercontent.com/images/FLneznV2IBwbvIXKSsdXiTrMi4s.png?width=1340&height=434" alt="Layout 3" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
-                    <img src="https://framerusercontent.com/images/nbJO4z9IrJ5VM84voy8Qdrn4C8.png?width=1398&height=552" alt="Layout 4" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
-                  </div>
-
-                  <img src="https://framerusercontent.com/images/rXrwu3C1AgdX4CSjJE6wyeEoa4.jpg?width=4032&height=3024" alt="Construction detail" class="rounded-[32px] border border-white/10 shadow-2xl w-full max-w-[1000px] mx-auto mt-8"/>
-                </div>
               </div>
 
               <div class="space-y-12">
@@ -211,44 +226,34 @@ import Layout from '../../layouts/Layout.astro';
                     Positioned as approachable and creative, achieving a 100% PT return rate.
                   </p>
                 </div>
-                 <div class="flex flex-col items-center gap-8 pt-10">
-                   <img src="https://framerusercontent.com/images/iGcEaG2wBa5dKlZSyFt9yxEnQ1s.png?width=1270&height=744" alt="Branding" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
-                   <img src="https://framerusercontent.com/images/olwKawlsiT2V6Bs7RaASHxvc.png?width=1156&height=602" alt="Community" class="rounded-[24px] border border-white/10 w-full max-w-[900px] mx-auto shadow-xl"/>
-                 </div>
               </div>
 
               <div class="space-y-12">
                 <div class="space-y-6 text-center">
                   <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">4. Business Growth Strategy</h4>
-                  <p class="text-[18px] md:text-[20px] text-white/70 max-w-[700px] mx-auto">
-                    Directing sales and customer acquisition for 250% YoY growth.
-                  </p>
-                </div>
-                <div class="pt-8">
-                  <img src="https://framerusercontent.com/images/IbCSvUpu1Jg6nj9qCEZdQtXTYEg.png?width=2268&height=1927" alt="Growth" class="rounded-[32px] border border-white/10 shadow-2xl w-full"/>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="max-w-[800px] mx-auto space-y-12 pt-16 border-t border-white/10">
+          <div class="max-w-[800px] mx-auto space-y-12 pt-16">
             <div class="text-center space-y-4">
               <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight section-h3">Key Highlights</h3>
             </div>
-            <ul class="space-y-8 text-[19px] md:text-[22px] text-white/80">
-              <li class="flex gap-6 items-center p-6 bg-white/5 border border-white/10 rounded-2xl">
-                <span class="text-primary text-[32px] font-black">250%</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-[19px] md:text-[22px] text-white/80">
+              <div class="flex flex-col items-center text-center p-6">
+                <span class="text-primary text-[32px] font-black mb-2">250%</span>
                 <p>Year-over-year sales growth from launch</p>
-              </li>
-              <li class="flex gap-6 items-center p-6 bg-white/5 border border-white/10 rounded-2xl">
-                <span class="text-primary text-[32px] font-black">100%</span>
+              </div>
+              <div class="flex flex-col items-center text-center p-6">
+                <span class="text-primary text-[32px] font-black mb-2">100%</span>
                 <p>PT program retention rate in year one</p>
-              </li>
-              <li class="flex gap-6 items-center p-6 bg-white/5 border border-white/10 rounded-2xl">
-                <span class="text-primary text-[32px] font-black">160+</span>
+              </div>
+              <div class="flex flex-col items-center text-center p-6">
+                <span class="text-primary text-[32px] font-black mb-2">160+</span>
                 <p>Participants in organic community events</p>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
 
           <div class="max-w-[800px] mx-auto space-y-12">
@@ -256,29 +261,24 @@ import Layout from '../../layouts/Layout.astro';
               <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight section-h3">Responsibilities</h3>
             </div>
             <div class="grid grid-cols-1 gap-6">
-              <div class="p-8 bg-white/5 border border-white/10 rounded-[32px] hover:bg-white/10 transition-colors">
+              <div class="p-8">
                 <p class="text-[19px] md:text-[21px] text-white/90 leading-relaxed text-center font-medium">
                   End-to-end business and product strategy, construction management, branding, and team leadership.
                 </p>
               </div>
-              <img src="https://framerusercontent.com/images/uJwS1xgb1lsJdVwL9305bzRTYE.png?width=1592&height=1360" alt="Roles" class="rounded-[32px] border border-white/10 shadow-2xl w-full mx-auto"/>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Gallery Section -->
-      <div class="mt-48 mb-32 space-y-16">
-        <div class="text-center">
-          <h3 class="text-[40px] md:text-[60px] font-heading font-black text-[rgb(255,184,0)] mb-12">Gallery</h3>
-        </div>
-        <div class="flex flex-col items-center gap-8 max-w-[1000px] mx-auto">
-          <img src="https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072" class="rounded-[32px] border border-white/10 w-full max-w-[1000px] mx-auto shadow-xl project-img-01"/>
-          <img src="https://framerusercontent.com/images/umH43pokxYacNsiG2HLBERhbRlM.jpg" class="rounded-[32px] border border-white/10 w-full max-w-[1000px] mx-auto shadow-xl project-img-02"/>
-          <img src="https://framerusercontent.com/images/HO2bzjM0vCYaWrfN9JnITS95eaE.jpg" class="rounded-[32px] border border-white/10 w-full max-w-[1000px] mx-auto shadow-xl"/>
-          <img src="https://framerusercontent.com/images/1hFRhC9FF0eW5z8Zg7XafjVre8.jpg" class="rounded-[32px] border border-white/10 w-full max-w-[1000px] mx-auto shadow-xl"/>
-        </div>
-      </div>
+      <GalleryCarousel 
+        images={[
+          '/assets/projects/bbo-image-03.avif',
+          '/assets/projects/bbo-image-09.avif'
+        ]}
+        title="Gallery"
+      />
 
       <!-- Live Project Button -->
           <div class="flex flex-col items-center justify-center mb-48 gap-8 live-project-wrapper">
@@ -354,7 +354,7 @@ import Layout from '../../layouts/Layout.astro';
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
                 <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
               </svg>
-              <p>contact@olivianguyen.rocks</p>
+              <p>contact@bbo.fitness</p>
             </div>
 
             <div class="link-contact-numbers">

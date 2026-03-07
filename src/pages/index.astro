@@ -90,12 +90,26 @@ const tools = [
 const languages = [
 	{ name: 'English', level: 100 },
 	{ name: 'Vietnamese', level: 100 },
-	{ name: 'Mandarin', level: 50 },
-	{ name: 'Swedish', level: 30 },
-	{ name: 'Arabic', level: 20 }
+	{ name: 'Mandarin', level: 11 },
+	{ name: 'Arabic', level: 11 }
 ];
 
 const education = [
+	{
+		institution: 'Coursera.org',
+		credential: 'Google Data Analytics',
+		link: 'https://coursera.org/share/3ba5d8e7478dbb2e0b009dd99909977f'
+	},
+	{
+		institution: 'Coursera.org',
+		credential: 'Data Analysis and Visualization Foundations (IBM)',
+		link: 'https://coursera.org/share/d8e8565a16c3920dfcb90875b408727f'
+	},
+	{
+		institution: 'Coursera.org',
+		credential: 'Google Project Management',
+		link: 'https://coursera.org/share/df300cc6d2fb1e24495314ba5cbefe42'
+	},
 	{
 		institution: 'Institute of Project Management',
 		credential: 'Certified Associate Project Management',
@@ -123,25 +137,25 @@ const latestProjects = [
 	{
 		title: 'Verity Nature / MRV Digital Solutions',
 		description: 'Design and develop a one-stop MRV system focused on the ESG market.',
-		image: 'https://framerusercontent.com/images/Qvs1jPyfuwtZY87j62Wtn5iRxo.jpg?width=2048&height=1536',
+		image: '/assets/projects/verity-01.avif',
 		href: '/projects/verity-digital-mrv'
 	},
 	{
 		title: "Boulder Box Saigon - Vietnam's First Boutique Bouldering Concept",
 		description: 'Designed, built, and (virtually) manage a top-rated bouldering gym in Saigon, Vietnam.',
-		image: 'https://framerusercontent.com/images/OTZ1ozy9DPNumchsGUWIpADghQ.jpg?width=4608&height=3072',
+		image: '/assets/projects/bbo-image-01.avif',
 		href: '/projects/boulder-box-saigon'
 	},
 	{
 		title: 'MBFS / After-sale Digital Solution SEA - Part 1',
 		description: 'Led the UX/UI Research & Design for Southeast Asian Countries',
-		image: 'https://framerusercontent.com/images/YNJxLvljj0beQaZhJtUjR06bb5o.png?width=610&height=372',
+		image: '/assets/projects/mb-thumbnail.avif',
 		href: '/projects/mbfs-sea'
 	},
 		{
 		title: 'MBFS / Digital Payment Solutions',
 		description: 'Led the UX/UI research & Design for MBFS Australia',
-		image: 'https://framerusercontent.com/images/KGU57THf6aveoLZImn65vJZYU.png?width=1398&height=898',
+		image: '/assets/projects/mb-thumbnail-2.avif',
 		href: '/projects/mbfs-au'
 	}
 ];
@@ -172,7 +186,7 @@ const latestProjects = [
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-6 h-6 flex-shrink-0" style="fill: rgb(255, 184, 0)">
 							<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
 						</svg>
-						<p class="text-[16px] leading-relaxed text-white">contact@olivianguyen.rocks</p>
+					<p class="text-[16px] leading-relaxed text-white">contact@bbo.fitness</p>
 					</div>
 					
 					<!-- LinkedIn -->
@@ -359,7 +373,14 @@ const latestProjects = [
 							</div>
 							<div class="skills-education-details">
 								<p class="skills-education-institution">{edu.institution}</p>
-								<p class="skills-education-credential">{edu.credential} - {edu.year}</p>
+							<p class="skills-education-credential">
+								{edu.credential}
+								{edu.link ? (
+									<span> - <a href={edu.link} target="_blank" rel="noopener" class="experience-link">View Certificate</a></span>
+								) : edu.year ? (
+									<span> - {edu.year}</span>
+								) : null}
+							</p>
 							</div>
 					</div>
 				))}
@@ -414,7 +435,7 @@ const latestProjects = [
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
 							<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
 						</svg>
-						<p>contact@olivianguyen.rocks</p>
+					<p>contact@bbo.fitness</p>
 					</div>
 					<div class="link-contact-numbers" style="justify-content: flex-start; width: 100%;">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">

@@ -1,16 +1,20 @@
 ---
-export const prerender = true;
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Redirecting…</title>
-    <meta http-equiv="refresh" content="0;url=/projects/verity-digital-mrv" />
-    <link rel="canonical" href="/projects/verity-digital-mrv" />
-  </head>
-  <body>
-    Redirecting to <a href="/projects/verity-digital-mrv">verity-digital-mrv</a>.
-  </body>
-</html>
+
+<Layout title="Verity Nature - MRV Digital Solutions">
+  <Header basePath="/" />
+  
+  <main class="pt-24">
+    <section class="min-h-screen flex items-center justify-center px-4 py-30" style="background-image: url('/assets/projects/verity-01.avif'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+      <div class="absolute inset-0" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));"></div>
+      <div class="max-w-4xl w-full relative z-10">
+        <h1 class="text-[80px] md:text-[120px] leading-none font-heading font-bold text-white mb-8">Verity Nature</h1>
+        <p class="text-[20px] leading-relaxed" style="color: rgb(255, 184, 0);">
+          Project Case Study Coming Soon
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>

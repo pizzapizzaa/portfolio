@@ -1,0 +1,127 @@
+---
+interface Props {
+  images: string[];
+  title?: string;
+}
+
+const { images, title = "Gallery" } = Astro.props;
+---
+
+<div class="mt-48 mb-32 w-full gallery-carousel-section">
+  <div class="text-center mb-16">
+    <h3 class="text-[40px] md:text-[60px] font-heading font-black text-[rgb(255,184,0)]">{title}</h3>
+  </div>
+  
+  <div class="w-full">
+    <!-- Main Image Display -->
+    <div class="carousel-container relative overflow-hidden rounded-[32px] w-full">
+      {images.map((image, index) => (
+        <div 
+          class={`carousel-slide ${index === 0 ? 'active' : ''}`}
+          data-index={index}
+        >
+          <img 
+            src={image} 
+            alt={`Gallery image ${index + 1}`}
+            class="rounded-[32px] border border-white/10 w-full shadow-xl"
+          />
+        </div>
+      ))}
+
+      <!-- Navigation Arrows -->
+      {images.length > 1 && (
+        <>
+          <button 
+            class="carousel-btn carousel-prev absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-4 backdrop-blur-sm transition-all z-10"
+            aria-label="Previous image"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button 
+            class="carousel-btn carousel-next absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-4 backdrop-blur-sm transition-all z-10"
+            aria-label="Next image"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </>
+      )}
+    </div>
+  </div>
+</div>
+
+<style>
+  .carousel-slide {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .carousel-slide.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousels = document.querySelectorAll('.gallery-carousel-section');
+    
+    carousels.forEach((carousel) => {
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const dots = carousel.querySelectorAll('.carousel-dot');
+      const prevBtn = carousel.querySelector('.carousel-prev');
+      const nextBtn = carousel.querySelector('.carousel-next');
+      
+      if (slides.length <= 1) return;
+      
+      let currentIndex = 0;
+
+      function showSlide(index: number) {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === index);
+        });
+        dots.forEach((dot, i) => {
+          if (i === index) {
+            dot.classList.remove('bg-white/30', 'hover:bg-white/50', 'w-3');
+            dot.classList.add('bg-primary', 'w-8');
+          } else {
+            dot.classList.remove('bg-primary', 'w-8');
+            dot.classList.add('bg-white/30', 'hover:bg-white/50', 'w-3');
+          }
+        });
+        currentIndex = index;
+      }
+
+      function nextSlide() {
+        const next = (currentIndex + 1) % slides.length;
+        showSlide(next);
+      }
+
+      function prevSlide() {
+        const prev = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(prev);
+      }
+
+      if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+      if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => showSlide(index));
+      });
+
+      // Auto-play (optional)
+      // setInterval(nextSlide, 5000);
+    });
+  });
+</script>
