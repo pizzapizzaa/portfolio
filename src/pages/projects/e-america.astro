@@ -99,8 +99,8 @@ import Header from '../../components/Header.astro';
           <!-- Lightbox -->
           <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
             <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#10005;</button>
             <div class="lightbox-inner">
-              <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#10005;</button>
               <div class="lightbox-zoom-controls">
                 <button class="lightbox-zoom-btn" id="lightboxZoomOut" aria-label="Zoom out">&#8722;</button>
                 <button class="lightbox-zoom-btn" id="lightboxZoomIn" aria-label="Zoom in">&#43;</button>
@@ -154,16 +154,16 @@ import Header from '../../components/Header.astro';
   .gallery-counter { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; }
 
   /* Lightbox */
-  .lightbox { display: none; position: fixed; inset: 0; z-index: 9999; align-items: center; justify-content: center; }
-  .lightbox.active { display: flex; }
-  .lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.88); }
-  .lightbox-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; max-width: 95vw; max-height: 95vh; }
-  .lightbox-close { position: fixed; top: 20px; right: 24px; background: rgba(255,255,255,0.12); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-  .lightbox-close:hover { background: rgba(255,255,255,0.25); }
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 9999; overflow-y: auto; }
+  .lightbox.active { display: block; }
+  .lightbox-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 0; }
+  .lightbox-close { position: fixed; top: 16px; right: 20px; z-index: 2; background: rgba(255,255,255,0.15); border: none; color: #fff; width: 42px; height: 42px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .lightbox-close:hover { background: rgba(255,255,255,0.3); }
+  .lightbox-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; margin: 64px auto 40px; width: 100%; max-width: 92vw; }
   .lightbox-zoom-controls { display: flex; gap: 10px; margin-bottom: 14px; }
   .lightbox-zoom-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 38px; height: 38px; border-radius: 8px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; line-height: 1; }
   .lightbox-zoom-btn:hover { background: rgba(255,255,255,0.2); }
-  .lightbox-img-wrap { overflow-y: auto; overflow-x: hidden; max-width: 92vw; max-height: 88vh; display: flex; align-items: flex-start; justify-content: center; border-radius: 8px; }
+  .lightbox-img-wrap { display: flex; align-items: flex-start; justify-content: center; border-radius: 8px; width: 100%; }
   .lightbox-img { display: block; width: 92vw; height: auto; border-radius: 8px; object-fit: contain; transition: width 0.2s ease; }
 </style>
 
