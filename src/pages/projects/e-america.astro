@@ -163,8 +163,8 @@ import Header from '../../components/Header.astro';
   .lightbox-zoom-controls { display: flex; gap: 10px; margin-bottom: 14px; }
   .lightbox-zoom-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 38px; height: 38px; border-radius: 8px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; line-height: 1; }
   .lightbox-zoom-btn:hover { background: rgba(255,255,255,0.2); }
-  .lightbox-img-wrap { overflow: auto; max-width: 90vw; max-height: 80vh; display: flex; align-items: center; justify-content: center; }
-  .lightbox-img { transform-origin: center center; transition: transform 0.2s ease; display: block; max-width: 100%; border-radius: 8px; }
+  .lightbox-img-wrap { overflow-y: auto; overflow-x: hidden; max-width: 92vw; max-height: 88vh; display: flex; align-items: flex-start; justify-content: center; border-radius: 8px; }
+  .lightbox-img { display: block; width: 92vw; height: auto; border-radius: 8px; object-fit: contain; transition: width 0.2s ease; }
 </style>
 
 <script>
@@ -204,7 +204,8 @@ import Header from '../../components/Header.astro';
     lightboxImg.src = src;
     lightboxImg.alt = alt;
     zoomLevel = 1;
-    lightboxImg.style.transform = `scale(1)`;
+    lightboxImg.style.width = '92vw';
+    lightboxImg.style.height = 'auto';
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -223,12 +224,14 @@ import Header from '../../components/Header.astro';
 
   document.getElementById('lightboxZoomIn')?.addEventListener('click', () => {
     zoomLevel = Math.min(zoomLevel + 0.25, 4);
-    lightboxImg.style.transform = `scale(${zoomLevel})`;
+    lightboxImg.style.width = `${92 * zoomLevel}vw`;
+    lightboxImg.style.height = 'auto';
   });
 
   document.getElementById('lightboxZoomOut')?.addEventListener('click', () => {
     zoomLevel = Math.max(zoomLevel - 0.25, 0.5);
-    lightboxImg.style.transform = `scale(${zoomLevel})`;
+    lightboxImg.style.width = `${92 * zoomLevel}vw`;
+    lightboxImg.style.height = 'auto';
   });
 
   document.addEventListener('keydown', (e: KeyboardEvent) => {
