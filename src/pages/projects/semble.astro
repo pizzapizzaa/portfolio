@@ -9,7 +9,7 @@ import Header from '../../components/Header.astro';
   <main class="pt-24">
 
     <!-- Hero -->
-    <section class="relative min-h-[60vh] flex items-center py-24" style="background: #0e0e0e;">
+    <section class="relative min-h-screen flex items-center py-24" style="background: #0e0e0e;">
       <div class="relative z-10" style="max-width: 860px; margin-left: auto; margin-right: auto; width: 100%; padding-left: 24px; padding-right: 24px;">
         <h1 class="text-[64px] md:text-[100px] leading-none font-heading font-bold text-white mb-6">Semble</h1>
         <div class="flex flex-wrap gap-3 text-[15px]" style="color: rgb(255,184,0);">
@@ -20,10 +20,13 @@ import Header from '../../components/Header.astro';
           <span>Status: Shipped / MVP</span>
         </div>
       </div>
+      <div class="scroll-cue">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
+      </div>
     </section>
 
     <!-- Case Study Body -->
-    <div class="case-study-body">
+    <div class="case-study-body reveal-hidden">
 
       <section class="case-section">
         <h2 class="case-section-title">1. The TL;DR <span class="case-section-sub">(Executive Summary)</span></h2>
@@ -103,4 +106,20 @@ import Header from '../../components/Header.astro';
   .case-field-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
   .case-field-value { font-size: 17px; line-height: 1.75; color: rgba(255,255,255,0.38); font-style: italic; }
   .visual-placeholder { margin-top: 20px; border: 1px dashed rgba(255,184,0,0.25); border-radius: 12px; padding: 56px 24px; text-align: center; color: rgba(255,184,0,0.35); font-size: 15px; letter-spacing: 0.06em; }
+  .reveal-hidden { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal-visible { opacity: 1; transform: translateY(0); }
+  .scroll-cue { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); color: rgba(255,184,0,0.55); animation: cue-bounce 2s ease-in-out infinite; pointer-events: none; }
+  @keyframes cue-bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
 </style>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal-hidden').forEach(el => observer.observe(el));
+</script>
