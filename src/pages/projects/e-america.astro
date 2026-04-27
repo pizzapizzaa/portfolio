@@ -61,7 +61,7 @@ import Header from '../../components/Header.astro';
         </div>
         <div class="case-field">
           <h3 class="case-field-label">Stakeholders</h3>
-          <p class="case-field-value">I acted as the conduit between Vikram and Adam &mdash; the CTO, utilizing a day to day rapid UI design process to ensure vision and technical feasibility remained perfectly aligned.</p>
+          <p class="case-field-value">I acted as the lead designer &amp; also the conduit between Vikram and Adam (our CTO), utilizing a day to day rapid UI design process to ensure vision and technical feasibility remained perfectly aligned.</p>
         </div>
         <div class="case-field">
           <h3 class="case-field-label">Constraint</h3>
@@ -81,8 +81,35 @@ import Header from '../../components/Header.astro';
         </div>
         <div class="case-field">
           <h3 class="case-field-label">Visual Highlights</h3>
-          <p class="case-field-value">Insert 2&ndash;3 high-impact, polished screens or a 10-second prototype GIF.</p>
-          <div class="visual-placeholder">[ Insert images / GIF here ]</div>
+          <!-- Gallery -->
+          <div class="gallery-wrap">
+            <div class="gallery-track-wrap">
+              <div class="gallery-track" id="galleryTrack">
+                <img class="gallery-img" src="/assets/projects/e-america/playground.png" alt="Playground screen" />
+                <img class="gallery-img" src="/assets/projects/e-america/Homepage_new.png" alt="Homepage screen" />
+                <img class="gallery-img" src="/assets/projects/e-america/Events.png" alt="Events screen" />
+              </div>
+            </div>
+            <div class="gallery-controls">
+              <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
+              <span class="gallery-counter" id="galleryCounter">1 / 3</span>
+              <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
+            </div>
+          </div>
+          <!-- Lightbox -->
+          <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+            <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+            <div class="lightbox-inner">
+              <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#10005;</button>
+              <div class="lightbox-zoom-controls">
+                <button class="lightbox-zoom-btn" id="lightboxZoomOut" aria-label="Zoom out">&#8722;</button>
+                <button class="lightbox-zoom-btn" id="lightboxZoomIn" aria-label="Zoom in">&#43;</button>
+              </div>
+              <div class="lightbox-img-wrap">
+                <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -115,9 +142,33 @@ import Header from '../../components/Header.astro';
   .reveal-visible { opacity: 1; transform: translateY(0); }
   .scroll-cue { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); color: rgba(255,184,0,0.55); animation: cue-bounce 2s ease-in-out infinite; pointer-events: none; }
   @keyframes cue-bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+
+  /* Gallery */
+  .gallery-wrap { margin-top: 20px; }
+  .gallery-track-wrap { overflow: hidden; border-radius: 12px; background: rgba(0,0,0,0.25); }
+  .gallery-track { display: flex; transition: transform 0.4s ease; }
+  .gallery-img { flex: 0 0 100%; width: 100%; max-height: 480px; object-fit: contain; cursor: zoom-in; display: block; }
+  .gallery-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+  .gallery-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fafafa; padding: 8px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .gallery-btn:hover { background: rgba(255,255,255,0.16); }
+  .gallery-counter { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; }
+
+  /* Lightbox */
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 9999; align-items: center; justify-content: center; }
+  .lightbox.active { display: flex; }
+  .lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.88); }
+  .lightbox-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; max-width: 95vw; max-height: 95vh; }
+  .lightbox-close { position: fixed; top: 20px; right: 24px; background: rgba(255,255,255,0.12); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .lightbox-close:hover { background: rgba(255,255,255,0.25); }
+  .lightbox-zoom-controls { display: flex; gap: 10px; margin-bottom: 14px; }
+  .lightbox-zoom-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 38px; height: 38px; border-radius: 8px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; line-height: 1; }
+  .lightbox-zoom-btn:hover { background: rgba(255,255,255,0.2); }
+  .lightbox-img-wrap { overflow: auto; max-width: 90vw; max-height: 80vh; display: flex; align-items: center; justify-content: center; }
+  .lightbox-img { transform-origin: center center; transition: transform 0.2s ease; display: block; max-width: 100%; border-radius: 8px; }
 </style>
 
 <script>
+  // Scroll reveal
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -127,4 +178,61 @@ import Header from '../../components/Header.astro';
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal-hidden').forEach(el => observer.observe(el));
+
+  // Gallery
+  const imgs = document.querySelectorAll<HTMLImageElement>('.gallery-img');
+  const track = document.getElementById('galleryTrack') as HTMLElement;
+  const counter = document.getElementById('galleryCounter') as HTMLElement;
+  let current = 0;
+  const total = imgs.length;
+
+  function goTo(index: number) {
+    current = (index + total) % total;
+    (track as HTMLElement).style.transform = `translateX(-${current * 100}%)`;
+    counter.textContent = `${current + 1} / ${total}`;
+  }
+
+  document.getElementById('galleryPrev')?.addEventListener('click', () => goTo(current - 1));
+  document.getElementById('galleryNext')?.addEventListener('click', () => goTo(current + 1));
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox') as HTMLElement;
+  const lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement;
+  let zoomLevel = 1;
+
+  function openLightbox(src: string, alt: string) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    zoomLevel = 1;
+    lightboxImg.style.transform = `scale(1)`;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
+
+  document.getElementById('lightboxClose')?.addEventListener('click', closeLightbox);
+  document.getElementById('lightboxBackdrop')?.addEventListener('click', closeLightbox);
+
+  document.getElementById('lightboxZoomIn')?.addEventListener('click', () => {
+    zoomLevel = Math.min(zoomLevel + 0.25, 4);
+    lightboxImg.style.transform = `scale(${zoomLevel})`;
+  });
+
+  document.getElementById('lightboxZoomOut')?.addEventListener('click', () => {
+    zoomLevel = Math.max(zoomLevel - 0.25, 0.5);
+    lightboxImg.style.transform = `scale(${zoomLevel})`;
+  });
+
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+  });
 </script>
