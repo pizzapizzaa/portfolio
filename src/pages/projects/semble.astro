@@ -5,15 +5,102 @@ import Header from '../../components/Header.astro';
 
 <Layout title="Semble - Case Study">
   <Header basePath="/" />
-  
+
   <main class="pt-24">
-    <section class="min-h-screen flex items-center justify-center px-4 py-30">
+
+    <!-- Hero -->
+    <section class="relative min-h-[60vh] flex items-center px-4 py-24" style="background: #0e0e0e;">
       <div class="max-w-4xl w-full relative z-10">
-        <h1 class="text-[80px] md:text-[120px] leading-none font-heading font-bold text-white mb-8">Semble</h1>
-        <p class="text-[20px] leading-relaxed" style="color: rgb(255, 184, 0);">
-          Case study will be updated soon...
-        </p>
+        <h1 class="text-[64px] md:text-[100px] leading-none font-heading font-bold text-white mb-6">Semble</h1>
+        <div class="flex flex-wrap gap-3 text-[15px]" style="color: rgb(255,184,0);">
+          <span>Role: Lead Product Designer</span>
+          <span style="opacity:0.4;">|</span>
+          <span>Timeline: X Months</span>
+          <span style="opacity:0.4;">|</span>
+          <span>Status: Shipped / MVP</span>
+        </div>
       </div>
     </section>
+
+    <!-- Case Study Body -->
+    <div class="case-study-body">
+
+      <section class="case-section">
+        <h2 class="case-section-title">1. The TL;DR <span class="case-section-sub">(Executive Summary)</span></h2>
+        <div class="case-field">
+          <h3 class="case-field-label">The Problem</h3>
+          <p class="case-field-value">What was the single biggest pain point for the user or the business?</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">The Solution</h3>
+          <p class="case-field-value">One sentence describing the core product/feature delivered.</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">The Impact</h3>
+          <p class="case-field-value">The &ldquo;Hero&rdquo; Metric. (e.g., +25% conversion, -40% support tickets, or $1M in revenue).</p>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <h2 class="case-section-title">2. Strategy &amp; Discovery</h2>
+        <div class="case-field">
+          <h3 class="case-field-label">Insight</h3>
+          <p class="case-field-value">What did the data or user research tell you that others missed?</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Stakeholders</h3>
+          <p class="case-field-value">How did you align the Product, Engineering, and Marketing teams?</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Constraint</h3>
+          <p class="case-field-value">What was the main &ldquo;blocker&rdquo; (Technical debt, tight deadline, or budget)?</p>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <h2 class="case-section-title">3. Execution <span class="case-section-sub">(The &ldquo;How&rdquo;)</span></h2>
+        <div class="case-field">
+          <h3 class="case-field-label">Key Decision</h3>
+          <p class="case-field-value">&ldquo;We chose [Option A] over [Option B] because of [Data/Logic].&rdquo;</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Design Leadership</h3>
+          <p class="case-field-value">Mention the Design System, components, or accessibility standards you enforced.</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Visual Highlights</h3>
+          <p class="case-field-value">Insert 2&ndash;3 high-impact, polished screens or a 10-second prototype GIF.</p>
+          <div class="visual-placeholder">[ Insert images / GIF here ]</div>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <h2 class="case-section-title">4. Outcome &amp; Lessons</h2>
+        <div class="case-field">
+          <h3 class="case-field-label">KPIs</h3>
+          <p class="case-field-value">Did you meet your success metrics? Use a simple table or bullet list.</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Post-Launch</h3>
+          <p class="case-field-value">What did you learn from real-world usage?</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Next Steps</h3>
+          <p class="case-field-value">How would you iterate on this in &ldquo;Phase 2&rdquo;?</p>
+        </div>
+      </section>
+
+    </div>
   </main>
 </Layout>
+
+<style>
+  .case-study-body { max-width: 860px; margin: 0 auto; padding: 64px 24px 96px; color: #fff; }
+  .case-section { margin-bottom: 64px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 48px; }
+  .case-section-title { font-size: 26px; font-weight: 700; color: rgb(255,184,0); margin-bottom: 36px; }
+  .case-section-sub { font-size: 18px; font-weight: 400; color: rgba(255,184,0,0.6); }
+  .case-field { margin-bottom: 32px; }
+  .case-field-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+  .case-field-value { font-size: 17px; line-height: 1.75; color: rgba(255,255,255,0.38); font-style: italic; }
+  .visual-placeholder { margin-top: 20px; border: 1px dashed rgba(255,184,0,0.25); border-radius: 12px; padding: 56px 24px; text-align: center; color: rgba(255,184,0,0.35); font-size: 15px; letter-spacing: 0.06em; }
+</style>
