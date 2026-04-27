@@ -423,25 +423,25 @@ const latestProjects = [
 </section>
 
 	<!-- Section 5: Latest Projects -->
-	<section id="section-5" class="projects-section-wrapper">
-		<div class="projects-section-content">
+	<section id="section-5" class="projects-wrapper">
+		<div class="projects-content">
 			<h2 class="projects-title">Latest Projects</h2>
-		
+
 			<div class="project-card-list">
 				{latestProjects.map((project, index) => (
 					<a href={project.href} class="project-card">
-					<div class="projects-card-image">
-						<img 
-							src={project.image} 
-							alt={project.title}
+						<div class="project-card-image">
+							<img
+								src={project.image}
+								alt={project.title}
 							/>
-						<div class="projects-card-gradient"></div>
-						<div class="projects-card-content">
-							<h3 class="projects-card-title">{project.title}</h3>
-							<p class="projects-card-description">{project.description}</p>
+							<div class="project-card-gradient"></div>
+							<div class="project-card-content">
+								<h3 class="project-card-title">{project.title}</h3>
+								<p class="project-card-description">{project.description}</p>
+							</div>
 						</div>
-					</div>
-				</a>
+					</a>
 				))}
 			</div>
 		</div>
