@@ -96,22 +96,7 @@ import Header from '../../components/Header.astro';
               <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
             </div>
           </div>
-          <!-- Lightbox -->
-          <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-            <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
-            <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#10005;</button>
-            <div class="lightbox-scroll">
-              <div class="lightbox-inner">
-                <div class="lightbox-zoom-controls">
-                  <button class="lightbox-zoom-btn" id="lightboxZoomOut" aria-label="Zoom out">&#8722;</button>
-                  <button class="lightbox-zoom-btn" id="lightboxZoomIn" aria-label="Zoom in">&#43;</button>
-                </div>
-                <div class="lightbox-img-wrap">
-                  <img class="lightbox-img" id="lightboxImg" src="" alt="" />
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
       </section>
 
@@ -149,25 +134,13 @@ import Header from '../../components/Header.astro';
   .gallery-wrap { margin-top: 20px; }
   .gallery-track-wrap { overflow: hidden; border-radius: 12px; background: rgba(0,0,0,0.25); }
   .gallery-track { display: flex; transition: transform 0.4s ease; }
-  .gallery-img { flex: 0 0 100%; width: 100%; max-height: 480px; object-fit: contain; cursor: zoom-in; display: block; }
+  .gallery-img { flex: 0 0 100%; width: 100%; max-height: 480px; object-fit: contain; cursor: pointer; display: block; }
   .gallery-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
   .gallery-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fafafa; padding: 8px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
   .gallery-btn:hover { background: rgba(255,255,255,0.16); }
   .gallery-counter { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; }
 
-  /* Lightbox */
-  .lightbox { display: none; position: fixed; inset: 0; z-index: 99999; }
-  .lightbox.active { display: block; }
-  .lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.88); z-index: 0; }
-  .lightbox-close { position: absolute; top: 16px; right: 20px; z-index: 2; background: rgba(255,255,255,0.15); border: none; color: #fff; width: 42px; height: 42px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-  .lightbox-close:hover { background: rgba(255,255,255,0.3); }
-  .lightbox-scroll { position: absolute; inset: 0; overflow-y: auto; z-index: 1; }
-  .lightbox-inner { display: flex; flex-direction: column; align-items: center; padding: 60px 0 40px; width: 92vw; margin: 0 auto; }
-  .lightbox-zoom-controls { display: flex; gap: 10px; margin-bottom: 14px; }
-  .lightbox-zoom-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 38px; height: 38px; border-radius: 8px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; line-height: 1; }
-  .lightbox-zoom-btn:hover { background: rgba(255,255,255,0.2); }
-  .lightbox-img-wrap { display: flex; justify-content: center; border-radius: 8px; width: 100%; }
-  .lightbox-img { display: block; width: 92vw; height: auto; border-radius: 8px; object-fit: contain; transition: width 0.2s ease; }
+
 </style>
 
 <script>
@@ -198,47 +171,7 @@ import Header from '../../components/Header.astro';
   document.getElementById('galleryPrev')?.addEventListener('click', () => goTo(current - 1));
   document.getElementById('galleryNext')?.addEventListener('click', () => goTo(current + 1));
 
-  // Lightbox
-  const lightbox = document.getElementById('lightbox') as HTMLElement;
-  const lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement;
-  let zoomLevel = 1;
-
-  function openLightbox(src: string, alt: string) {
-    lightboxImg.src = src;
-    lightboxImg.alt = alt;
-    zoomLevel = 1;
-    lightboxImg.style.width = '92vw';
-    lightboxImg.style.height = 'auto';
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
   imgs.forEach(img => {
-    img.addEventListener('click', () => openLightbox(img.src, img.alt));
-  });
-
-  document.getElementById('lightboxClose')?.addEventListener('click', closeLightbox);
-  document.getElementById('lightboxBackdrop')?.addEventListener('click', closeLightbox);
-
-  document.getElementById('lightboxZoomIn')?.addEventListener('click', () => {
-    zoomLevel = Math.min(zoomLevel + 0.25, 4);
-    lightboxImg.style.width = `${92 * zoomLevel}vw`;
-    lightboxImg.style.height = 'auto';
-  });
-
-  document.getElementById('lightboxZoomOut')?.addEventListener('click', () => {
-    zoomLevel = Math.max(zoomLevel - 0.25, 0.5);
-    lightboxImg.style.width = `${92 * zoomLevel}vw`;
-    lightboxImg.style.height = 'auto';
-  });
-
-  document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (!lightbox.classList.contains('active')) return;
-    if (e.key === 'Escape') closeLightbox();
+    img.addEventListener('click', () => window.open(img.src, '_blank'));
   });
 </script>
