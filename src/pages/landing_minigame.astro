@@ -1,0 +1,1167 @@
+﻿---
+// Explorer Mode — standalone landing minigame page
+// Fonts: Orbitron + Exo 2 (Google Fonts, SIL OFL — commercial-free)
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explorer Mode — Olivia Nguyen Portfolio" />
+  <title>Explorer Mode — Olivia Nguyen</title>
+
+  <!-- Commercial-free gaming fonts (SIL Open Font License via Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       THEME VARIABLES
+    ============================================= */
+    :root {
+      --bg:         #05090e;
+      --bg-panel:   rgba(10,22,30,0.93);
+      --bg-input:   rgba(5,20,15,0.65);
+      --border:     #2F8986;
+      --border-hi:  #92D34F;
+      --accent:     #92D34F;
+      --accent-hi:  #D3ED66;
+      --accent-dim: #41B774;
+      --text-1:     #F7FFC7;
+      --text-2:     #7db05a;
+      --text-muted: #3a6a3a;
+      --glow:       rgba(146,211,79,0.32);
+      --glow-teal:  rgba(47,137,134,0.38);
+      --nav-bg:     rgba(3,8,12,0.96);
+      --grid-line:  rgba(47,137,134,0.06);
+    }
+
+    [data-theme="light"] {
+      --bg:         #dff0dd;
+      --bg-panel:   rgba(218,242,218,0.94);
+      --bg-input:   rgba(185,228,185,0.55);
+      --border:     #2a7a77;
+      --border-hi:  #4a9a28;
+      --accent:     #2a6d0e;
+      --accent-hi:  #3a8c20;
+      --accent-dim: #2a7a50;
+      --text-1:     #081408;
+      --text-2:     #1d481d;
+      --text-muted: #3a6a3a;
+      --glow:       rgba(55,130,20,0.22);
+      --glow-teal:  rgba(40,118,116,0.28);
+      --nav-bg:     rgba(205,238,205,0.96);
+      --grid-line:  rgba(40,118,116,0.08);
+    }
+
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Exo 2', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-1);
+      overflow-x: hidden;
+      transition: background-color 0.3s, color 0.3s;
+      cursor: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse at 18% 55%, rgba(47,137,134,0.09) 0%, transparent 52%),
+        radial-gradient(ellipse at 82% 18%, rgba(146,211,79,0.07) 0%, transparent 50%),
+        repeating-linear-gradient(0deg, transparent, transparent 47px, var(--grid-line) 47px, var(--grid-line) 48px),
+        repeating-linear-gradient(90deg, transparent, transparent 47px, var(--grid-line) 47px, var(--grid-line) 48px);
+    }
+
+    /* =============================================
+       NAV BAR
+    ============================================= */
+    .game-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 2px 24px var(--glow-teal);
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-brand {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 10;
+      white-space: nowrap;
+    }
+
+    /* Game Button */
+    .game-btn {
+      font-family: 'Orbitron', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-1);
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      padding: 11px 22px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .game-btn .btn-fill {
+      position: absolute;
+      inset: 0;
+      background: #f7ffc7;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .game-btn span { position: relative; z-index: 1; }
+
+    .game-btn:hover { color: #081014ed; border-color: var(--accent); box-shadow: 0 0 14px var(--glow); }
+    .game-btn:hover .btn-fill { opacity: 1; }
+
+    /* Icon Button + Theme Toggle — shared nav icon style */
+    .icon-btn,
+    .theme-toggle {
+      width: 46px; height: 46px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      color: #f7ffc7;
+    }
+
+    .icon-btn:hover,
+    .theme-toggle:hover { border-color: var(--accent); background: #f7ffc7; color: #081014ed; box-shadow: 0 0 12px var(--glow); }
+    .icon-btn img { width: 26px; height: 26px; pointer-events: none; }
+
+    .toggle-thumb {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      line-height: 1;
+      background: transparent;
+    }
+
+    /* =============================================
+       MAIN CONTENT
+    ============================================= */
+    .main-content {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+      padding: 90px 20px 48px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .welcome-wrap { width: 100%; max-width: 560px; }
+
+    .tx-tag {
+      font-family: 'Orbitron', monospace;
+      font-size: 10px; font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.2s forwards;
+    }
+
+    .tx-tag::before { content: ''; width: 28px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .tx-tag::after  { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+    .welcome-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      padding: 40px 40px 36px;
+      position: relative;
+      box-shadow: 0 0 40px rgba(47,137,134,0.12), inset 0 0 30px rgba(146,211,79,0.03);
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.4s forwards;
+    }
+
+    /* Corner bracket decorations */
+    .welcome-panel::before, .welcome-panel::after,
+    .corner-tr, .corner-bl {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-color: var(--accent-hi);
+      border-style: solid;
+    }
+
+    .welcome-panel::before { top: -1px;    left: -1px;  border-width: 2px 0 0 2px; }
+    .welcome-panel::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+    .corner-tr             { top: -1px;    right: -1px; border-width: 2px 2px 0 0; }
+    .corner-bl             { bottom: -1px; left: -1px;  border-width: 0 0 2px 2px; }
+
+    .welcome-text { margin-bottom: 30px; }
+
+    .salutation {
+      font-family: 'Orbitron', monospace;
+      font-size: 17px; font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: 14px;
+      text-shadow: 0 0 22px var(--glow);
+    }
+
+    .welcome-text p { font-size: 14.5px; line-height: 1.85; color: var(--text-2); }
+    .ready-line { color: var(--accent-hi) !important; font-weight: 600; margin-top: 12px; }
+
+    /* Form */
+    .form-group { margin-bottom: 20px; }
+
+    .form-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 9.5px; font-weight: 600;
+      letter-spacing: 0.18em; color: var(--text-muted);
+      text-transform: uppercase;
+      display: block; margin-bottom: 8px;
+    }
+
+    .game-input, .game-select {
+      width: 100%; padding: 11px 15px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-1);
+      font-family: 'Exo 2', sans-serif; font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .game-input::placeholder { color: var(--text-muted); opacity: 0.7; }
+    .game-input:focus, .game-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 14px var(--glow), inset 0 0 8px rgba(146,211,79,0.04);
+    }
+
+    .game-select {
+      appearance: none; -webkit-appearance: none; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2392D34F' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    .game-select option { background: #060d12; color: var(--text-1); }
+
+    /* CTA */
+    .cta-row { margin-top: 28px; display: flex; justify-content: center; }
+
+    .cta-btn {
+      font-family: 'Orbitron', monospace;
+      font-size: 12px; font-weight: 800;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: #071207;
+      background: var(--accent);
+      border: none; padding: 16px 44px; cursor: pointer;
+      clip-path: polygon(18px 0%, 100% 0%, calc(100% - 18px) 100%, 0% 100%);
+      transition: all 0.22s ease;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 4px 24px var(--glow), 0 0 48px rgba(146,211,79,0.12);
+    }
+
+    .cta-btn:hover { background: var(--accent-hi); box-shadow: 0 4px 36px var(--glow), 0 0 70px rgba(211,237,102,0.22); transform: translateY(-2px); }
+    .cta-btn:active { transform: translateY(0); }
+
+    /* =============================================
+       MODALS
+    ============================================= */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.76); backdrop-filter: blur(5px);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 16px;
+    }
+
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal-panel {
+      background: var(--bg-panel); border: 1px solid var(--border);
+      position: relative;
+      transform: translateY(18px); transition: transform 0.3s ease;
+      max-height: 90vh;
+      display: flex; flex-direction: column; overflow: hidden;
+      box-shadow: 0 0 50px var(--glow-teal);
+    }
+
+    .modal-overlay.open .modal-panel { transform: translateY(0); }
+
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 22px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .modal-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.18em; color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .modal-close {
+      width: 28px; height: 28px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-2); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-family: monospace;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+
+    .modal-close:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 8px var(--glow); }
+
+    /* =============================================
+       WORLD MAP MODAL
+    ============================================= */
+    .worldmap-panel { width: min(92vw, 980px); }
+    .worldmap-body { padding: 22px; overflow-y: auto; }
+
+    .map-wrap {
+      background: rgba(3,12,18,0.85);
+      border: 1px solid rgba(47,137,134,0.28);
+      padding: 12px; position: relative;
+    }
+
+    .map-wrap svg { width: 100%; height: auto; display: block; }
+    .map-ocean { fill: rgba(6,18,28,0.9); }
+    .continent {
+      fill: rgba(47,137,134,0.22);
+      stroke: #2F8986; stroke-width: 0.8;
+      stroke-linejoin: round;
+      transition: fill 0.2s;
+    }
+    .continent:hover { fill: rgba(47,137,134,0.42); }
+    .grid-ln { stroke: rgba(47,137,134,0.10); stroke-width: 0.5; fill: none; }
+    .equator { stroke: rgba(47,137,134,0.28); stroke-width: 0.7; stroke-dasharray: 5 5; fill: none; }
+
+    .proj-marker { cursor: pointer; }
+    .proj-marker:hover .m-ring { stroke: #D3ED66; }
+
+    .m-pulse { fill: none; stroke: #92D34F; stroke-width: 1; animation: pulse 2.2s ease-out infinite; }
+    .m-ring  { fill: none; stroke: #92D34F; stroke-width: 1.5; }
+    .m-dot   { fill: #92D34F; }
+
+    @keyframes pulse {
+      0%  { r: 7;  opacity: 0.9; }
+      60% { r: 14; opacity: 0.15; }
+      100%{ r: 14; opacity: 0; }
+    }
+
+    .m-lbl { font-family: 'Orbitron', monospace; font-size: 6.5px; fill: #D3ED66; font-weight: 600; letter-spacing: 0.04em; pointer-events: none; }
+    .m-sub { font-family: 'Exo 2', sans-serif; font-size: 6px; fill: #7db05a; pointer-events: none; }
+    .m-line { stroke: rgba(146,211,79,0.4); stroke-width: 0.7; fill: none; stroke-dasharray: 2 2; }
+
+    .map-legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px 20px; }
+    .legend-row { display: flex; align-items: center; gap: 7px; font-family: 'Exo 2', sans-serif; font-size: 12px; color: var(--text-2); }
+    .legend-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 6px var(--glow); flex-shrink: 0; }
+    .legend-row a { color: var(--text-2); text-decoration: none; transition: color 0.2s; }
+    .legend-row a:hover { color: var(--accent-hi); }
+
+    /* =============================================
+       SETTINGS MODAL
+    ============================================= */
+    .settings-panel { width: min(92vw, 440px); }
+    .settings-body { padding: 24px; overflow-y: auto; }
+
+    .marker-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+    .marker-opt {
+      width: 46px; height: 46px;
+      background: var(--bg-input); border: 2px solid var(--border);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; transition: all 0.2s;
+    }
+    .marker-opt:hover, .marker-opt.sel { border-color: var(--accent); box-shadow: 0 0 12px var(--glow); }
+
+    .settings-save {
+      width: 100%; font-family: 'Orbitron', monospace;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #071207; background: var(--accent);
+      border: none; padding: 14px; cursor: pointer;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      transition: all 0.2s; margin-top: 6px;
+    }
+    .settings-save:hover { background: var(--accent-hi); }
+
+    /* =============================================
+       ANIMATIONS
+    ============================================= */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scanAnim {
+      0%   { top: -4px; opacity: 0; }
+      5%   { opacity: 1; }
+      92%  { opacity: 0.7; }
+      100% { top: 100vh; opacity: 0; }
+    }
+
+    .scan-line {
+      position: fixed; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 40%, var(--accent-hi) 50%, var(--accent) 60%, transparent 100%);
+      animation: scanAnim 2.4s ease 0.1s forwards;
+      pointer-events: none; z-index: 50;
+      box-shadow: 0 0 8px var(--glow);
+    }
+
+    /* =============================================
+       CUSTOM SAUCER CURSOR
+    ============================================= */
+    * { cursor: none !important; }
+
+    #saucer-cursor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      /* hotspot offset: visual center of the saucer is 20px from left, 12px from top */
+      transform: translate(-20px, -12px);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      will-change: transform;
+    }
+
+    #saucer-cursor.visible { opacity: 1; }
+
+    /* Glow blooms: base + outer ring */
+    #saucer-cursor .sg-glow {
+      animation: saucer-glow 1.6s ease-in-out infinite;
+    }
+    #saucer-cursor .sg-beam {
+      animation: beam-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes saucer-glow {
+      0%,100% { opacity: 0.55; r: 14; }
+      50%      { opacity: 1;    r: 17; }
+    }
+
+    @keyframes beam-pulse {
+      0%,100% { opacity: 0.20; ry: 5; }
+      50%      { opacity: 0.50; ry: 7; }
+    }
+
+    #trail-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    .bg-ships {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .ship {
+      position: absolute;
+      will-change: transform;
+      line-height: 0;
+    }
+
+    .ship-flip { transform: scaleX(-1); display: block; }
+
+    .bg-ships .hull    { fill: rgba(47,137,134,0.55); }
+    .bg-ships .pod     { fill: rgba(15,45,43,0.80); }
+    .bg-ships .wing    { fill: rgba(65,183,116,0.50); }
+    .bg-ships .nose    { fill: rgba(146,211,79,0.65); }
+    .bg-ships .cockpit { fill: rgba(211,237,102,0.40); }
+    .bg-ships .eg      { fill: rgba(146,211,79,0.55); animation: engine-pulse 1.8s ease-in-out infinite; }
+
+    @keyframes engine-pulse {
+      0%, 100% { opacity: 0.55; }
+      50%       { opacity: 1; }
+    }
+
+    @keyframes fly-ltr {
+      from { transform: translateX(-200px); }
+      to   { transform: translateX(calc(100vw + 200px)); }
+    }
+
+    @keyframes fly-rtl {
+      from { transform: translateX(calc(100vw + 200px)); }
+      to   { transform: translateX(-200px); }
+    }
+
+    /* Ship instances */
+    .s1 { top: 11%; opacity: .50; animation: fly-ltr 22s linear infinite; animation-delay:  -4s; }
+    .s2 { top: 29%; opacity: .40; animation: fly-rtl 17s linear infinite; animation-delay: -11s; }
+    .s3 { top: 44%; opacity: .42; animation: fly-ltr 38s linear infinite; animation-delay: -15s; }
+    .s4 { top: 21%; opacity: .38; animation: fly-rtl 25s linear infinite; animation-delay:  -8s; }
+    .s5 { top: 67%; opacity: .33; animation: fly-ltr 20s linear infinite; animation-delay:  -2s; }
+    .s6 { top: 79%; opacity: .28; animation: fly-rtl 42s linear infinite; animation-delay: -20s; }
+    .s7 { top: 54%; opacity: .30; animation: fly-ltr 30s linear infinite; animation-delay:  -6s; }
+
+    /* Stagger engine pulse so ships don't blink in sync */
+    .s2 .eg { animation-delay: -0.6s; }
+    .s3 .eg { animation-delay: -1.1s; }
+    .s4 .eg { animation-delay: -0.3s; }
+    .s5 .eg { animation-delay: -1.5s; }
+    .s6 .eg { animation-delay: -0.9s; }
+    .s7 .eg { animation-delay: -0.4s; }
+
+    @media (max-width: 640px) {
+      .game-btn { font-size: 9px; padding: 7px 12px; }
+      .footer-brand { display: none; }
+      .welcome-panel { padding: 28px 22px 26px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scan-line" aria-hidden="true"></div>
+
+  <!-- CUSTOM SAUCER CURSOR -->
+  <svg id="saucer-cursor" xmlns="http://www.w3.org/2000/svg"
+       width="40" height="26" viewBox="0 0 40 26"
+       aria-hidden="true">
+    <!-- bottom tractor beam glow -->
+    <ellipse class="sg-beam" cx="20" cy="24" rx="10" ry="5"
+             fill="rgba(146,211,79,0.30)"/>
+    <!-- outer ambient glow ring -->
+    <ellipse class="sg-glow" cx="20" cy="15" rx="14" ry="7"
+             fill="none" stroke="rgba(146,211,79,0.25)" stroke-width="3"/>
+    <!-- hull body -->
+    <ellipse cx="20" cy="16" rx="18" ry="7"
+             fill="rgba(15,45,43,0.88)" stroke="rgba(47,137,134,0.80)" stroke-width="1"/>
+    <!-- upper dome -->
+    <ellipse cx="20" cy="13" rx="10" ry="8"
+             fill="rgba(30,72,65,0.90)" stroke="rgba(65,183,116,0.70)" stroke-width="1"/>
+    <!-- dome highlight -->
+    <ellipse cx="20" cy="11" rx="6" ry="5"
+             fill="rgba(211,237,102,0.18)"/>
+    <!-- cockpit window -->
+    <ellipse cx="20" cy="11" rx="3.5" ry="3"
+             fill="rgba(146,211,79,0.55)" stroke="rgba(211,237,102,0.60)" stroke-width="0.8"/>
+    <!-- hull rim lights -->
+    <ellipse cx="20" cy="17" rx="14" ry="2.5"
+             fill="rgba(146,211,79,0.20)"
+             style="animation: beam-pulse 1.6s ease-in-out infinite;"/>
+    <!-- underside centre light -->
+    <ellipse cx="20" cy="21" rx="4" ry="2"
+             fill="rgba(146,211,79,0.65)"
+             style="animation: saucer-glow 1.6s ease-in-out infinite 0.4s;"/>
+  </svg>
+
+  <canvas id="trail-canvas" aria-hidden="true"></canvas>
+
+  <!-- BACKGROUND SPACESHIPS -->
+  <div class="bg-ships" aria-hidden="true">
+
+    <!-- s1: Scout · LTR · 60×36 -->
+    <div class="ship s1">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 18" width="60" height="36">
+        <ellipse class="eg"      cx="2"  cy="9"  rx="5" ry="3"/>
+        <polygon class="hull"   points="2,6 26,3 28,9 26,15 2,12"/>
+        <polygon class="wing"   points="6,6 10,1 18,6"/>
+        <polygon class="wing"   points="6,12 10,17 18,12"/>
+        <polygon class="nose"   points="26,3 30,9 26,15"/>
+        <ellipse class="cockpit" cx="22" cy="9"  rx="4" ry="3"/>
+      </svg>
+    </div>
+
+    <!-- s2: Scout · RTL · 50×30 -->
+    <div class="ship s2"><div class="ship-flip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 18" width="50" height="30">
+        <ellipse class="eg"      cx="2"  cy="9"  rx="5" ry="3"/>
+        <polygon class="hull"   points="2,6 26,3 28,9 26,15 2,12"/>
+        <polygon class="wing"   points="6,6 10,1 18,6"/>
+        <polygon class="wing"   points="6,12 10,17 18,12"/>
+        <polygon class="nose"   points="26,3 30,9 26,15"/>
+        <ellipse class="cockpit" cx="22" cy="9"  rx="4" ry="3"/>
+      </svg>
+    </div></div>
+
+    <!-- s3: Cruiser · LTR · 100×48 -->
+    <div class="ship s3">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 24" width="100" height="48">
+        <ellipse class="eg"      cx="1"  cy="7"  rx="6" ry="3"/>
+        <ellipse class="eg"      cx="1"  cy="17" rx="6" ry="3"/>
+        <rect    class="pod"      x="1"  y="4"   width="14" height="6" rx="2"/>
+        <rect    class="pod"      x="1"  y="14"  width="14" height="6" rx="2"/>
+        <polygon class="hull"   points="10,4 42,2 48,12 42,22 10,20"/>
+        <polygon class="wing"   points="14,4 20,-1 30,4"/>
+        <polygon class="wing"   points="14,20 20,25 30,20"/>
+        <rect    class="cockpit" x="36" y="8"   width="10" height="8" rx="2"/>
+      </svg>
+    </div>
+
+    <!-- s4: Saucer · RTL · 66×39 -->
+    <div class="ship s4"><div class="ship-flip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 26" width="66" height="39">
+        <ellipse class="hull"    cx="22" cy="18" rx="22" ry="8"/>
+        <ellipse class="wing"    cx="22" cy="14" rx="13" ry="9"/>
+        <ellipse class="cockpit" cx="22" cy="12" rx="8"  ry="6"/>
+        <ellipse class="eg"      cx="22" cy="19" rx="17" ry="3"/>
+      </svg>
+    </div></div>
+
+    <!-- s5: Scout tiny · LTR · 40×24 -->
+    <div class="ship s5">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 18" width="40" height="24">
+        <ellipse class="eg"      cx="2"  cy="9"  rx="5" ry="3"/>
+        <polygon class="hull"   points="2,6 26,3 28,9 26,15 2,12"/>
+        <polygon class="wing"   points="6,6 10,1 18,6"/>
+        <polygon class="wing"   points="6,12 10,17 18,12"/>
+        <polygon class="nose"   points="26,3 30,9 26,15"/>
+        <ellipse class="cockpit" cx="22" cy="9"  rx="4" ry="3"/>
+      </svg>
+    </div>
+
+    <!-- s6: Cruiser · RTL · 80×38 -->
+    <div class="ship s6"><div class="ship-flip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 24" width="80" height="38">
+        <ellipse class="eg"      cx="1"  cy="7"  rx="6" ry="3"/>
+        <ellipse class="eg"      cx="1"  cy="17" rx="6" ry="3"/>
+        <rect    class="pod"      x="1"  y="4"   width="14" height="6" rx="2"/>
+        <rect    class="pod"      x="1"  y="14"  width="14" height="6" rx="2"/>
+        <polygon class="hull"   points="10,4 42,2 48,12 42,22 10,20"/>
+        <polygon class="wing"   points="14,4 20,-1 30,4"/>
+        <polygon class="wing"   points="14,20 20,25 30,20"/>
+        <rect    class="cockpit" x="36" y="8"   width="10" height="8" rx="2"/>
+      </svg>
+    </div></div>
+
+    <!-- s7: Saucer · LTR · 55×33 -->
+    <div class="ship s7">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 26" width="55" height="33">
+        <ellipse class="hull"    cx="22" cy="18" rx="22" ry="8"/>
+        <ellipse class="wing"    cx="22" cy="14" rx="13" ry="9"/>
+        <ellipse class="cockpit" cx="22" cy="12" rx="8"  ry="6"/>
+        <ellipse class="eg"      cx="22" cy="19" rx="17" ry="3"/>
+      </svg>
+    </div>
+
+  </div>
+
+  <!-- NAV -->
+  <nav class="game-nav">
+    <div class="nav-left">
+      <a href="/" class="game-btn" title="Return to main portfolio">
+        <div class="btn-fill" aria-hidden="true"></div>
+        <span>&#8592; EXIT EXPLORING MODE</span>
+      </a>
+      <button class="game-btn" id="btnWorldMap" aria-label="Open world map">
+        <div class="btn-fill" aria-hidden="true"></div>
+        <span>&#128506; WORLD MAP</span>
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="btnTheme" title="Toggle light / dark" aria-label="Toggle theme">
+        <div class="toggle-thumb" id="toggleThumb">
+          <span id="themeIcon">&#127769;</span>
+        </div>
+      </button>
+      <button class="icon-btn" id="btnSettings" aria-label="Explorer settings">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40q-2.17-.06-4.32,0L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84q-.06,2.17,0,4.32L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.17.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.9,123.66Z"></path></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <div class="welcome-wrap">
+      <div class="tx-tag" aria-hidden="true">INCOMING TRANSMISSION</div>
+
+      <div class="welcome-panel" role="main">
+        <div class="corner-tr" aria-hidden="true"></div>
+        <div class="corner-bl" aria-hidden="true"></div>
+
+        <div class="welcome-text">
+          <p class="salutation">Dear explorer,</p>
+          <p>You&rsquo;ve come to the right place. This place contains a number of products across the globe from Olivia Nguyen.</p>
+          <p class="ready-line">Ready to get started?</p>
+        </div>
+
+        <form id="explorerForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="nickname">Enter your explorer nickname</label>
+            <input
+              type="text"
+              id="nickname"
+              name="nickname"
+              class="game-input"
+              placeholder="e.g. StarNavigator_99"
+              maxlength="24"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="server">Select your starting server</label>
+            <select id="server" name="server" class="game-select">
+              <option value="" disabled selected>&#8212; Choose your continent &#8212;</option>
+              <option value="africa">Africa</option>
+              <option value="antarctica">Antarctica</option>
+              <option value="asia">Asia</option>
+              <option value="australia">Australia &amp; Oceania</option>
+              <option value="europe">Europe</option>
+              <option value="north-america">North America</option>
+              <option value="south-america">South America</option>
+            </select>
+          </div>
+
+          <div class="cta-row">
+            <button type="submit" class="cta-btn">
+              <span>Let&rsquo;s Explore</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- WORLD MAP MODAL -->
+  <div class="modal-overlay" id="worldMapModal" role="dialog" aria-modal="true" aria-labelledby="worldMapTitle">
+    <div class="modal-panel worldmap-panel">
+      <div class="modal-header">
+        <span class="modal-title" id="worldMapTitle">// WORLD MAP &#8212; PROJECT LOCATIONS</span>
+        <button class="modal-close" id="closeWorldMap" aria-label="Close world map">&#10005;</button>
+      </div>
+      <div class="worldmap-body">
+        <div class="map-wrap">
+          <!--
+            Equirectangular flat world map  (viewBox 0 0 960 480)
+            x = (lon + 180) x 2.667   |   y = (90 - lat) x 2.667
+          -->
+          <svg viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect class="map-ocean" width="960" height="480" />
+
+            <!-- Grid -->
+            <line class="grid-ln" x1="0"   y1="120" x2="960" y2="120" />
+            <line class="grid-ln" x1="0"   y1="240" x2="960" y2="240" />
+            <line class="grid-ln" x1="0"   y1="360" x2="960" y2="360" />
+            <line class="grid-ln" x1="240" y1="0"   x2="240" y2="480" />
+            <line class="grid-ln" x1="480" y1="0"   x2="480" y2="480" />
+            <line class="grid-ln" x1="720" y1="0"   x2="720" y2="480" />
+            <line class="equator" x1="0"   y1="240" x2="960" y2="240" />
+
+            <!-- Greenland -->
+            <path class="continent" d="M 272,25 L 338,19 L 356,46 L 340,72 L 303,78 L 272,60 Z" />
+
+            <!-- North America -->
+            <path class="continent" d="
+              M 48,58 L 90,44 L 160,38 L 228,42 L 295,52 L 338,76 L 348,110
+              L 338,148 L 315,178 L 288,198 L 252,218 L 215,210 L 184,192
+              L 100,185 L 64,165 L 44,138 L 38,100 Z
+            " />
+            <!-- Central America -->
+            <path class="continent" d="M 215,210 L 240,222 L 250,238 L 235,248 L 218,242 L 208,228 Z" />
+
+            <!-- South America -->
+            <path class="continent" d="
+              M 230,246 L 268,240 L 310,244 L 348,260 L 358,298 L 352,348
+              L 330,395 L 295,415 L 268,408 L 245,380 L 232,330 L 228,280 Z
+            " />
+
+            <!-- Europe -->
+            <path class="continent" d="
+              M 444,72 L 490,54 L 534,52 L 572,62 L 590,84 L 584,110
+              L 562,132 L 534,148 L 505,150 L 472,134 L 448,108 L 442,88 Z
+            " />
+            <!-- Iberian Peninsula -->
+            <path class="continent" d="M 432,104 L 456,98 L 462,118 L 450,130 L 432,124 Z" />
+            <!-- Scandinavia -->
+            <path class="continent" d="M 490,32 L 522,26 L 542,50 L 530,72 L 504,74 L 488,58 Z" />
+            <!-- Britain -->
+            <path class="continent" d="M 447,80 L 460,70 L 468,82 L 458,96 L 446,90 Z" />
+
+            <!-- Africa -->
+            <path class="continent" d="
+              M 444,138 L 504,128 L 556,128 L 600,152 L 618,192 L 614,248
+              L 590,308 L 556,358 L 524,372 L 496,360 L 468,318 L 450,262
+              L 444,204 Z
+            " />
+            <!-- Madagascar -->
+            <path class="continent" d="M 628,290 L 638,274 L 646,290 L 640,316 L 626,312 Z" />
+
+            <!-- Middle East -->
+            <path class="continent" d="M 558,126 L 616,118 L 640,138 L 636,168 L 608,180 L 572,168 L 555,148 Z" />
+
+            <!-- Asia main body -->
+            <path class="continent" d="
+              M 562,58 L 648,40 L 742,38 L 826,52 L 878,78 L 900,120
+              L 888,172 L 848,212 L 800,238 L 752,248 L 700,250 L 650,236
+              L 608,202 L 578,162 L 558,120 Z
+            " />
+            <!-- Indian Subcontinent -->
+            <path class="continent" d="M 620,188 L 666,170 L 702,194 L 698,248 L 660,262 L 625,242 Z" />
+            <!-- SE Asia mainland -->
+            <path class="continent" d="M 748,212 L 808,202 L 834,228 L 818,258 L 768,264 L 744,242 Z" />
+            <!-- Malay Peninsula -->
+            <path class="continent" d="M 762,252 L 775,264 L 768,285 L 755,284 L 750,268 Z" />
+            <!-- Sumatra -->
+            <path class="continent" d="M 748,270 L 790,256 L 796,272 L 778,292 L 748,290 Z" />
+            <!-- Borneo -->
+            <path class="continent" d="M 800,256 L 840,250 L 852,272 L 836,300 L 804,302 L 790,278 Z" />
+            <!-- Japan -->
+            <path class="continent" d="M 848,118 L 870,110 L 882,126 L 870,142 L 850,140 Z" />
+
+            <!-- Australia -->
+            <path class="continent" d="
+              M 786,274 L 868,264 L 918,290 L 924,334 L 904,376 L 860,392
+              L 812,384 L 782,352 L 776,310 Z
+            " />
+            <!-- Tasmania -->
+            <path class="continent" d="M 854,400 L 868,392 L 876,404 L 866,414 L 852,410 Z" />
+            <!-- NZ North -->
+            <path class="continent" d="M 934,364 L 944,354 L 952,366 L 942,378 L 930,374 Z" />
+            <!-- NZ South -->
+            <path class="continent" d="M 930,382 L 940,378 L 946,392 L 934,402 L 926,394 Z" />
+
+            <!-- Antarctica -->
+            <path class="continent" d="M 0,452 Q 240,440 480,446 Q 720,440 960,452 L 960,480 L 0,480 Z" style="opacity:0.35" />
+
+            <!-- Axis labels -->
+            <text x="3"   y="243" font-family="'Orbitron',monospace" font-size="6.5" fill="rgba(47,137,134,0.5)">EQ</text>
+            <text x="477" y="10"  font-family="'Orbitron',monospace" font-size="6.5" fill="rgba(47,137,134,0.45)">0deg</text>
+            <text x="718" y="10"  font-family="'Orbitron',monospace" font-size="6.5" fill="rgba(47,137,134,0.45)">90E</text>
+            <text x="236" y="10"  font-family="'Orbitron',monospace" font-size="6.5" fill="rgba(47,137,134,0.45)">90W</text>
+
+            <!-- PROJECT MARKERS -->
+
+            <!-- e-America  |  Washington DC (77W, 38N)  x=275 y=139 -->
+            <g class="proj-marker" id="m-eamerica" tabindex="0" role="button" aria-label="e-America project, USA">
+              <title>e-America &#8212; USA</title>
+              <circle class="m-pulse" cx="275" cy="139" r="7" />
+              <circle class="m-ring"  cx="275" cy="139" r="5" />
+              <circle class="m-dot"   cx="275" cy="139" r="3" />
+              <line class="m-line" x1="275" y1="134" x2="275" y2="120" />
+              <text class="m-lbl" x="280" y="118">e-AMERICA</text>
+              <text class="m-sub" x="280" y="126">USA</text>
+            </g>
+
+            <!-- Mercedes-Benz  |  Berlin (13E, 52N)  x=514 y=101 -->
+            <g class="proj-marker" id="m-mb" tabindex="0" role="button" aria-label="Mercedes-Benz project, Germany">
+              <title>Mercedes-Benz &#8212; Germany</title>
+              <circle class="m-pulse" cx="514" cy="101" r="7" />
+              <circle class="m-ring"  cx="514" cy="101" r="5" />
+              <circle class="m-dot"   cx="514" cy="101" r="3" />
+              <line class="m-line" x1="514" y1="96" x2="514" y2="80" />
+              <text class="m-lbl" x="519" y="78">MERCEDES-BENZ</text>
+              <text class="m-sub" x="519" y="86">Germany</text>
+            </g>
+
+            <!-- Verity Nature / Mission+  |  Singapore (103E, 1N)  x=755 y=237 -->
+            <g class="proj-marker" id="m-sg" tabindex="0" role="button" aria-label="Verity Nature and Mission+ projects, Singapore">
+              <title>Verity Nature / Mission+ &#8212; Singapore</title>
+              <circle class="m-pulse" cx="755" cy="237" r="7" />
+              <circle class="m-ring"  cx="755" cy="237" r="5" />
+              <circle class="m-dot"   cx="755" cy="237" r="3" fill="#41B774" />
+              <line class="m-line" x1="760" y1="237" x2="820" y2="226" />
+              <text class="m-lbl" x="822" y="224">VERITY NATURE / MISSION+</text>
+              <text class="m-sub" x="822" y="232">Singapore</text>
+            </g>
+
+            <!-- Boulder Box  |  Ho Chi Minh City (107E, 11N)  x=764 y=211 -->
+            <g class="proj-marker" id="m-vn" tabindex="0" role="button" aria-label="Boulder Box Saigon project, Vietnam">
+              <title>Boulder Box Saigon &#8212; Vietnam</title>
+              <circle class="m-pulse" cx="764" cy="211" r="7" />
+              <circle class="m-ring"  cx="764" cy="211" r="5" />
+              <circle class="m-dot"   cx="764" cy="211" r="3" fill="#D3ED66" />
+              <line class="m-line" x1="769" y1="211" x2="822" y2="206" />
+              <text class="m-lbl" x="824" y="204" fill="#D3ED66">BOULDER BOX SAIGON</text>
+              <text class="m-sub" x="824" y="211">Vietnam</text>
+            </g>
+
+            <!-- MBFS Australia  |  Sydney (151E, 34S)  x=883 y=331 -->
+            <g class="proj-marker" id="m-au" tabindex="0" role="button" aria-label="MBFS Australia project">
+              <title>MBFS &#8212; Australia / NZ</title>
+              <circle class="m-pulse" cx="883" cy="331" r="7" />
+              <circle class="m-ring"  cx="883" cy="331" r="5" />
+              <circle class="m-dot"   cx="883" cy="331" r="3" />
+              <line class="m-line" x1="878" y1="331" x2="826" y2="340" />
+              <text class="m-lbl" x="762" y="338">MBFS AUSTRALIA</text>
+              <text class="m-sub" x="770" y="345">Australia / NZ</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="map-legend">
+          <div class="legend-row"><div class="legend-dot"></div><a href="/projects/e-america">e-America &#8212; USA</a></div>
+          <div class="legend-row"><div class="legend-dot"></div><a href="/projects/mbfs-sea">Mercedes-Benz &#8212; Germany / Singapore</a></div>
+          <div class="legend-row"><div class="legend-dot" style="background:var(--accent-dim)"></div><a href="/projects/verity-nature">Verity Nature &amp; Mission+ &#8212; Singapore</a></div>
+          <div class="legend-row"><div class="legend-dot" style="background:var(--accent-hi)"></div><a href="/projects/boulder-box-saigon">Boulder Box Saigon &#8212; Vietnam</a></div>
+          <div class="legend-row"><div class="legend-dot"></div><a href="/projects/mbfs-au">MBFS &#8212; Australia &amp; NZ</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div class="modal-overlay" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-panel settings-panel">
+      <div class="modal-header">
+        <span class="modal-title" id="settingsTitle">// EXPLORER SETTINGS</span>
+        <button class="modal-close" id="closeSettings" aria-label="Close settings">&#10005;</button>
+      </div>
+      <div class="settings-body">
+        <div class="form-group">
+          <label class="form-label" for="settingsNickname">Explorer nickname</label>
+          <input type="text" id="settingsNickname" class="game-input" placeholder="Your nickname" maxlength="24" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location marker</label>
+          <div class="marker-grid" id="markerGrid">
+            <button class="marker-opt sel" type="button" data-marker="pin">&#128205;</button>
+            <button class="marker-opt"     type="button" data-marker="star">&#11088;</button>
+            <button class="marker-opt"     type="button" data-marker="rocket">&#128640;</button>
+            <button class="marker-opt"     type="button" data-marker="target">&#127919;</button>
+            <button class="marker-opt"     type="button" data-marker="crystal">&#128302;</button>
+            <button class="marker-opt"     type="button" data-marker="bolt">&#9889;</button>
+            <button class="marker-opt"     type="button" data-marker="glow">&#127775;</button>
+            <button class="marker-opt"     type="button" data-marker="compass">&#129517;</button>
+          </div>
+        </div>
+        <button class="settings-save" id="saveSettings" type="button">SAVE CHANGES</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme
+    const html      = document.documentElement;
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(t) {
+      html.setAttribute('data-theme', t);
+      themeIcon.textContent = t === 'dark' ? '\u{1F319}' : '\u2600\uFE0F';
+      try { localStorage.setItem('ex-theme', t); } catch (_) {}
+    }
+
+    try { applyTheme(localStorage.getItem('ex-theme') || 'dark'); } catch(_) { applyTheme('dark'); }
+    document.getElementById('btnTheme').addEventListener('click', () => {
+      applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    // Modal helpers
+    function openModal(id)  { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    function bindClose(modalId, closeBtnId) {
+      const overlay = document.getElementById(modalId);
+      document.getElementById(closeBtnId).addEventListener('click', () => closeModal(modalId));
+      overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(modalId); });
+      overlay.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(modalId); });
+    }
+
+    // World Map
+    document.getElementById('btnWorldMap').addEventListener('click', () => openModal('worldMapModal'));
+    bindClose('worldMapModal', 'closeWorldMap');
+
+    const markerNav = {
+      'mArkeamerica': '/projects/e-america',
+      'm-eamerica':   '/projects/e-america',
+      'm-mb':         '/projects/mbfs-sea',
+      'm-sg':         '/projects/verity-nature',
+      'm-vn':         '/projects/boulder-box-saigon',
+      'm-au':         '/projects/mbfs-au',
+    };
+
+    document.querySelectorAll('.proj-marker').forEach(el => {
+      const go = () => { const h = markerNav[el.id]; if (h) window.location.href = h; };
+      el.addEventListener('click', go);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') go(); });
+    });
+
+    // Settings
+    document.getElementById('btnSettings').addEventListener('click', () => {
+      try {
+        document.getElementById('settingsNickname').value = localStorage.getItem('ex-nickname') || '';
+        const saved = localStorage.getItem('ex-marker') || 'pin';
+        document.querySelectorAll('.marker-opt').forEach(b => b.classList.toggle('sel', b.dataset.marker === saved));
+      } catch(_) {}
+      openModal('settingsModal');
+    });
+
+    bindClose('settingsModal', 'closeSettings');
+
+    document.getElementById('markerGrid').addEventListener('click', e => {
+      const btn = e.target.closest('.marker-opt');
+      if (!btn) return;
+      document.querySelectorAll('.marker-opt').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+    });
+
+    document.getElementById('saveSettings').addEventListener('click', () => {
+      const nick   = document.getElementById('settingsNickname').value.trim();
+      const marker = document.querySelector('.marker-opt.sel')?.dataset.marker || 'pin';
+      try {
+        if (nick) { localStorage.setItem('ex-nickname', nick); document.getElementById('nickname').value = nick; }
+        localStorage.setItem('ex-marker', marker);
+      } catch(_) {}
+      closeModal('settingsModal');
+    });
+
+    // Explorer Form
+    try { const s = localStorage.getItem('ex-nickname'); if (s) document.getElementById('nickname').value = s; } catch(_) {}
+
+    document.getElementById('explorerForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const nick   = document.getElementById('nickname').value.trim();
+      const server = document.getElementById('server').value;
+
+      function shake(id) {
+        const el = document.getElementById(id);
+        el.focus();
+        el.style.borderColor = '#ff6b6b';
+        el.style.boxShadow   = '0 0 12px rgba(255,107,107,0.4)';
+        setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1800);
+      }
+
+      if (!nick)   { shake('nickname'); return; }
+      if (!server) { shake('server');   return; }
+
+      try { localStorage.setItem('ex-nickname', nick); localStorage.setItem('ex-server', server); } catch(_) {}
+      openModal('worldMapModal');
+    });
+
+    // Saucer cursor + gas trail
+    (function () {
+      const cur    = document.getElementById('saucer-cursor');
+      const canvas = document.getElementById('trail-canvas');
+      const ctx    = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Cursor position tracking
+      let cx = -500, cy = -500;  // current
+      let px = -500, py = -500;  // previous (for velocity)
+      let curRaf = null;
+
+      // Particle pool
+      const particles = [];
+
+      document.addEventListener('mousemove', e => {
+        px = cx; py = cy;
+        cx = e.clientX; cy = e.clientY;
+
+        // Move saucer
+        if (!curRaf) curRaf = requestAnimationFrame(() => {
+          curRaf = null;
+          cur.style.left = cx + 'px';
+          cur.style.top  = cy + 'px';
+        });
+
+        // Spawn trail particles from saucer underside
+        // Underside hotspot: cx + 0, cy + 10  (saucer SVG offset is -20px,-12px; underside at cy=21)
+        const ox = cx;
+        const oy = cy + 9;
+        const dx = cx - px;
+        const dy = cy - py;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+        const count = Math.min(2 + Math.floor(speed * 0.25), 7);
+
+        for (let i = 0; i < count; i++) {
+          const spread = (Math.random() - 0.5) * 6;
+          // Trail velocity: opposite to movement direction + spread
+          const invSpeed = speed > 0.5 ? 1 / speed : 0;
+          const tvx = speed > 0.5
+            ? (-dx * invSpeed) * (0.6 + Math.random() * 1.2) + (Math.random() - 0.5) * 1.2
+            : (Math.random() - 0.5) * 1.4;
+          const tvy = speed > 0.5
+            ? (-dy * invSpeed) * (0.6 + Math.random() * 1.2) + Math.random() * 1.0
+            : Math.random() * 1.2 + 0.4;
+
+          particles.push({
+            x:     ox + spread,
+            y:     oy,
+            vx:    tvx,
+            vy:    tvy,
+            life:  1.0,
+            decay: 0.022 + Math.random() * 0.030,
+            size:  2.5 + Math.random() * 3.5,
+            hue:   82 + Math.random() * 38,   // yellow-green → mint
+            sat:   72 + Math.random() * 28,
+          });
+        }
+      });
+
+      document.addEventListener('mouseenter', () => cur.classList.add('visible'));
+      document.addEventListener('mouseleave', () => cur.classList.remove('visible'));
+      document.addEventListener('mousemove',  () => cur.classList.add('visible'), { once: true });
+
+      // Render loop
+      function loop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x    += p.vx;
+          p.y    += p.vy;
+          p.vy   += 0.06;          // gravity drip
+          p.life -= p.decay;
+          p.size *= 0.968;
+
+          if (p.life <= 0 || p.size < 0.4) { particles.splice(i, 1); continue; }
+
+          const r   = p.size * 2.8;
+          const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
+          grd.addColorStop(0,   `hsla(${p.hue},${p.sat}%,78%,${p.life * 0.30})`);
+          grd.addColorStop(0.35,`hsla(${p.hue},${p.sat}%,62%,${p.life * 0.14})`);
+          grd.addColorStop(1,   `hsla(${p.hue},${p.sat}%,50%,0)`);
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = grd;
+          ctx.fill();
+        }
+
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+  </script>
+  <div class="footer-brand" aria-hidden="true">EXPLORER MODE v1.0</div>
+</body>
+</html>
