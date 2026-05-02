@@ -165,7 +165,7 @@
       clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
       transition: all 0.2s ease;
       flex-shrink: 0;
-      color: #f7ffc7;
+      color: var(--text-1);
     }
 
     .icon-btn:hover,
@@ -255,7 +255,7 @@
       display: block; margin-bottom: 8px;
     }
 
-    .game-input, .game-select {
+    .game-input {
       width: 100%; padding: 11px 15px;
       background: var(--bg-input);
       border: 1px solid var(--border);
@@ -266,19 +266,105 @@
     }
 
     .game-input::placeholder { color: var(--text-muted); opacity: 0.7; }
-    .game-input:focus, .game-select:focus {
+    .game-input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 14px var(--glow), inset 0 0 8px rgba(146,211,79,0.04);
     }
 
-    .game-select {
-      appearance: none; -webkit-appearance: none; cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2392D34F' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 14px center;
-      padding-right: 36px;
+    /* ---- Custom Game Dropdown (reusable component) ---- */
+    .game-dropdown {
+      position: relative;
+      width: 100%;
+      user-select: none;
     }
 
-    .game-select option { background: #060d12; color: var(--text-1); }
+    .gd-trigger {
+      width: 100%;
+      padding: 11px 42px 11px 15px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-1);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .game-dropdown:focus .gd-trigger,
+    .game-dropdown.open  .gd-trigger {
+      border-color: var(--accent);
+      box-shadow: 0 0 14px var(--glow), inset 0 0 8px rgba(146,211,79,0.04);
+      outline: none;
+    }
+
+    .gd-selected {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .gd-selected.placeholder { color: var(--text-muted); opacity: 0.7; }
+
+    .gd-arrow {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      transition: transform 0.2s ease;
+      pointer-events: none;
+    }
+
+    .game-dropdown.open .gd-arrow { transform: translateY(-50%) rotate(180deg); }
+
+    .gd-menu {
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 0; right: 0;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      z-index: 500;
+      list-style: none;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.22s ease, opacity 0.15s ease;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.45), 0 0 18px var(--glow-teal);
+    }
+
+    .game-dropdown.open .gd-menu {
+      max-height: 260px;
+      overflow-y: auto;
+      opacity: 1;
+    }
+
+    .gd-option {
+      padding: 10px 16px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      color: var(--text-1);
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+
+    .gd-option:hover,
+    .gd-option.focused {
+      background: rgba(47,137,134,0.18);
+      border-left-color: var(--accent);
+      color: var(--accent-hi);
+    }
+
+    .gd-option.sel {
+      color: var(--accent);
+      background: rgba(146,211,79,0.06);
+    }
+
+    .gd-menu::-webkit-scrollbar { width: 4px; }
+    .gd-menu::-webkit-scrollbar-track { background: transparent; }
+    .gd-menu::-webkit-scrollbar-thumb { background: var(--border); }
 
     /* CTA */
     .cta-row { margin-top: 28px; display: flex; justify-content: center; }
@@ -298,6 +384,7 @@
 
     .cta-btn:hover { background: var(--accent-hi); box-shadow: 0 4px 36px var(--glow), 0 0 70px rgba(211,237,102,0.22); transform: translateY(-2px); }
     .cta-btn:active { transform: translateY(0); }
+    [data-theme="light"] .cta-btn { background: #4bd311; }
 
     /* =============================================
        MODALS
@@ -498,11 +585,11 @@
 
     .ship {
       position: absolute;
+      top: 0; left: 0;
       will-change: transform;
       line-height: 0;
+      transform-origin: 50% 50%;
     }
-
-    .ship-flip { transform: scaleX(-1); display: block; }
 
     .bg-ships .hull    { fill: rgba(47,137,134,0.55); }
     .bg-ships .pod     { fill: rgba(15,45,43,0.80); }
@@ -515,25 +602,6 @@
       0%, 100% { opacity: 0.55; }
       50%       { opacity: 1; }
     }
-
-    @keyframes fly-ltr {
-      from { transform: translateX(-200px); }
-      to   { transform: translateX(calc(100vw + 200px)); }
-    }
-
-    @keyframes fly-rtl {
-      from { transform: translateX(calc(100vw + 200px)); }
-      to   { transform: translateX(-200px); }
-    }
-
-    /* Ship instances */
-    .s1 { top: 11%; opacity: .50; animation: fly-ltr 22s linear infinite; animation-delay:  -4s; }
-    .s2 { top: 29%; opacity: .40; animation: fly-rtl 17s linear infinite; animation-delay: -11s; }
-    .s3 { top: 44%; opacity: .42; animation: fly-ltr 38s linear infinite; animation-delay: -15s; }
-    .s4 { top: 21%; opacity: .38; animation: fly-rtl 25s linear infinite; animation-delay:  -8s; }
-    .s5 { top: 67%; opacity: .33; animation: fly-ltr 20s linear infinite; animation-delay:  -2s; }
-    .s6 { top: 79%; opacity: .28; animation: fly-rtl 42s linear infinite; animation-delay: -20s; }
-    .s7 { top: 54%; opacity: .30; animation: fly-ltr 30s linear infinite; animation-delay:  -6s; }
 
     /* Stagger engine pulse so ships don't blink in sync */
     .s2 .eg { animation-delay: -0.6s; }
@@ -603,8 +671,8 @@
       </svg>
     </div>
 
-    <!-- s2: Scout · RTL · 50×30 -->
-    <div class="ship s2"><div class="ship-flip">
+    <!-- s2: Scout · 50×30 -->
+    <div class="ship s2">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 18" width="50" height="30">
         <ellipse class="eg"      cx="2"  cy="9"  rx="5" ry="3"/>
         <polygon class="hull"   points="2,6 26,3 28,9 26,15 2,12"/>
@@ -613,7 +681,7 @@
         <polygon class="nose"   points="26,3 30,9 26,15"/>
         <ellipse class="cockpit" cx="22" cy="9"  rx="4" ry="3"/>
       </svg>
-    </div></div>
+    </div>
 
     <!-- s3: Cruiser · LTR · 100×48 -->
     <div class="ship s3">
@@ -629,15 +697,15 @@
       </svg>
     </div>
 
-    <!-- s4: Saucer · RTL · 66×39 -->
-    <div class="ship s4"><div class="ship-flip">
+    <!-- s4: Saucer · 66×39 -->
+    <div class="ship s4">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 26" width="66" height="39">
         <ellipse class="hull"    cx="22" cy="18" rx="22" ry="8"/>
         <ellipse class="wing"    cx="22" cy="14" rx="13" ry="9"/>
         <ellipse class="cockpit" cx="22" cy="12" rx="8"  ry="6"/>
         <ellipse class="eg"      cx="22" cy="19" rx="17" ry="3"/>
       </svg>
-    </div></div>
+    </div>
 
     <!-- s5: Scout tiny · LTR · 40×24 -->
     <div class="ship s5">
@@ -651,8 +719,8 @@
       </svg>
     </div>
 
-    <!-- s6: Cruiser · RTL · 80×38 -->
-    <div class="ship s6"><div class="ship-flip">
+    <!-- s6: Cruiser · 80×38 -->
+    <div class="ship s6">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 24" width="80" height="38">
         <ellipse class="eg"      cx="1"  cy="7"  rx="6" ry="3"/>
         <ellipse class="eg"      cx="1"  cy="17" rx="6" ry="3"/>
@@ -663,7 +731,7 @@
         <polygon class="wing"   points="14,20 20,25 30,20"/>
         <rect    class="cockpit" x="36" y="8"   width="10" height="8" rx="2"/>
       </svg>
-    </div></div>
+    </div>
 
     <!-- s7: Saucer · LTR · 55×33 -->
     <div class="ship s7">
@@ -733,17 +801,27 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="server">Select your starting server</label>
-            <select id="server" name="server" class="game-select">
-              <option value="" disabled selected>&#8212; Choose your continent &#8212;</option>
-              <option value="africa">Africa</option>
-              <option value="antarctica">Antarctica</option>
-              <option value="asia">Asia</option>
-              <option value="australia">Australia &amp; Oceania</option>
-              <option value="europe">Europe</option>
-              <option value="north-america">North America</option>
-              <option value="south-america">South America</option>
-            </select>
+            <label class="form-label">Select your starting server</label>
+            <div class="game-dropdown" id="serverDropdown"
+                 role="combobox" aria-expanded="false" aria-haspopup="listbox"
+                 aria-controls="serverMenu" tabindex="0">
+              <div class="gd-trigger">
+                <span class="gd-selected placeholder" id="serverDisplay">&#8212; Choose your continent &#8212;</span>
+                <svg class="gd-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true">
+                  <path d="M1 1l5 5 5-5" stroke="#92D34F" stroke-width="2" fill="none" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <ul class="gd-menu" role="listbox" id="serverMenu">
+                <li class="gd-option" role="option" data-value="africa">🌍 Africa</li>
+                <li class="gd-option" role="option" data-value="antarctica">🧊 Antarctica</li>
+                <li class="gd-option" role="option" data-value="asia">🌏 Asia</li>
+                <li class="gd-option" role="option" data-value="australia">🌊 Australia &amp; Oceania</li>
+                <li class="gd-option" role="option" data-value="europe">🏛 Europe</li>
+                <li class="gd-option" role="option" data-value="north-america">🗽 North America</li>
+                <li class="gd-option" role="option" data-value="south-america">🌿 South America</li>
+              </ul>
+            </div>
+            <input type="hidden" id="server" name="server" />
           </div>
 
           <div class="cta-row">
@@ -1047,19 +1125,143 @@
       const server = document.getElementById('server').value;
 
       function shake(id) {
-        const el = document.getElementById(id);
+        const el     = document.getElementById(id);
+        const visual = el.classList.contains('game-dropdown') ? el.querySelector('.gd-trigger') : el;
         el.focus();
-        el.style.borderColor = '#ff6b6b';
-        el.style.boxShadow   = '0 0 12px rgba(255,107,107,0.4)';
-        setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1800);
+        visual.style.borderColor = '#ff6b6b';
+        visual.style.boxShadow   = '0 0 12px rgba(255,107,107,0.4)';
+        setTimeout(() => { visual.style.borderColor = ''; visual.style.boxShadow = ''; }, 1800);
       }
 
-      if (!nick)   { shake('nickname'); return; }
-      if (!server) { shake('server');   return; }
+      if (!nick)   { shake('nickname');       return; }
+      if (!server) { shake('serverDropdown'); return; }
 
       try { localStorage.setItem('ex-nickname', nick); localStorage.setItem('ex-server', server); } catch(_) {}
       openModal('worldMapModal');
     });
+
+    // Custom server dropdown controller
+    (function () {
+      const dd      = document.getElementById('serverDropdown');
+      const display = document.getElementById('serverDisplay');
+      const menu    = document.getElementById('serverMenu');
+      const hidden  = document.getElementById('server');
+      const opts    = Array.from(menu.querySelectorAll('.gd-option'));
+      let focusIdx  = -1;
+
+      function open() {
+        dd.classList.add('open');
+        dd.setAttribute('aria-expanded', 'true');
+      }
+      function close() {
+        dd.classList.remove('open');
+        dd.setAttribute('aria-expanded', 'false');
+        opts.forEach(o => o.classList.remove('focused'));
+        focusIdx = -1;
+      }
+      function select(opt) {
+        opts.forEach(o => o.classList.remove('sel'));
+        opt.classList.add('sel');
+        display.textContent = opt.textContent;
+        display.classList.remove('placeholder');
+        hidden.value = opt.dataset.value;
+        close();
+      }
+      function moveFocus(idx) {
+        opts.forEach(o => o.classList.remove('focused'));
+        focusIdx = Math.max(0, Math.min(idx, opts.length - 1));
+        opts[focusIdx].classList.add('focused');
+        opts[focusIdx].scrollIntoView({ block: 'nearest' });
+      }
+
+      dd.addEventListener('click', e => {
+        const opt = e.target.closest('.gd-option');
+        if (opt) { select(opt); return; }
+        dd.classList.contains('open') ? close() : open();
+      });
+
+      dd.addEventListener('keydown', e => {
+        if (!dd.classList.contains('open')) {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+            e.preventDefault(); open(); moveFocus(0);
+          }
+          return;
+        }
+        if (e.key === 'Escape')    { e.preventDefault(); close(); }
+        if (e.key === 'ArrowDown') { e.preventDefault(); moveFocus(focusIdx + 1); }
+        if (e.key === 'ArrowUp')   { e.preventDefault(); moveFocus(focusIdx - 1); }
+        if (e.key === 'Enter' && focusIdx >= 0) { e.preventDefault(); select(opts[focusIdx]); }
+      });
+
+      document.addEventListener('click', e => { if (!dd.contains(e.target)) close(); });
+    })();
+
+    // Background ship controller — random angles, sinusoidal drift, rotation
+    (function () {
+      const ships = Array.from(document.querySelectorAll('.bg-ships .ship'));
+
+      // Per-ship config: [angleDeg, speedPx/frame, driftAmp, driftFreq, opacity]
+      const cfg = [
+        [ 18,  0.55, 28, 0.0070, 0.50],  // s1 scout      shallow right-down
+        [200,  0.68, 18, 0.0110, 0.40],  // s2 scout      left-down
+        [345,  0.28, 52, 0.0048, 0.42],  // s3 cruiser     shallow right-up
+        [130,  0.50, 22, 0.0090, 0.38],  // s4 saucer      right-down steep
+        [ 55,  0.72, 14, 0.0130, 0.33],  // s5 tiny scout  diagonal up-right
+        [240,  0.32, 42, 0.0055, 0.28],  // s6 cruiser     left-up
+        [165,  0.44, 30, 0.0080, 0.30],  // s7 saucer      nearly left
+      ];
+
+      const state = ships.map((el, i) => {
+        const [angleDeg, speed, dAmp, dFreq, opacity] = cfg[i] || cfg[0];
+        const angle = angleDeg * Math.PI / 180;
+        const w = el.offsetWidth  || 60;
+        const h = el.offsetHeight || 36;
+        return {
+          el, w, h, angle, speed,
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          drift: { amp: dAmp, freq: dFreq },
+          driftPhase: Math.random() * Math.PI * 2,
+          opacity,
+          t: Math.random() * 600,
+        };
+      });
+
+      // Apply opacity once
+      state.forEach(s => { s.el.style.opacity = s.opacity; });
+
+      function tick() {
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        const margin = 160;
+
+        for (const s of state) {
+          s.t++;
+          s.x += Math.cos(s.angle) * s.speed;
+          s.y += Math.sin(s.angle) * s.speed;
+
+          // Sinusoidal drift perpendicular to heading
+          const perpX = -Math.sin(s.angle);
+          const perpY =  Math.cos(s.angle);
+          const d  = Math.sin(s.t * s.drift.freq + s.driftPhase) * s.drift.amp;
+          const rx = s.x + perpX * d;
+          const ry = s.y + perpY * d;
+
+          // Wrap around all four edges
+          if (s.x < -margin)      s.x = W + margin;
+          else if (s.x > W + margin) s.x = -margin;
+          if (s.y < -margin)      s.y = H + margin;
+          else if (s.y > H + margin) s.y = -margin;
+
+          // Place center at (rx, ry) and rotate ship to face its heading
+          const deg = s.angle * 180 / Math.PI;
+          s.el.style.transform =
+            `translate(${rx - s.w * 0.5}px, ${ry - s.h * 0.5}px) rotate(${deg}deg)`;
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
 
     // Saucer cursor + gas trail
     (function () {
