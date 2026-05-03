@@ -1,398 +1,195 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
-import GalleryCarousel from '../../components/GalleryCarousel.astro';
 ---
 
-<Layout title="Boulder Box Saigon - Olivia Nguyen">
+<Layout title="Boulder Box Saigon - Case Study">
   <Header basePath="/" />
 
-  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-    <img 
-      src="/assets/projects/bbo-image-01.avif" 
-      alt="Background"
-      class="w-full h-full object-cover"
-    />
-  </div>
-  <div class="fixed inset-0 z-10 backdrop-blur-[64px] bg-black/60 pointer-events-none"></div>
-
-  <main class="relative z-20 min-h-screen text-white font-body w-full flex flex-col items-center project-detail-page-wrapper">
-    <div class="w-full max-w-[960px] px-8 py-12 md:px-16 md:py-24 animate-fade-in-up flex flex-col items-center project-detail-page-content left-align-page">
-      <!-- Back Button -->
-      <div class="flex items-center justify-center gap-4 mb-24">
-        <a href="/" class="text-[16px] text-white hover:text-primary transition-colors underline decoration-white hover:decoration-primary underline-offset-4 decoration-1 font-medium back-home-btn">
-          Back to Home Page
-        </a>
-      </div>
-
-      <!-- Project Header -->
-      <div class="mb-0 flex flex-col items-center text-center gap-10 pb-[36px] animate-fade-in-up delay-200 no-section-spacing project-header">
-        <div class="max-w-[800px] pt-6 project-header-inner" style="padding-top:24px !important;">
-          <h1 class="text-[42px] md:text-[72px] lg:text-[84px] font-heading font-black leading-[1.05] text-[rgb(255,184,0)] mb-8 tracking-tighter uppercase italic project-title">
-            Boulder Box Saigon
-          </h1>
-          <h3 class="sub-title">
-            Vietnam’s First Boutique Bouldering Concept – A Journey of Business Ownership, Product Strategy, and Community Building.
-          </h3>
-        </div>
-        <div class="visit-website-wrapper w-full">
-          <a href="https://bbo.fitness" target="_blank" class="group bg-transparent text-white p-[8px] font-bold text-[16px] hover:scale-105 transition-all duration-300 inline-flex items-center gap-3 underline decoration-white/20 hover:decoration-white underline-offset-4 visit-website-link centered-visit-button">
-            VISIT WEBSITE
-          </a>
+  <main class="pt-24" style="background: linear-gradient(40deg, #071207 0%, #0d2c1a 100%)">
+    <!-- Hero -->
+    <section class="relative min-h-screen flex items-center py-24" style="background-image: url('/assets/projects/bbo-image-01.avif'); background-size: cover; background-position: center;">
+      <div class="absolute inset-0" style="background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.85));"></div>
+      <div class="relative z-10" style="max-width: 860px; margin-left: auto; margin-right: auto; width: 100%; padding-left: 24px; padding-right: 24px;">
+        <h1 class="text-[36px] sm:text-[56px] md:text-[100px] leading-none font-heading font-bold text-white mb-6">Boulder Box Saigon</h1>
+        <div class="flex flex-wrap gap-3 text-[15px]" style="color: rgb(255,184,0);">
+          <span>Role: Founder &amp; BD Head</span>
+          <span style="opacity:0.4;">|</span>
+          <span>Timeline: Aug 2023 – Present</span>
+          <span style="opacity:0.4;">|</span>
+          <span>Status: <a href="https://bbo.fitness" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline; text-underline-offset: 3px;">Live</a></span>
         </div>
       </div>
-
-      <!-- Hero Image -->
-      <div class="mt-0 mb-0 project-hero-img no-section-spacing">
-        <div class="rounded-[32px] overflow-hidden border border-white/10 shadow-3xl p-6 md:p-8">
-          <img 
-            src="/assets/projects/bbo-image-01.avif" 
-            alt="Boulder Box Saigon"
-            class="w-full aspect-[16/10] md:aspect-[3/2] object-cover"
-          />
-        </div>
+      <div class="scroll-cue">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
       </div>
+    </section>
 
-      <!-- Details Section -->
-      <div class="space-y-48 w-full flex flex-col items-center project-case-study-content">
-        <div class="space-y-0 w-full flex flex-col items-center">
-          <!-- Metadata Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-12 border-y border-white/10 w-full mt-0 project-brief-wrapper">
-            <div class="space-y-3 text-center project-brief-role">
-              <h4 class="text-[rgb(255,184,0)] text-[20px] font-bold uppercase tracking-[0.2em]">Role</h4>
-              <p class="text-[18px] font-semibold text-white">Founder & BD Head</p>
-            </div>
-            <div class="space-y-3 text-center border-x border-white/10 md:px-4 project-brief-platform">
-              <h4 class="text-[rgb(255,184,0)] text-[20px] font-bold uppercase tracking-[0.2em]">Platform</h4>
-              <p class="text-[18px] font-semibold text-white">Physical & Digital Community</p>
-            </div>
-            <div class="space-y-3 text-center project-brief-duration">
-              <h4 class="text-[rgb(255,184,0)] text-[20px] font-bold uppercase tracking-[0.2em]">Duration</h4>
-              <p class="text-[18px] font-semibold text-white">Aug 2023 - Present</p>
-            </div>
-          </div>
+    <!-- Case Study Body -->
+    <div class="case-study-body reveal-hidden">
 
-          <div class="max-w-[800px] mx-auto space-y-10 animate-fade-in-up delay-100 flex flex-col items-center project-overview-section-wrapper case-section">
-            <div class="text-center space-y-4">
-              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight project-overview-title">Project Overview</h3>
-            </div>
-            <p class="text-[19px] md:text-[21px] text-white/80 leading-relaxed text-center project-overview-content">
-              <strong class="text-white font-bold">Boulder Box Saigon</strong> was born out of a personal passion for climbing and a clear market opportunity: the lack of accessible, high-quality bouldering spaces in Vietnam. As both <strong class="text-white font-bold">Founder and Business Development Head</strong>, I led the entire venture - from market research and construction to branding, team-building, and business growth.
-            </p>
-            <p class="text-[18px] md:text-[20px] text-white/80 leading-relaxed text-center project-overview-content">
-              The goal was to <strong class="text-white font-bold">introduce a new concept of home-scale bouldering gyms</strong> tailored to urban lifestyles, while fostering a tight-knit climbing community. With no blueprint to follow in the local context, the project demanded not only creative thinking and operational rigor, but also cultural adaptation and deep customer empathy.
-            </p>
-              <div class="py-8 md:py-12 group w-full project-overview-img">
-              <img 
-                src="/assets/projects/bbo-image-03.avif" 
-                alt="Overview"
-                class="rounded-[32px] border border-white/10 shadow-2xl w-full"
-              />
-            </div>
-              <div class="py-8 md:py-12 group w-full project-overview-img">
-              <img 
-                src="/assets/projects/bbo-image-04.avif" 
-                alt="Overview"
-                class="rounded-[32px] border border-white/10 shadow-2xl w-full"
-              />
-            </div>
-              <div class="py-8 md:py-12 group w-full project-overview-img">
-              <img 
-                src="/assets/projects/bbo-image-05.avif" 
-                alt="Overview"
-                class="rounded-[32px] border border-white/10 shadow-2xl w-full"
-              />
-            </div>
-              <div class="py-8 md:py-12 group w-full project-overview-img">
-              <img 
-                src="/assets/projects/bbo-image-06.avif" 
-                alt="Overview"
-                class="rounded-[32px] border border-white/10 shadow-2xl w-full"
-              />
-            </div>
-          </div>
-
-          <div class="max-w-[800px] mx-auto space-y-12 flex flex-col items-center objectives-section case-section">
-            <h3 class="text-[32px] md:text-[45px] font-heading font-black text-[rgb(255,184,0)] leading-tight text-center">Objectives</h3>
-            <ul class="space-y-6 pt-4 text-[18px] md:text-[20px] text-white/80 max-w-[700px] mx-auto objectives-list" style="padding-top:16px !important;">
-              <li class="flex gap-4">
-                <span class="text-primary mt-1.5 flex-shrink-0">•</span>
-                <p>Launch a boutique bouldering facility that brings <strong class="text-white">sport climbing into the urban home and lifestyle space</strong>.</p>
-              </li>
-              <li class="flex gap-4">
-                <span class="text-primary mt-1.5 flex-shrink-0">•</span>
-                <p>Build a <strong class="text-white">community-centered climbing culture</strong> in Ho Chi Minh City.</p>
-              </li>
-              <li class="flex gap-4">
-                <span class="text-primary mt-1.5 flex-shrink-0">•</span>
-                <p>Drive sustainable growth through <strong class="text-white">quality coaching</strong>, customer retention, and experiential engagement.</p>
-              </li>
-              <li class="flex gap-4">
-                <span class="text-primary mt-1.5 flex-shrink-0">•</span>
-                <p>Establish Boulder Box as <strong class="text-white">a recognized local leader in Vietnam’s emerging climbing scene</strong>.</p>
-              </li>
-            </ul>
-          </div>
-
-          <div class="max-w-[800px] mx-auto space-y-3 animate-fade-in-up delay-200 key-challenges-section case-section">
-            <div class="text-center space-y-4">
-              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight">Key Challenges</h3>
-            </div>
-            
-            <div class="space-y-3 py-4">
-              <div class="space-y-8 py-6 px-8 md:py-8 md:px-12 rounded-[32px]">
-                <h4 class="text-primary font-heading font-bold text-[20px] uppercase tracking-wider text-center pt-4" style="padding-top:16px !important; color:#FFEE8C !important;">Market Unknowns</h4>
-                <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80">
-                  <li class="flex gap-5">
-                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Climbing was still <strong class="text-white">a niche sport in Vietnam</strong>, with limited public facilities and low consumer familiarity.</p>
-                  </li>
-                  <li class="flex gap-5">
-                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>No prior local models for <strong class="text-white">home bouldering gym businesses</strong>, requiring everything from scratch—market education, pricing structures, and design logic.</p>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="space-y-8 py-6 px-8 md:py-8 md:px-12 rounded-[32px]">
-                <h4 class="text-primary font-heading font-bold text-[20px] uppercase tracking-wider text-center pt-4" style="padding-top:16px !important; color:#FFEE8C !important;">Operational Demands</h4>
-                <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80">
-                  <li class="flex gap-5">
-                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Sourcing <strong class="text-white">safe and durable construction materials</strong> for custom climbing walls locally was difficult.</p>
-                  </li>
-                  <li class="flex gap-5">
-                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Balancing <strong class="text-white">space constraints</strong> with varied route-setting styles and safety features took iterative on-site problem-solving.</p>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="space-y-8 py-6 px-8 md:py-8 md:px-12 rounded-[32px]">
-                <h4 class="text-primary font-heading font-bold text-[20px] uppercase tracking-wider text-center pt-4" style="padding-top:16px !important; color:#FFEE8C !important;">Talent Scarcity</h4>
-                <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80">
-                  <li class="flex gap-5">
-                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Vietnam had <strong class="text-white">few trained climbing professionals</strong>, especially in coaching and route-setting.</p>
-                  </li>
-                  <li class="flex gap-5">
-                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Required a strong focus on hiring, training, and retaining the right people to deliver consistent, high-quality experiences.</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="max-w-[900px] mx-auto space-y-20 animate-fade-in-up delay-300 case-section">
-              <div class="text-center space-y-4">
-                <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight tracking-tight">Approach & Execution</h3>
-              </div>
-              
-              <div class="space-y-32">
-              <div class="space-y-10">
-                <div class="space-y-6 text-center">
-                  <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">1. Market Research & Concept Development</h4>
-                  <p class="text-[18px] md:text-[20px] text-white/70 max-w-[700px] mx-auto">
-                    A deep dive into local habits to create a "climbing meets lifestyle" philosophy.
-                  </p>
-                </div>
-                <ul class="space-y-6 text-[18px] md:text-[20px] text-white/80 max-w-[800px] mx-auto">
-                  <li class="flex gap-5">
-                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Conducted a comprehensive competitive and cultural analysis of Vietnam’s sports and fitness market.</p>
-                  </li>
-                  <li class="flex gap-5">
-                    <span class="text-primary text-[24px] leading-none flex-shrink-0">•</span>
-                    <p>Identified gaps in indoor sport accessibility, growing interest in climbing, and a desire for boutique fitness experiences.</p>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="space-y-12">
-                <div class="space-y-6 text-center">
-                  <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">2. Facility Construction & Design Oversight</h4>
-                  <p class="text-[18px] md:text-[20px] text-white/70 max-w-[700px] mx-auto text-left">
-                    Oversaw end-to-end design & construction of custom climbing walls with precise operational flow.
-                  </p>
-                </div>
-              </div>
-
-              <div class="space-y-12">
-                <div class="space-y-6 text-center">
-                  <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">3. Brand Development & Community</h4>
-                  <p class="text-[18px] md:text-[20px] text-white/70 max-w-[700px] mx-auto">
-                    Positioned as approachable and creative, achieving a 100% PT return rate.
-                  </p>
-                </div>
-              </div>
-
-              <div class="space-y-12">
-                <div class="space-y-6 text-center">
-                  <h4 class="text-[20px] font-heading font-black text-white leading-tight section-h4">4. Business Growth Strategy</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="max-w-[800px] mx-auto space-y-12 animate-fade-in-up delay-200 key-highlights-section case-section">
-            <div class="text-center space-y-4">
-              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight section-h3">Key Highlights</h3>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-[19px] md:text-[22px] text-white/80">
-              <div class="flex flex-col items-center text-center p-6">
-                <span class="text-primary text-[32px] font-black mb-2">250%</span>
-                <p>Year-over-year sales growth from launch</p>
-              </div>
-              <div class="flex flex-col items-center text-center p-6">
-                <span class="text-primary text-[32px] font-black mb-2">100%</span>
-                <p>PT program retention rate in year one</p>
-              </div>
-              <div class="flex flex-col items-center text-center p-6">
-                <span class="text-primary text-[32px] font-black mb-2">160+</span>
-                <p>Participants in organic community events</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="max-w-[800px] mx-auto space-y-12 animate-fade-in-up delay-200 responsibilities-section case-section">
-            <div class="text-center space-y-4">
-              <h3 class="text-[36px] md:text-[52px] font-heading font-black text-[rgb(255,184,0)] leading-tight section-h3">Responsibilities</h3>
-            </div>
-            <div class="grid grid-cols-1 gap-6">
-              <div class="p-8">
-                <p class="text-[19px] md:text-[21px] text-white/90 leading-relaxed text-center font-medium">
-                  End-to-end business and product strategy, construction management, branding, and team leadership.
-                </p>
-              </div>
-            </div>
-          </div>
+      <section class="case-section">
+        <h2 class="case-section-title">1. The TL;DR <span class="case-section-sub">(Executive Summary)</span></h2>
+        <div class="case-field">
+          <h3 class="case-field-label">The Purpose</h3>
+          <p class="case-field-value">Vietnam&#39;s first boutique bouldering concept &mdash; bringing sport climbing into the urban home and lifestyle space.</p>
         </div>
-      </div>
-
-      <!-- Gallery Section -->
-      <div class="case-section">
-        <GalleryCarousel 
-          images={[
-            '/assets/projects/bbo-image-01.avif',
-            '/assets/projects/bbo-image-02.webp',
-            '/assets/projects/bbo-image-10.webp',
-            '/assets/projects/bbo-image-11.avif',
-            '/assets/projects/bbo-image-12.webp'
-          ]}
-          title="Gallery"
-        />
-      </div>
-
-      <!-- Live Project Button -->
-          <div class="flex flex-col items-center justify-center mb-48 gap-8 live-project-wrapper">
-          <a
-            href="https://bbo.fitness"
-            target="_blank"
-            rel="noopener"
-            class="text-[20px] md:text-[20px] font-heading font-black text-primary hover:text-white transition-all"
-          >
-          <span class="underline decoration-primary underline-offset-12 decoration-4 group-hover:decoration-white transition-colors">VISIT BBO.FITNESS</span>
-        </a>
-
-        <!-- Explorer share section (hidden until explorer mode active) -->
-        <div id="bboShareSection" hidden class="flex flex-col items-center gap-4">
-          <p class="text-sm font-mono text-[rgb(47,199,142)] tracking-widest uppercase opacity-80">📣 Explorer Bonus — Share for +50 EXP</p>
-          <div class="flex flex-wrap justify-center gap-3">
-            <button id="bboShareLinkedIn" class="bbo-share-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/></svg>
-              Share on LinkedIn
-            </button>
-            <button id="bboShareTwitter" class="bbo-share-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              Share on X
-            </button>
-            <button id="bboShareCopy" class="bbo-share-btn bbo-share-copy">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-              Copy Link
-            </button>
-          </div>
-          <p id="bboShareClaimed" hidden class="text-xs font-mono text-[rgb(47,199,142)] tracking-widest">✓ +50 EXP BONUS CLAIMED</p>
+        <div class="case-field">
+          <h3 class="case-field-label">The Stakeholders</h3>
+          <p class="case-field-value">Olivia Nguyen, Founder &amp; Business Development Head</p>
         </div>
-      </div>
-
-      <!-- More Projects Section -->
-      <div class="mb-48 pt-24 border-t border-white/10 more-projects-section">
-        <div class="text-center mb-16">
-          <h2 class="text-[40px] md:text-[64px] font-heading font-black text-[rgb(255,184,0)]">More Projects</h2>
+        <div class="case-field">
+          <h3 class="case-field-label">The Problem</h3>
+          <p class="case-field-value">Vietnam had no accessible, high-quality bouldering facilities and no local business model to reference. Building one from scratch required market education, supply chain problem-solving, and full cultural adaptation.</p>
         </div>
-        <div class="grid md:grid-cols-3 gap-10">
-          <!-- Verity Nature -->
-          <a href="/projects/verity-digital-mrv" class="group relative block rounded-3xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-500 shadow-2xl">
-            <div class="aspect-[4/5] w-full overflow-hidden">
-              <img src="https://framerusercontent.com/images/Qvs1jPyfuwtZY87j62Wtn5iRxo.jpg" alt="Verity Nature" class="w-full h-full object-cover opacity-70"/>
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-              <div class="absolute bottom-0 left-0 right-0 more-project-overlay space-y-3">
-              <h3 class="text-[20px] font-heading font-black text-white leading-tight">Verity Nature / MRV Digital Solutions</h3>
-              <p class="text-[14px] text-white/70 line-clamp-2">Design and develop a one-stop MRV system focused on the ESG market.</p>
-            </div>
-          </a>
-
-          <!-- MBFS SEA -->
-          <a href="/projects/mbfs-sea" class="group relative block rounded-3xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-500 shadow-2xl">
-            <div class="aspect-[4/5] w-full overflow-hidden">
-              <img src="https://framerusercontent.com/images/YNJxLvljj0beQaZhJtUjR06bb5o.png" alt="MBFS SEA" class="w-full h-full object-cover opacity-70"/>
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-              <div class="absolute bottom-0 left-0 right-0 more-project-overlay space-y-3">
-              <h3 class="text-[20px] font-heading font-black text-white leading-tight">MBFS / After-sale Digital Solution SEA</h3>
-              <p class="text-[14px] text-white/70 line-clamp-2">Led the UX/UI Research & Design for Southeast Asian Countries</p>
-            </div>
-          </a>
-
-          <!-- MBFS Australia -->
-          <a href="/projects/mbfs-au" class="group relative block rounded-3xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-500 shadow-2xl">
-            <div class="aspect-[4/5] w-full overflow-hidden">
-              <img src="https://framerusercontent.com/images/KGU57THf6aveoLZImn65vJZYU.png" alt="MBFS Australia" class="w-full h-full object-cover opacity-70"/>
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-              <div class="absolute bottom-0 left-0 right-0 more-project-overlay space-y-3">
-              <h3 class="text-[20px] font-heading font-black text-white leading-tight">MBFS / Digital Payment Solutions</h3>
-              <p class="text-[14px] text-white/70 line-clamp-2">Led the UX/UI research & Design for MBFS Australia</p>
-            </div>
-          </a>
+        <div class="case-field">
+          <h3 class="case-field-label">The Solution</h3>
+          <p class="case-field-value">A home-scale boutique bouldering gym designed around community, quality coaching, and a digital-physical growth strategy under the Boulder Box brand.</p>
         </div>
-      </div>
+        <div class="case-field">
+          <h3 class="case-field-label">The Impact</h3>
+          <p class="case-field-value">250% year-over-year sales growth from launch, 100% PT program retention rate in year one, and 160+ participants in organic community events.</p>
+        </div>
+      </section>
 
-      <!-- Links/Footer Section -->
-      <section class="links-content">
-        <div class="links-section">
-          <h2 class="links-title">Links</h2>
-          <div class="links-socials">
-            <a href="https://linkedin.com/in/huyennguyenthu" target="_blank" rel="noopener" class="link-linkedin">
-              <img src="/assets/linkedin.svg" alt="LinkedIn">
-            </a>
-            <a href="https://www.instagram.com/boulderbox.saigon/" target="_blank" rel="noopener" class="link-instagram">
-              <img src="/assets/instagram.svg" alt="Instagram">
-            </a>
-          </div>
+      <section class="case-section">
+        <h2 class="case-section-title">2. Strategy &amp; Discovery</h2>
+        <div class="case-field">
+          <h3 class="case-field-label">Insight</h3>
+          <p class="case-field-value">Vietnam&#39;s fitness market lacked accessible indoor climbing. Positioning as &ldquo;climbing meets lifestyle&rdquo; unlocked a new demographic beyond hardcore sport climbers, making the concept approachable to urban young professionals.</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Stakeholders</h3>
+          <p class="case-field-value">Self-led initiative. Coordinated with local contractors, climbing coaches, and community fitness influencers across Ho Chi Minh City.</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Constraint</h3>
+          <p class="case-field-value">No local market data, a near-nonexistent climbing gear supply chain in Vietnam, and no comparable business model to benchmark &mdash; everything had to be built from first principles.</p>
+        </div>
+      </section>
 
-          <div class="links-contacts">
-            <div class="link-email">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-                <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
-              </svg>
-              <p>olivia.artworks@outlook.com</p>
+      <section class="case-section">
+        <h2 class="case-section-title">3. Execution <span class="case-section-sub">(The &ldquo;How&rdquo;)</span></h2>
+        <div class="case-field">
+          <h3 class="case-field-label">Key Decision</h3>
+          <p class="case-field-value">Positioned as a home-scale boutique rather than a large competition-style gym. This prioritized intimacy and quality coaching over scale, aligning with the urban lifestyle audience and keeping construction costs manageable.</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Design Leadership</h3>
+          <p class="case-field-value">Led end-to-end construction design, brand identity, coaching program structure, digital presence (bbo.fitness), community events, and business development &mdash; all without a team playbook.</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Visual Highlights</h3>
+          <div class="gallery-wrap">
+            <div class="gallery-track-wrap">
+              <div class="gallery-track" id="galleryTrack">
+                <img class="gallery-img" src="/assets/projects/bbo-image-01.avif" alt="Boulder Box Saigon" />
+                <img class="gallery-img" src="/assets/projects/bbo-image-02.webp" alt="Boulder Box Saigon" />
+                <img class="gallery-img" src="/assets/projects/bbo-image-03.avif" alt="Boulder Box Saigon" />
+                <img class="gallery-img" src="/assets/projects/bbo-image-10.webp" alt="Boulder Box Saigon" />
+                <img class="gallery-img" src="/assets/projects/bbo-image-11.avif" alt="Boulder Box Saigon" />
+                <img class="gallery-img" src="/assets/projects/bbo-image-12.webp" alt="Boulder Box Saigon" />
+              </div>
             </div>
-
-            <div class="link-contact-numbers">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-                <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
-              </svg>
-              <p>+65 9450 9286 / +84 906916216</p>
+            <div class="gallery-controls">
+              <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
+              <span class="gallery-counter" id="galleryCounter">1 / 6</span>
+              <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
             </div>
           </div>
         </div>
       </section>
+
+      <section class="case-section">
+        <h2 class="case-section-title">4. Outcome &amp; Lessons</h2>
+        <div class="case-field">
+          <h3 class="case-field-label">KPIs</h3>
+          <p class="case-field-value">250% year-over-year sales growth from launch. 100% PT program retention rate in year one. 160+ participants in organic community events.</p>
+        </div>
+        <div class="case-field">
+          <h3 class="case-field-label">Next Steps</h3>
+          <p class="case-field-value">Expand to a second facility, deepen digital community engagement via bbo.fitness, and develop a route-setting curriculum for coach training.</p>
+        </div>
+      </section>
+
     </div>
+
+    <!-- Explorer share section (hidden until explorer mode active) -->
+    <div style="max-width: 860px; margin: 0 auto; padding: 0 24px 96px; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+      <div id="bboShareSection" hidden style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+        <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(47,199,142); opacity: 0.8; font-family: 'Orbitron', monospace;">📣 Explorer Bonus &mdash; Share for +50 EXP</p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+          <button id="bboShareLinkedIn" class="bbo-share-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/></svg>
+            Share on LinkedIn
+          </button>
+          <button id="bboShareTwitter" class="bbo-share-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Share on X
+          </button>
+          <button id="bboShareCopy" class="bbo-share-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            Copy Link
+          </button>
+        </div>
+        <p id="bboShareClaimed" hidden style="font-size: 11px; letter-spacing: 0.1em; color: rgb(47,199,142);">&#x2713; +50 EXP BONUS CLAIMED</p>
+      </div>
+    </div>
+
   </main>
 </Layout>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal-hidden').forEach(el => observer.observe(el));
+
+  // Gallery
+  const track = document.getElementById('galleryTrack') as HTMLElement;
+  const counter = document.getElementById('galleryCounter') as HTMLElement;
+  const imgs = track ? track.querySelectorAll('.gallery-img') : [];
+  let galleryCurrentIdx = 0;
+  const galleryTotal = imgs.length;
+
+  function goTo(index: number) {
+    galleryCurrentIdx = (index + galleryTotal) % galleryTotal;
+    track.style.transform = `translateX(-${galleryCurrentIdx * 100}%)`;
+    counter.textContent = `${galleryCurrentIdx + 1} / ${galleryTotal}`;
+  }
+
+  document.getElementById('galleryPrev')?.addEventListener('click', () => goTo(galleryCurrentIdx - 1));
+  document.getElementById('galleryNext')?.addEventListener('click', () => goTo(galleryCurrentIdx + 1));
+  imgs.forEach(img => { (img as HTMLImageElement).addEventListener('click', () => window.open((img as HTMLImageElement).src, '_blank')); });
+</script>
+
+<style>
+  .case-study-body { max-width: 860px; margin: 0 auto; padding: 64px 24px 96px; color: #fff; }
+  .case-section { margin-bottom: 64px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 48px; }
+  .case-section-title { font-size: 26px; font-weight: 700; color: rgb(255,184,0); margin-bottom: 36px; }
+  .case-section-sub { font-size: 18px; font-weight: 400; color: rgba(255,184,0,0.6); }
+  .case-field { margin-bottom: 32px; }
+  .case-field-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+  .case-field-value { font-size: 17px; line-height: 1.75; color: #fafafa; }
+  .reveal-hidden { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal-visible { opacity: 1; transform: translateY(0); }
+  .scroll-cue { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); color: rgba(255,184,0,0.55); animation: cue-bounce 2s ease-in-out infinite; pointer-events: none; }
+  @keyframes cue-bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+  .gallery-wrap { margin-top: 20px; }
+  .gallery-track-wrap { overflow: hidden; border-radius: 12px; background: rgba(0,0,0,0.25); }
+  .gallery-track { display: flex; transition: transform 0.4s ease; }
+  .gallery-img { flex: 0 0 100%; width: 100%; max-height: 480px; object-fit: contain; cursor: pointer; display: block; }
+  .gallery-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+  .gallery-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fafafa; padding: 8px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .gallery-btn:hover { background: rgba(255,255,255,0.16); }
+  .gallery-counter { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; }
+</style>
 
 <!-- ═══════════════════════════════════════════════════════════
      EXPLORER MODE OVERLAY  (hidden until explorer is detected)
