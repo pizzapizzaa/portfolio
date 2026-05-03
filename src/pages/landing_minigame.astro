@@ -154,6 +154,10 @@
     .game-btn:hover { color: #081014ed; border-color: var(--accent); box-shadow: 0 0 14px var(--glow); }
     .game-btn:hover .btn-fill { opacity: 1; }
 
+    /* btn-icon / btn-label: siblings inside .game-btn */
+    .game-btn .btn-icon,
+    .game-btn .btn-label { position: relative; z-index: 1; }
+
     /* Icon Button + Theme Toggle — shared nav icon style */
     .icon-btn,
     .theme-toggle {
@@ -614,10 +618,177 @@
     .s6 .eg { animation-delay: -0.9s; }
     .s7 .eg { animation-delay: -0.4s; }
 
+    /* =============================================
+       NICK STATUS & PIN HINT
+    ============================================= */
+    .nick-status {
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 6px;
+      min-height: 14px;
+      transition: color 0.2s;
+    }
+
+    .nick-status.checking  { color: var(--text-muted); }
+    .nick-status.returning { color: var(--accent-hi); }
+
+    .pin-hint {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 11px;
+      color: #ff6b6b;
+      margin-top: 5px;
+      min-height: 15px;
+    }
+
+    /* =============================================
+       EXPLORER HUD (nav bar profile badge)
+    ============================================= */
+    .explorer-hud {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .explorer-hud.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hud-rank {
+      font-family: 'Orbitron', monospace;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: #071207;
+      background: var(--accent);
+      padding: 3px 8px;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+      flex-shrink: 0;
+    }
+
+    .hud-nick {
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text-1);
+      max-width: 110px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 0;
+    }
+
+    .hud-exp-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+
+    .hud-exp-bar {
+      width: 56px;
+      height: 3px;
+      background: rgba(47,137,134,0.25);
+      overflow: hidden;
+    }
+
+    .hud-exp-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.6s ease;
+      box-shadow: 0 0 4px var(--glow);
+    }
+
+    .hud-exp-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 7.5px;
+      font-weight: 500;
+      color: var(--text-2);
+      letter-spacing: 0.06em;
+    }
+
+    /* Achievement toast */
+    .ach-toast {
+      position: fixed;
+      top: 80px;
+      right: 24px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .ach-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      background: var(--bg-panel);
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 18px var(--glow);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 12px;
+      color: var(--text-1);
+      opacity: 0;
+      transform: translateX(20px);
+      animation: toastIn 0.35s ease forwards, toastOut 0.35s ease 3.2s forwards;
+    }
+
+    .ach-icon { font-size: 18px; line-height: 1; }
+
+    .ach-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .ach-name { font-size: 12px; color: var(--text-1); }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(20px); }
+    }
+
     @media (max-width: 640px) {
       .game-btn { font-size: 9px; padding: 7px 12px; }
       .footer-brand { display: none; }
       .welcome-panel { padding: 28px 22px 26px; }
+      .explorer-hud { display: none; }
+
+      /* Nav buttons become icon-only squares matching .icon-btn / .theme-toggle */
+      .nav-left .game-btn {
+        width: 46px;
+        height: 46px;
+        padding: 0;
+        gap: 0;
+        justify-content: center;
+        font-size: 20px;
+        clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      }
+      .nav-left .game-btn .btn-label { display: none; }
     }
   </style>
 </head>
@@ -744,15 +915,29 @@
     <div class="nav-left">
       <a href="/" class="game-btn" title="Return to main portfolio">
         <div class="btn-fill" aria-hidden="true"></div>
-        <span>&#8592; EXIT EXPLORING MODE</span>
+        <span class="btn-icon" aria-hidden="true">&#8592;</span>
+        <span class="btn-label">EXIT EXPLORING MODE</span>
       </a>
       <button class="game-btn" id="btnWorldMap" aria-label="Open world map">
         <div class="btn-fill" aria-hidden="true"></div>
-        <span>&#128506; WORLD MAP</span>
+        <span class="btn-icon" aria-hidden="true">&#128506;</span>
+        <span class="btn-label">WORLD MAP</span>
       </button>
     </div>
 
     <div class="nav-right">
+      <!-- Explorer HUD — shown after nickname registration -->
+      <div class="explorer-hud" id="explorerHud" aria-label="Explorer profile" aria-hidden="true">
+        <span class="hud-rank" id="hudRank">CADET</span>
+        <span class="hud-nick" id="hudNick"></span>
+        <div class="hud-exp-wrap">
+          <div class="hud-exp-bar">
+            <div class="hud-exp-fill" id="hudExpFill"></div>
+          </div>
+          <span class="hud-exp-text" id="hudExpText">0 / 100 EXP</span>
+        </div>
+      </div>
+
       <button class="theme-toggle" id="btnTheme" title="Toggle light / dark" aria-label="Toggle theme">
         <div class="toggle-thumb" id="toggleThumb">
           <span id="themeIcon">&#127769;</span>
@@ -792,6 +977,7 @@
               autocomplete="off"
               spellcheck="false"
             />
+            <div class="nick-status" id="nickStatus" aria-live="polite"></div>
           </div>
 
           <div class="form-group">
@@ -816,6 +1002,21 @@
               </ul>
             </div>
             <input type="hidden" id="server" name="server" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pinCode"><span id="pinLabel">Set your 4-digit PIN</span></label>
+            <input
+              type="password"
+              id="pinCode"
+              name="pinCode"
+              class="game-input"
+              placeholder="&#8226;&#8226;&#8226;&#8226;"
+              maxlength="4"
+              inputmode="numeric"
+              autocomplete="off"
+            />
+            <div class="pin-hint" id="pinHint" aria-live="polite"></div>
           </div>
 
           <div class="cta-row">
@@ -1036,34 +1237,107 @@
   </div>
 
   <script>
+    import {
+      registerExplorer,
+      checkNicknameExists,
+      calcLevel,
+      expProgress,
+      rankTitle,
+      ACHIEVEMENTS,
+      type Explorer,
+      type RegisterResult,
+    } from '../lib/supabase';
+
+    // ─────────────────────────────────────────────────────────
+    // HUD helpers
+    // ─────────────────────────────────────────────────────────
+    function updateHud(explorer: Explorer) {
+      const level    = calcLevel(explorer.exp);
+      const progress = expProgress(explorer.exp);
+      const baseExp  = (level - 1) * 100;
+
+      const hudEl    = document.getElementById('explorerHud')!;
+      const rankEl   = document.getElementById('hudRank')!;
+      const nickEl   = document.getElementById('hudNick')!;
+      const fillEl   = document.getElementById('hudExpFill')!;
+      const textEl   = document.getElementById('hudExpText')!;
+
+      rankEl.textContent = `LVL ${level} · ${rankTitle(level)}`;
+      nickEl.textContent = explorer.nickname;
+      fillEl.style.width = `${Math.round(progress * 100)}%`;
+      textEl.textContent = `${explorer.exp - baseExp} / 100 EXP`;
+
+      hudEl.classList.add('active');
+      hudEl.setAttribute('aria-hidden', 'false');
+    }
+
+    function showAchievementToasts(newAchievements: string[], previousAchievements: string[]) {
+      const toast = document.getElementById('achToast')!;
+      const prev  = new Set(previousAchievements);
+
+      newAchievements
+        .filter(id => !prev.has(id))
+        .forEach((id, i) => {
+          const def = ACHIEVEMENTS.find(a => a.id === id);
+          if (!def) return;
+
+          const item = document.createElement('div');
+          item.className = 'ach-item';
+          item.style.animationDelay = `${i * 0.45}s, ${i * 0.45 + 3.2}s`;
+          item.innerHTML = `
+            <span class="ach-icon">${def.icon}</span>
+            <div>
+              <div class="ach-label">Achievement Unlocked</div>
+              <div class="ach-name">${def.label}</div>
+            </div>`;
+          toast.appendChild(item);
+          // Remove after animation finishes
+          setTimeout(() => item.remove(), (i * 0.45 + 3.7) * 1000);
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────
     // Theme
+    // ─────────────────────────────────────────────────────────
     const html      = document.documentElement;
     const themeIcon = document.getElementById('themeIcon');
 
-    function applyTheme(t) {
+    function applyTheme(t: string) {
       html.setAttribute('data-theme', t);
-      themeIcon.textContent = t === 'dark' ? '\u{1F319}' : '\u2600\uFE0F';
+      themeIcon!.textContent = t === 'dark' ? '\u{1F319}' : '\u2600\uFE0F';
       try { localStorage.setItem('ex-theme', t); } catch (_) {}
     }
 
     try { applyTheme(localStorage.getItem('ex-theme') || 'dark'); } catch(_) { applyTheme('dark'); }
-    document.getElementById('btnTheme').addEventListener('click', () => {
+    document.getElementById('btnTheme')!.addEventListener('click', () => {
       applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     });
 
-    // Modal helpers
-    function openModal(id)  { document.getElementById(id).classList.add('open'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    // ─────────────────────────────────────────────────────────
+    // Restore HUD if explorer was already registered this session
+    // ─────────────────────────────────────────────────────────
+    try {
+      const cachedProfile = localStorage.getItem('ex-profile');
+      if (cachedProfile) {
+        const profile: Explorer = JSON.parse(cachedProfile);
+        updateHud(profile);
+      }
+    } catch (_) {}
 
-    function bindClose(modalId, closeBtnId) {
-      const overlay = document.getElementById(modalId);
-      document.getElementById(closeBtnId).addEventListener('click', () => closeModal(modalId));
+
+    // Modal helpers
+    function openModal(id: string)  { document.getElementById(id)!.classList.add('open'); }
+    function closeModal(id: string) { document.getElementById(id)!.classList.remove('open'); }
+
+    function bindClose(modalId: string, closeBtnId: string) {
+      const overlay = document.getElementById(modalId)!;
+      document.getElementById(closeBtnId)!.addEventListener('click', () => closeModal(modalId));
       overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(modalId); });
-      overlay.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(modalId); });
+      overlay.addEventListener('keydown', (e: KeyboardEvent) => { if (e.key === 'Escape') closeModal(modalId); });
     }
 
     // World Map
-    document.getElementById('btnWorldMap').addEventListener('click', () => openModal('worldMapModal'));
+    document.getElementById('btnWorldMap')!.addEventListener('click', () => openModal('worldMapModal'));
     bindClose('worldMapModal', 'closeWorldMap');
 
     const markerNav = {
@@ -1075,62 +1349,182 @@
       'm-au':         '/projects/mbfs-au',
     };
 
-    document.querySelectorAll('.proj-marker').forEach(el => {
-      const go = () => { const h = markerNav[el.id]; if (h) window.location.href = h; };
+    document.querySelectorAll('.proj-marker').forEach((el: Element) => {
+      const go = () => { const h = markerNav[(el as HTMLElement).id]; if (h) window.location.href = h; };
       el.addEventListener('click', go);
-      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') go(); });
+      el.addEventListener('keydown', (e: Event) => { if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') go(); });
     });
 
     // Settings
-    document.getElementById('btnSettings').addEventListener('click', () => {
+    document.getElementById('btnSettings')!.addEventListener('click', () => {
       try {
-        document.getElementById('settingsNickname').value = localStorage.getItem('ex-nickname') || '';
+        (document.getElementById('settingsNickname') as HTMLInputElement).value = localStorage.getItem('ex-nickname') || '';
         const saved = localStorage.getItem('ex-marker') || 'pin';
-        document.querySelectorAll('.marker-opt').forEach(b => b.classList.toggle('sel', b.dataset.marker === saved));
+        document.querySelectorAll('.marker-opt').forEach((b: Element) => (b as HTMLElement).classList.toggle('sel', (b as HTMLElement).dataset.marker === saved));
       } catch(_) {}
       openModal('settingsModal');
     });
 
     bindClose('settingsModal', 'closeSettings');
 
-    document.getElementById('markerGrid').addEventListener('click', e => {
-      const btn = e.target.closest('.marker-opt');
+    document.getElementById('markerGrid')!.addEventListener('click', e => {
+      const btn = (e.target as HTMLElement).closest('.marker-opt');
       if (!btn) return;
       document.querySelectorAll('.marker-opt').forEach(b => b.classList.remove('sel'));
       btn.classList.add('sel');
     });
 
-    document.getElementById('saveSettings').addEventListener('click', () => {
-      const nick   = document.getElementById('settingsNickname').value.trim();
-      const marker = document.querySelector('.marker-opt.sel')?.dataset.marker || 'pin';
+    document.getElementById('saveSettings')!.addEventListener('click', () => {
+      const nick   = (document.getElementById('settingsNickname') as HTMLInputElement).value.trim();
+      const marker = (document.querySelector('.marker-opt.sel') as HTMLElement)?.dataset.marker || 'pin';
       try {
-        if (nick) { localStorage.setItem('ex-nickname', nick); document.getElementById('nickname').value = nick; }
+        if (nick) { localStorage.setItem('ex-nickname', nick); (document.getElementById('nickname') as HTMLInputElement).value = nick; }
         localStorage.setItem('ex-marker', marker);
       } catch(_) {}
       closeModal('settingsModal');
     });
 
+    // ─────────────────────────────────────────────────────────
     // Explorer Form
-    try { const s = localStorage.getItem('ex-nickname'); if (s) document.getElementById('nickname').value = s; } catch(_) {}
+    // ─────────────────────────────────────────────────────────
+    try { const s = localStorage.getItem('ex-nickname'); if (s) (document.getElementById('nickname') as HTMLInputElement).value = s; } catch(_) {}
 
-    document.getElementById('explorerForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const nick   = document.getElementById('nickname').value.trim();
-      const server = document.getElementById('server').value;
+    // Debounced nickname existence check — shows "welcome back" vs "new explorer"
+    let isReturning = false;
+    let nickCheckTimer: ReturnType<typeof setTimeout> | null = null;
+    const nickInput  = document.getElementById('nickname')  as HTMLInputElement;
+    const nickStatus = document.getElementById('nickStatus')!;
+    const pinLabel   = document.getElementById('pinLabel')!;
 
-      function shake(id) {
-        const el     = document.getElementById(id);
-        const visual = el.classList.contains('game-dropdown') ? el.querySelector('.gd-trigger') : el;
-        el.focus();
-        visual.style.borderColor = '#ff6b6b';
-        visual.style.boxShadow   = '0 0 12px rgba(255,107,107,0.4)';
-        setTimeout(() => { visual.style.borderColor = ''; visual.style.boxShadow = ''; }, 1800);
+    async function checkNick(nick: string) {
+      if (!nick || nick.length < 2) {
+        nickStatus.textContent = '';
+        pinLabel.textContent   = 'Set your 4-digit PIN';
+        isReturning = false;
+        return;
       }
+
+      // Fast path: check cached local profile first
+      try {
+        const cached = localStorage.getItem('ex-profile');
+        if (cached) {
+          const p = JSON.parse(cached) as Explorer;
+          if (p.nickname === nick) {
+            isReturning = true;
+            nickStatus.className   = 'nick-status returning';
+            nickStatus.textContent = `\u2736 WELCOME BACK, ${nick.toUpperCase()}`;
+            pinLabel.textContent   = 'Enter your PIN';
+            return;
+          }
+        }
+      } catch(_) {}
+
+      // DB lookup
+      nickStatus.className   = 'nick-status checking';
+      nickStatus.textContent = 'SCANNING...';
+      const found = await checkNicknameExists(nick);
+      isReturning = found;
+      if (found) {
+        nickStatus.className   = 'nick-status returning';
+        nickStatus.textContent = `\u2736 WELCOME BACK, ${nick.toUpperCase()}`;
+        pinLabel.textContent   = 'Enter your PIN';
+      } else {
+        nickStatus.className   = 'nick-status';
+        nickStatus.textContent = '\u2736 NEW EXPLORER DETECTED';
+        pinLabel.textContent   = 'Set your 4-digit PIN';
+      }
+    }
+
+    nickInput.addEventListener('input', () => {
+      if (nickCheckTimer) clearTimeout(nickCheckTimer);
+      nickCheckTimer = setTimeout(() => checkNick(nickInput.value.trim()), 400);
+    });
+    nickInput.addEventListener('blur', () => {
+      if (nickCheckTimer) clearTimeout(nickCheckTimer);
+      checkNick(nickInput.value.trim());
+    });
+
+    // Restrict PIN input to digits only
+    const pinInput = document.getElementById('pinCode') as HTMLInputElement;
+    pinInput.addEventListener('input', () => {
+      pinInput.value = pinInput.value.replace(/\D/g, '').slice(0, 4);
+    });
+
+    function shake(id: string) {
+      const el     = document.getElementById(id)!;
+      const visual = (el.classList.contains('game-dropdown') ? el.querySelector('.gd-trigger') : el) as HTMLElement;
+      el.focus();
+      visual.style.borderColor = '#ff6b6b';
+      visual.style.boxShadow   = '0 0 12px rgba(255,107,107,0.4)';
+      setTimeout(() => { visual.style.borderColor = ''; visual.style.boxShadow = ''; }, 1800);
+    }
+
+    document.getElementById('explorerForm')!.addEventListener('submit', async e => {
+      e.preventDefault();
+      const nick    = nickInput.value.trim();
+      const server  = (document.getElementById('server')  as HTMLInputElement).value;
+      const pin     = pinInput.value.trim();
+      const pinHint = document.getElementById('pinHint')!;
+      pinHint.textContent = '';
 
       if (!nick)   { shake('nickname');       return; }
       if (!server) { shake('serverDropdown'); return; }
+      if (!/^\d{4}$/.test(pin)) {
+        shake('pinCode');
+        pinHint.textContent = 'PIN must be exactly 4 digits';
+        return;
+      }
 
-      try { localStorage.setItem('ex-nickname', nick); localStorage.setItem('ex-server', server); } catch(_) {}
+      const ctaBtn = document.querySelector('.cta-btn') as HTMLButtonElement;
+      const prevText = ctaBtn.innerHTML;
+      ctaBtn.disabled = true;
+      ctaBtn.innerHTML = '<span>Connecting&hellip;</span>';
+
+      try {
+        const marker = (() => { try { return localStorage.getItem('ex-marker') || 'pin'; } catch(_) { return 'pin'; } })();
+
+        let previousAchievements: string[] = [];
+        try {
+          const cached = localStorage.getItem('ex-profile');
+          if (cached) previousAchievements = (JSON.parse(cached) as Explorer).achievements ?? [];
+        } catch(_) {}
+
+        const result: RegisterResult = await registerExplorer(nick, server, marker, pin);
+
+        if (!result.ok) {
+          if (result.reason === 'wrong_pin') {
+            shake('pinCode');
+            pinHint.textContent = 'Incorrect PIN \u2014 try again';
+          } else if (result.reason === 'locked') {
+            shake('pinCode');
+            const until = result.lockedUntil
+              ? new Date(result.lockedUntil).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              : '';
+            pinHint.textContent = `Too many failed attempts \u2014 try again after ${until}`;
+          } else {
+            // db_error / invalid_input — fall through and open the map offline
+            console.warn('[Explorer] registration error:', result.reason);
+            openModal('worldMapModal');
+          }
+          return;
+        }
+
+        // PIN verified — safe to persist
+        try {
+          localStorage.setItem('ex-nickname', nick);
+          localStorage.setItem('ex-server', server);
+          localStorage.setItem('ex-profile', JSON.stringify(result.explorer));
+        } catch(_) {}
+
+        updateHud(result.explorer);
+        showAchievementToasts(result.explorer.achievements, previousAchievements);
+      } catch (err) {
+        console.warn('[Explorer] Supabase save failed, continuing offline:', err);
+      } finally {
+        ctaBtn.disabled = false;
+        ctaBtn.innerHTML = prevText;
+      }
+
       openModal('worldMapModal');
     });
 
@@ -1365,6 +1759,7 @@
       loop();
     })();
   </script>
+  <div class="ach-toast" id="achToast" aria-live="polite"></div>
   <div class="footer-brand" aria-hidden="true">EXPLORER MODE v1.0</div>
 </body>
 </html>
