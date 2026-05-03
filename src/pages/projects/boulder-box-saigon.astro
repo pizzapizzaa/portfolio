@@ -779,7 +779,8 @@ const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 // ── State ─────────────────────────────────────────────────────────
 interface QuizNode {
   id: string;
-  node_type: string;
+  type: string;       // RPC returns 'type', not 'node_type'
+  node_type: string;  // alias kept for compatibility (populated below)
   title: string;
   prompt: string;
   options: string[] | null;
@@ -898,7 +899,14 @@ function renderQuestion() {
     const btn = document.createElement('button');
     btn.className = `bbo-opt-btn${node.completed ? ' completed' : ''}`;
     btn.disabled = node.completed;
-    btn.innerHTML = `<span class="bbo-opt-letter">${LETTERS[i]}.</span><span>${opt}</span>`;
+    // Use DOM methods instead of innerHTML to prevent XSS from DB-sourced option text
+    const letterSpan = document.createElement('span');
+    letterSpan.className = 'bbo-opt-letter';
+    letterSpan.textContent = `${LETTERS[i]}.`;
+    const textSpan = document.createElement('span');
+    textSpan.textContent = opt;
+    btn.appendChild(letterSpan);
+    btn.appendChild(textSpan);
     btn.addEventListener('click', () => handleAnswer(node, opt, btn));
     quizOptions.appendChild(btn);
   });
@@ -1068,15 +1076,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (_) {}
 
   nickname = (profile?.nickname) || '';
-  if (!nickname || !supabase) return; // not in explorer mode
+  if (!nickname) return; // not in explorer mode — no profile in localStorage
 
-  // Show HUD
+  // Show HUD from localStorage (works without Supabase)
   hud.hidden = false;
   hud.removeAttribute('hidden');
   updateHudDisplay(profile.exp ?? 0, profile.level ?? 1, nickname);
 
   // Show share section
   shareSection.hidden = false;
+
+  // Quiz requires Supabase — bail out gracefully if client is unavailable
+  if (!supabase) return;
 
   // Fetch quiz content
   const { data, error } = await supabase.rpc('get_project_content', {
@@ -1086,10 +1097,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (error || !data?.ok || !data.nodes?.length) return;
 
-  const allNodes = data.nodes as QuizNode[];
+  const allNodes = (data.nodes as QuizNode[]).map(n => ({ ...n, node_type: n.type }));
   // Separate quiz nodes (dock) from the share puzzle node
-  nodes     = allNodes.filter(n => n.node_type === 'quiz');
-  shareNode = allNodes.find(n => n.node_type === 'puzzle') ?? null;
+  nodes     = allNodes.filter(n => n.type === 'quiz');
+  shareNode = allNodes.find(n => n.type === 'puzzle') ?? null;
 
   // If share already claimed, reflect that in UI
   if (shareNode?.completed) {
