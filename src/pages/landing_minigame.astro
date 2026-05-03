@@ -382,9 +382,12 @@
       box-shadow: 0 4px 24px var(--glow), 0 0 48px rgba(146,211,79,0.12);
     }
 
-    .cta-btn:hover { background: var(--accent-hi); box-shadow: 0 4px 36px var(--glow), 0 0 70px rgba(211,237,102,0.22); transform: translateY(-2px); }
+    .cta-btn:hover { background: #f7ffc7; box-shadow: 0 4px 36px var(--glow), 0 0 70px rgba(211,237,102,0.22); transform: translateY(-2px); }
     .cta-btn:active { transform: translateY(0); }
     [data-theme="light"] .cta-btn { background: #4bd311; }
+    [data-theme="light"] .cta-btn:hover { background: #59f815; }
+    [data-theme="light"] #saucer-cursor polygon { fill: #0d1f5c; }
+    [data-theme="light"] #saucer-cursor polygon:first-of-type { fill: rgba(13,31,92,0.35); } /* glow bloom */
 
     /* =============================================
        MODALS
@@ -542,8 +545,8 @@
       position: fixed;
       pointer-events: none;
       z-index: 9999;
-      /* hotspot offset: visual center of the saucer is 20px from left, 12px from top */
-      transform: translate(-20px, -12px);
+      /* hotspot at nose tip: (2,2) in SVG coords */
+      transform: translate(-2px, -2px);
       opacity: 0;
       transition: opacity 0.15s ease;
       will-change: transform;
@@ -560,13 +563,13 @@
     }
 
     @keyframes saucer-glow {
-      0%,100% { opacity: 0.55; r: 14; }
-      50%      { opacity: 1;    r: 17; }
+      0%,100% { opacity: 0.55; }
+      50%      { opacity: 1.0; }
     }
 
     @keyframes beam-pulse {
-      0%,100% { opacity: 0.20; ry: 5; }
-      50%      { opacity: 0.50; ry: 7; }
+      0%,100% { opacity: 0.55; }
+      50%      { opacity: 1.0; }
     }
 
     #trail-canvas {
@@ -622,36 +625,27 @@
 <body>
   <div class="scan-line" aria-hidden="true"></div>
 
-  <!-- CUSTOM SAUCER CURSOR -->
+  <!-- CUSTOM TRIANGLE CURSOR -->
+  <!-- Tip (hotspot) = SVG (2, 2) → CSS transform: translate(-2px, -2px) -->
   <svg id="saucer-cursor" xmlns="http://www.w3.org/2000/svg"
-       width="40" height="26" viewBox="0 0 40 26"
+       width="28" height="30" viewBox="0 0 28 30"
        aria-hidden="true">
-    <!-- bottom tractor beam glow -->
-    <ellipse class="sg-beam" cx="20" cy="24" rx="10" ry="5"
-             fill="rgba(146,211,79,0.30)"/>
-    <!-- outer ambient glow ring -->
-    <ellipse class="sg-glow" cx="20" cy="15" rx="14" ry="7"
-             fill="none" stroke="rgba(146,211,79,0.25)" stroke-width="3"/>
-    <!-- hull body -->
-    <ellipse cx="20" cy="16" rx="18" ry="7"
-             fill="rgba(15,45,43,0.88)" stroke="rgba(47,137,134,0.80)" stroke-width="1"/>
-    <!-- upper dome -->
-    <ellipse cx="20" cy="13" rx="10" ry="8"
-             fill="rgba(30,72,65,0.90)" stroke="rgba(65,183,116,0.70)" stroke-width="1"/>
-    <!-- dome highlight -->
-    <ellipse cx="20" cy="11" rx="6" ry="5"
-             fill="rgba(211,237,102,0.18)"/>
-    <!-- cockpit window -->
-    <ellipse cx="20" cy="11" rx="3.5" ry="3"
-             fill="rgba(146,211,79,0.55)" stroke="rgba(211,237,102,0.60)" stroke-width="0.8"/>
-    <!-- hull rim lights -->
-    <ellipse cx="20" cy="17" rx="14" ry="2.5"
-             fill="rgba(146,211,79,0.20)"
-             style="animation: beam-pulse 1.6s ease-in-out infinite;"/>
-    <!-- underside centre light -->
-    <ellipse cx="20" cy="21" rx="4" ry="2"
-             fill="rgba(146,211,79,0.65)"
-             style="animation: saucer-glow 1.6s ease-in-out infinite 0.4s;"/>
+    <defs>
+      <filter id="cursor-glow" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="3.5" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <!-- Outer glow bloom -->
+    <polygon points="2,2 2,26 22,18"
+             fill="rgba(255,204,0,0.35)"
+             filter="url(#cursor-glow)"/>
+    <!-- Solid yellow triangle -->
+    <polygon points="2,2 2,26 22,18"
+             fill="#ffcc00"/>
   </svg>
 
   <canvas id="trail-canvas" aria-hidden="true"></canvas>
@@ -1295,10 +1289,10 @@
           cur.style.top  = cy + 'px';
         });
 
-        // Spawn trail particles from saucer underside
-        // Underside hotspot: cx + 0, cy + 10  (saucer SVG offset is -20px,-12px; underside at cy=21)
-        const ox = cx;
-        const oy = cy + 9;
+        // Spawn trail particles from base of triangle (bottom-right corner ~SVG 22,18 and 2,26)
+        // Average base midpoint SVG ~(12,22); hotspot offset (-2,-2) → screen offset = (+10, +20)
+        const ox = cx + 10;
+        const oy = cy + 20;
         const dx = cx - px;
         const dy = cy - py;
         const speed = Math.sqrt(dx * dx + dy * dy);
@@ -1323,8 +1317,8 @@
             life:  1.0,
             decay: 0.022 + Math.random() * 0.030,
             size:  2.5 + Math.random() * 3.5,
-            hue:   82 + Math.random() * 38,   // yellow-green → mint
-            sat:   72 + Math.random() * 28,
+            hue:   40 + Math.random() * 25,   // yellow → amber
+            sat:   85 + Math.random() * 15,
           });
         }
       });
@@ -1349,9 +1343,16 @@
 
           const r   = p.size * 2.8;
           const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
-          grd.addColorStop(0,   `hsla(${p.hue},${p.sat}%,78%,${p.life * 0.30})`);
-          grd.addColorStop(0.35,`hsla(${p.hue},${p.sat}%,62%,${p.life * 0.14})`);
-          grd.addColorStop(1,   `hsla(${p.hue},${p.sat}%,50%,0)`);
+          const isLight = document.documentElement.dataset.theme === 'light';
+          if (isLight) {
+            grd.addColorStop(0,   `hsla(225,70%,22%,${p.life * 0.05})`);
+            grd.addColorStop(0.35,`hsla(225,70%,22%,${p.life * 0.02})`);
+            grd.addColorStop(1,   `hsla(225,70%,22%,0)`);
+          } else {
+            grd.addColorStop(0,   `hsla(${p.hue},${p.sat}%,78%,${p.life * 0.14})`);
+            grd.addColorStop(0.35,`hsla(${p.hue},${p.sat}%,62%,${p.life * 0.06})`);
+            grd.addColorStop(1,   `hsla(${p.hue},${p.sat}%,50%,0)`);
+          }
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
