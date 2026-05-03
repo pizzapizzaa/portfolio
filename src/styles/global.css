@@ -1097,10 +1097,7 @@ h3 {
     padding-right: 20px;
   }
 
-  /* Project cards: single column on mobile */
-  .project-card-list {
-    grid-template-columns: 1fr;
-  }
+  /* Project cards: single column on mobile — handled by base .project-card-list rule */
 
   /* Experience project card: full width on mobile */
   .experience-project-card {
@@ -1164,11 +1161,17 @@ h3 {
 
 .project-card-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1.5rem;
   animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
   animation-delay: 0.1s;
+}
+
+@media (min-width: 769px) {
+  .project-card-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .project-card {
