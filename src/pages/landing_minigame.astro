@@ -1480,9 +1480,29 @@
       ctaBtn.disabled = true;
       ctaBtn.innerHTML = '<span>Connecting&hellip;</span>';
 
-      try {
-        const marker = (() => { try { return localStorage.getItem('ex-marker') || 'pin'; } catch(_) { return 'pin'; } })();
+      // Moved outside try so it is accessible in the catch block
+      const marker = (() => { try { return localStorage.getItem('ex-marker') || 'pin'; } catch(_) { return 'pin'; } })();
 
+      // Saves a minimal profile to localStorage so project pages can show the HUD
+      // even when Supabase is unavailable or the RPC returns an error.
+      const saveOffline = () => {
+        const p = {
+          id: '', nickname: nick, server, marker,
+          exp: 0, level: 1, visit_count: 1,
+          last_seen: new Date().toISOString(),
+          achievements: [] as string[],
+          pages_explored: [] as string[],
+          created_at: new Date().toISOString(),
+        };
+        try {
+          localStorage.setItem('ex-nickname', nick);
+          localStorage.setItem('ex-server', server);
+          localStorage.setItem('ex-profile', JSON.stringify(p));
+        } catch(_) {}
+        updateHud(p as Explorer);
+      };
+
+      try {
         let previousAchievements: string[] = [];
         try {
           const cached = localStorage.getItem('ex-profile');
@@ -1502,8 +1522,9 @@
               : '';
             pinHint.textContent = `Too many failed attempts \u2014 try again after ${until}`;
           } else {
-            // db_error / invalid_input — fall through and open the map offline
+            // db_error / invalid_input — save offline profile so project pages show HUD
             console.warn('[Explorer] registration error:', result.reason);
+            saveOffline();
             openModal('worldMapModal');
           }
           return;
@@ -1520,6 +1541,7 @@
         showAchievementToasts(result.explorer.achievements, previousAchievements);
       } catch (err) {
         console.warn('[Explorer] Supabase save failed, continuing offline:', err);
+        saveOffline();
       } finally {
         ctaBtn.disabled = false;
         ctaBtn.innerHTML = prevText;
