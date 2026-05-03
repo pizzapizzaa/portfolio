@@ -1088,6 +1088,25 @@ h3 {
 }
 
 @media (max-width: 768px) {
+  /* Section content padding: override 120px desktop padding for mobile */
+  .summary-content,
+  .experience-content,
+  .skills-content,
+  .projects-content {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* Project cards: single column on mobile */
+  .project-card-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* Experience project card: full width on mobile */
+  .experience-project-card {
+    max-width: 100%;
+  }
+
   .skills-grid {
     grid-template-columns: 1fr;
   }

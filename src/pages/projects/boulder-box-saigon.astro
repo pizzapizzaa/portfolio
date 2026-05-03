@@ -294,6 +294,26 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
           >
           <span class="underline decoration-primary underline-offset-12 decoration-4 group-hover:decoration-white transition-colors">VISIT BBO.FITNESS</span>
         </a>
+
+        <!-- Explorer share section (hidden until explorer mode active) -->
+        <div id="bboShareSection" hidden class="flex flex-col items-center gap-4">
+          <p class="text-sm font-mono text-[rgb(47,199,142)] tracking-widest uppercase opacity-80">📣 Explorer Bonus — Share for +50 EXP</p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <button id="bboShareLinkedIn" class="bbo-share-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/></svg>
+              Share on LinkedIn
+            </button>
+            <button id="bboShareTwitter" class="bbo-share-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              Share on X
+            </button>
+            <button id="bboShareCopy" class="bbo-share-btn bbo-share-copy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              Copy Link
+            </button>
+          </div>
+          <p id="bboShareClaimed" hidden class="text-xs font-mono text-[rgb(47,199,142)] tracking-widest">✓ +50 EXP BONUS CLAIMED</p>
+        </div>
       </div>
 
       <!-- More Projects Section -->
@@ -373,3 +393,943 @@ import GalleryCarousel from '../../components/GalleryCarousel.astro';
     </div>
   </main>
 </Layout>
+
+<!-- ═══════════════════════════════════════════════════════════
+     EXPLORER MODE OVERLAY  (hidden until explorer is detected)
+     ════════════════════════════════════════════════════════ -->
+<!-- HUD bar — appears below the site nav when in explorer mode -->
+<div id="bbo-explorer-hud" class="bbo-hud" hidden aria-label="Explorer HUD">
+  <div class="bbo-hud-inner">
+    <div class="bbo-hud-left">
+      <span class="bbo-hud-icon">🧭</span>
+      <span class="bbo-hud-label">EXPLORER MODE</span>
+    </div>
+    <div class="bbo-hud-center">
+      <span class="bbo-hud-rank" id="bboHudRank">CADET</span>
+      <span class="bbo-hud-nick" id="bboHudNick"></span>
+      <div class="bbo-hud-exp-wrap">
+        <div class="bbo-hud-exp-bar">
+          <div class="bbo-hud-exp-fill" id="bboHudExpFill"></div>
+        </div>
+        <span class="bbo-hud-exp-text" id="bboHudExpText">0 / 100 EXP</span>
+      </div>
+    </div>
+    <div class="bbo-hud-right">
+      <span class="bbo-hud-progress" id="bboHudProgress"></span>
+      <button class="bbo-hud-toggle" id="bboQuizToggle" aria-label="Toggle quiz panel">
+        <span id="bboToggleLabel">📋 Quests</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Quiz dock — floats at bottom -->
+<div id="bbo-quiz-dock" class="bbo-quiz-dock" hidden>
+  <!-- Progress dots -->
+  <div class="bbo-quiz-dots" id="bboQuizDots"></div>
+
+  <!-- Question card -->
+  <div class="bbo-quiz-card" id="bboQuizCard">
+    <div class="bbo-quiz-card-header">
+      <span class="bbo-quiz-num" id="bboQuizNum">1 / 5</span>
+      <span class="bbo-quiz-title" id="bboQuizTitle">Loading…</span>
+      <span class="bbo-quiz-exp" id="bboQuizExp">+50 EXP</span>
+    </div>
+    <p class="bbo-quiz-prompt" id="bboQuizPrompt"></p>
+    <div class="bbo-quiz-options" id="bboQuizOptions"></div>
+    <div class="bbo-quiz-footer">
+      <button class="bbo-hint-btn" id="bboHintBtn">💡 Hint</button>
+      <p class="bbo-hint-text" id="bboHintText" hidden></p>
+      <div class="bbo-quiz-nav">
+        <button class="bbo-nav-btn" id="bboPrev" aria-label="Previous question">‹ Prev</button>
+        <button class="bbo-nav-btn" id="bboNext" aria-label="Next question">Next ›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- All-done banner (shown when all 5 quiz questions complete) -->
+  <div class="bbo-quiz-done" id="bboQuizDone" hidden>
+    <span class="bbo-done-icon">🏆</span>
+    <div>
+      <p class="bbo-done-title">Boulder Box Field Study Complete!</p>
+      <p class="bbo-done-sub" id="bboDoneSub">All quests cleared.</p>
+    </div>
+  </div>
+
+  <!-- Share bonus banner (shown after quiz done; hidden once share claimed) -->
+  <div class="bbo-share-banner" id="bboShareBanner" hidden>
+    <span class="bbo-done-icon">📣</span>
+    <div>
+      <p class="bbo-done-title">Bonus Quest: Share &amp; Earn +50 EXP</p>
+      <p class="bbo-done-sub">Share this page to earn a bonus. Use the share buttons below.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Story fragment popup -->
+<div class="bbo-story-popup" id="bboStoryPopup" hidden role="dialog" aria-modal="true" aria-labelledby="bboStoryTitle">
+  <div class="bbo-story-inner">
+    <div class="bbo-story-type" id="bboStoryType">DISCOVERY</div>
+    <h3 class="bbo-story-title" id="bboStoryTitle"></h3>
+    <p class="bbo-story-body" id="bboStoryBody"></p>
+    <div class="bbo-story-footer">
+      <span class="bbo-story-exp" id="bboStoryExp">+25 EXP</span>
+      <button class="bbo-story-close" id="bboStoryClose">Continue ›</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ── CSS custom props matching landing_minigame theme ── */
+#bbo-explorer-hud,
+#bbo-quiz-dock,
+.bbo-story-popup {
+  --bbo-accent:   rgb(47, 199, 142);
+  --bbo-gold:     rgb(255, 184, 0);
+  --bbo-bg:       rgba(7, 18, 7, 0.96);
+  --bbo-border:   rgba(47, 199, 142, 0.3);
+  --bbo-text1:    rgb(200, 230, 200);
+  --bbo-text2:    rgba(200, 230, 200, 0.55);
+  --bbo-glow:     rgba(47, 199, 142, 0.4);
+  font-family: 'Orbitron', 'Albert Sans', monospace;
+}
+
+/* ── HUD bar ── */
+.bbo-hud {
+  position: fixed;
+  top: 80px; /* below site nav */
+  left: 0;
+  right: 0;
+  z-index: 8000;
+  background: var(--bbo-bg);
+  border-bottom: 1px solid var(--bbo-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: bboSlideDown 0.35s ease;
+}
+@keyframes bboSlideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.bbo-hud-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.bbo-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.bbo-hud-icon { font-size: 14px; }
+.bbo-hud-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--bbo-accent);
+  text-transform: uppercase;
+}
+
+.bbo-hud-center {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+.bbo-hud-rank {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #071207;
+  background: var(--bbo-accent);
+  padding: 3px 10px;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  flex-shrink: 0;
+}
+.bbo-hud-nick {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--bbo-text1);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.bbo-hud-exp-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.bbo-hud-exp-bar {
+  width: 60px;
+  height: 3px;
+  background: rgba(47,199,142,0.2);
+  overflow: hidden;
+}
+.bbo-hud-exp-fill {
+  height: 100%;
+  background: var(--bbo-accent);
+  width: 0%;
+  transition: width 0.6s ease;
+  box-shadow: 0 0 5px var(--bbo-glow);
+}
+.bbo-hud-exp-text {
+  font-size: 7px;
+  font-weight: 500;
+  color: var(--bbo-text2);
+  letter-spacing: 0.06em;
+}
+
+.bbo-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.bbo-hud-progress {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--bbo-gold);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.bbo-hud-toggle {
+  background: transparent;
+  border: 1px solid var(--bbo-border);
+  color: var(--bbo-accent);
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 5px 12px;
+  cursor: pointer;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  transition: background 0.2s, color 0.2s;
+}
+.bbo-hud-toggle:hover {
+  background: var(--bbo-accent);
+  color: #071207;
+}
+
+/* ── Quiz dock ── */
+.bbo-quiz-dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 7900;
+  background: var(--bbo-bg);
+  border-top: 1px solid var(--bbo-border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 12px 20px 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+  animation: bboSlideUp 0.35s ease;
+}
+@keyframes bboSlideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.bbo-quiz-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.bbo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(47,199,142,0.2);
+  border: 1px solid var(--bbo-border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.bbo-dot.active  { background: var(--bbo-gold); border-color: var(--bbo-gold); transform: scale(1.3); }
+.bbo-dot.done    { background: var(--bbo-accent); border-color: var(--bbo-accent); }
+
+.bbo-quiz-card {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.bbo-quiz-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.bbo-quiz-num {
+  font-size: 8px;
+  font-weight: 800;
+  color: var(--bbo-text2);
+  letter-spacing: 0.16em;
+  flex-shrink: 0;
+}
+.bbo-quiz-title {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--bbo-accent);
+  text-transform: uppercase;
+  flex: 1;
+}
+.bbo-quiz-exp {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--bbo-gold);
+  letter-spacing: 0.1em;
+  background: rgba(255,184,0,0.1);
+  padding: 3px 8px;
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+}
+
+.bbo-quiz-prompt {
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 15px !important;
+  color: rgb(220,240,220) !important;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.bbo-quiz-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+@media (max-width: 520px) {
+  .bbo-quiz-options { grid-template-columns: 1fr; }
+}
+
+.bbo-opt-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(47,199,142,0.05);
+  border: 1px solid var(--bbo-border);
+  color: var(--bbo-text1);
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 13px;
+  padding: 10px 14px;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 4px;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  line-height: 1.4;
+}
+.bbo-opt-btn:hover:not(:disabled) {
+  background: rgba(47,199,142,0.12);
+  border-color: var(--bbo-accent);
+  transform: translateX(3px);
+}
+.bbo-opt-btn:disabled { cursor: default; }
+.bbo-opt-btn.correct {
+  background: rgba(47,199,142,0.18);
+  border-color: var(--bbo-accent);
+  color: var(--bbo-accent);
+}
+.bbo-opt-btn.wrong {
+  background: rgba(220,70,70,0.12);
+  border-color: rgba(220,70,70,0.4);
+  color: rgba(220,70,70,0.8);
+}
+.bbo-opt-btn.completed {
+  background: rgba(47,199,142,0.1);
+  border-color: rgba(47,199,142,0.4);
+  color: rgba(47,199,142,0.7);
+  cursor: default;
+}
+.bbo-opt-letter {
+  font-size: 10px;
+  font-weight: 800;
+  font-family: 'Orbitron', monospace;
+  color: var(--bbo-text2);
+  flex-shrink: 0;
+  width: 18px;
+}
+.bbo-opt-btn.correct .bbo-opt-letter,
+.bbo-opt-btn.completed .bbo-opt-letter { color: var(--bbo-accent); }
+.bbo-opt-btn.wrong .bbo-opt-letter     { color: rgba(220,70,70,0.7); }
+
+.bbo-quiz-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.bbo-hint-btn {
+  background: transparent;
+  border: 1px solid rgba(255,184,0,0.3);
+  color: var(--bbo-gold);
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 11px;
+  padding: 5px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.bbo-hint-btn:hover { background: rgba(255,184,0,0.08); }
+.bbo-hint-text {
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 12px !important;
+  color: var(--bbo-gold) !important;
+  font-style: italic;
+  flex: 1;
+  margin: 0 !important;
+}
+.bbo-quiz-nav {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+.bbo-nav-btn {
+  background: transparent;
+  border: 1px solid var(--bbo-border);
+  color: var(--bbo-text1);
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.bbo-nav-btn:hover { background: rgba(47,199,142,0.1); border-color: var(--bbo-accent); }
+.bbo-nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+/* ── All done banner ── */
+.bbo-quiz-done {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+.bbo-done-icon { font-size: 32px; flex-shrink: 0; }
+.bbo-done-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--bbo-gold);
+  margin: 0 0 4px !important;
+}
+.bbo-done-sub {
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 12px !important;
+  color: var(--bbo-text2) !important;
+  margin: 0 !important;
+}
+
+/* ── Story popup ── */
+.bbo-story-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  animation: bboPop 0.3s ease;
+}
+@keyframes bboPop {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.bbo-story-inner {
+  background: var(--bbo-bg);
+  border: 1px solid var(--bbo-border);
+  border-radius: 2px;
+  padding: 32px;
+  max-width: 520px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 0 60px rgba(47,199,142,0.15);
+}
+
+.bbo-story-type {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--bbo-accent);
+  margin-bottom: 12px;
+}
+
+.bbo-story-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 18px !important;
+  font-weight: 800;
+  color: var(--bbo-gold);
+  margin: 0 0 16px !important;
+  padding-bottom: 0 !important;
+  line-height: 1.3;
+}
+
+.bbo-story-body {
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 15px !important;
+  color: var(--bbo-text1) !important;
+  line-height: 1.75;
+  margin: 0 0 24px !important;
+}
+
+.bbo-story-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bbo-story-exp {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--bbo-gold);
+  background: rgba(255,184,0,0.1);
+  padding: 4px 12px;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+
+.bbo-story-close {
+  background: var(--bbo-accent);
+  border: none;
+  color: #071207;
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  padding: 10px 24px;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.bbo-story-close:hover { opacity: 0.85; }
+
+/* ── Body padding when HUD + dock both visible ── */
+body.bbo-mode {
+  padding-bottom: 200px; /* room for quiz dock */
+}
+
+/* ── Share section ── */
+.bbo-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(47, 199, 142, 0.12);
+  border: 1px solid rgba(47, 199, 142, 0.4);
+  border-radius: 8px;
+  color: rgb(47, 199, 142);
+  font-family: 'Orbitron', 'Albert Sans', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.bbo-share-btn:hover {
+  background: rgba(47, 199, 142, 0.25);
+  border-color: rgb(47, 199, 142);
+  color: #fff;
+}
+.bbo-share-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.bbo-share-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(255, 184, 0, 0.08);
+  border-top: 1px solid rgba(255, 184, 0, 0.25);
+  border-radius: 0 0 16px 16px;
+}
+</style>
+
+<script>
+import { supabase, calcLevel, expProgress, rankTitle } from '../../lib/supabase';
+
+// ── Helpers ───────────────────────────────────────────────────────
+async function hashAnswer(answer: string): Promise<string> {
+  const enc = new TextEncoder();
+  const buf = await crypto.subtle.digest('SHA-256', enc.encode(answer.toLowerCase().trim()));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+// ── State ─────────────────────────────────────────────────────────
+interface QuizNode {
+  id: string;
+  node_type: string;
+  title: string;
+  prompt: string;
+  options: string[] | null;
+  hint: string | null;
+  exp_reward: number;
+  completed: boolean;
+  attempts: number;
+}
+
+let nodes: QuizNode[] = [];      // quiz-type only (shown in dock)
+let shareNode: QuizNode | null = null; // puzzle-type share bonus
+let current = 0;
+let nickname = '';
+let dockOpen = false;
+
+// ── Element refs ──────────────────────────────────────────────────
+const hud          = document.getElementById('bbo-explorer-hud') as HTMLElement;
+const dock         = document.getElementById('bbo-quiz-dock') as HTMLElement;
+const storyPopup   = document.getElementById('bboStoryPopup') as HTMLElement;
+const dotsEl       = document.getElementById('bboQuizDots') as HTMLElement;
+const cardEl       = document.getElementById('bboQuizCard') as HTMLElement;
+const doneEl       = document.getElementById('bboQuizDone') as HTMLElement;
+const hudRank      = document.getElementById('bboHudRank')!;
+const hudNick      = document.getElementById('bboHudNick')!;
+const hudExpFill   = document.getElementById('bboHudExpFill') as HTMLElement;
+const hudExpText   = document.getElementById('bboHudExpText')!;
+const hudProgress  = document.getElementById('bboHudProgress')!;
+const toggleBtn    = document.getElementById('bboQuizToggle')!;
+const toggleLabel  = document.getElementById('bboToggleLabel')!;
+const quizNum      = document.getElementById('bboQuizNum')!;
+const quizTitle    = document.getElementById('bboQuizTitle')!;
+const quizExp      = document.getElementById('bboQuizExp')!;
+const quizPrompt   = document.getElementById('bboQuizPrompt')!;
+const quizOptions  = document.getElementById('bboQuizOptions')!;
+const hintBtn      = document.getElementById('bboHintBtn')!;
+const hintText     = document.getElementById('bboHintText') as HTMLElement;
+const prevBtn      = document.getElementById('bboPrev') as HTMLButtonElement;
+const nextBtn      = document.getElementById('bboNext') as HTMLButtonElement;
+const storyType    = document.getElementById('bboStoryType')!;
+const storyTitle   = document.getElementById('bboStoryTitle')!;
+const storyBody    = document.getElementById('bboStoryBody')!;
+const storyExp     = document.getElementById('bboStoryExp')!;
+const storyClose   = document.getElementById('bboStoryClose')!;
+const doneSub      = document.getElementById('bboDoneSub')!;
+const shareBanner  = document.getElementById('bboShareBanner') as HTMLElement;
+const shareSection = document.getElementById('bboShareSection') as HTMLElement;
+const shareLinkedIn = document.getElementById('bboShareLinkedIn') as HTMLButtonElement;
+const shareTwitter  = document.getElementById('bboShareTwitter') as HTMLButtonElement;
+const shareCopy     = document.getElementById('bboShareCopy') as HTMLButtonElement;
+const shareClaimed  = document.getElementById('bboShareClaimed') as HTMLElement;
+
+// ── Update HUD display ────────────────────────────────────────────
+function updateHudDisplay(exp: number, level: number, nick: string) {
+  const base = (level - 1) * 100;
+  const progress = expProgress(exp);
+  hudRank.textContent = `LVL ${level} · ${rankTitle(level)}`;
+  hudNick.textContent = nick;
+  hudExpFill.style.width = `${Math.round(progress * 100)}%`;
+  hudExpText.textContent = `${exp - base} / 100 EXP`;
+}
+
+function updateProgressBadge() {
+  const done = nodes.filter(n => n.completed).length;
+  hudProgress.textContent = `${done} / ${nodes.length} QUESTS`;
+  hudProgress.style.color = done === nodes.length ? 'var(--bbo-accent)' : 'var(--bbo-gold)';
+}
+
+// ── Render progress dots ──────────────────────────────────────────
+function renderDots() {
+  dotsEl.innerHTML = '';
+  nodes.forEach((n, i) => {
+    const dot = document.createElement('button');
+    dot.className = `bbo-dot${i === current ? ' active' : ''}${n.completed ? ' done' : ''}`;
+    dot.title = n.title;
+    dot.setAttribute('aria-label', `Question ${i + 1}: ${n.title}`);
+    dot.addEventListener('click', () => { current = i; renderQuestion(); });
+    dotsEl.appendChild(dot);
+  });
+}
+
+// ── Render current question ───────────────────────────────────────
+function renderQuestion() {
+  renderDots();
+  const node = nodes[current];
+  if (!node) return;
+
+  const allDone = nodes.every(n => n.completed);
+  if (allDone) {
+    cardEl.hidden = true;
+    doneEl.hidden = false;
+    const total = nodes.reduce((s, n) => s + n.exp_reward, 0);
+    doneSub.textContent = `+${total} EXP earned across all quests.`;
+    // Show share bonus banner if share not yet claimed
+    if (shareNode && !shareNode.completed) {
+      shareBanner.hidden = false;
+    }
+    return;
+  }
+
+  cardEl.hidden = false;
+  doneEl.hidden = true;
+
+  quizNum.textContent    = `${current + 1} / ${nodes.length}`;
+  quizTitle.textContent  = node.title;
+  quizExp.textContent    = `+${node.exp_reward} EXP`;
+  quizPrompt.textContent = node.prompt;
+  hintText.hidden        = true;
+  hintText.textContent   = node.hint ?? '';
+
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === nodes.length - 1;
+
+  // Options
+  quizOptions.innerHTML = '';
+  (node.options || []).forEach((opt: string, i: number) => {
+    const btn = document.createElement('button');
+    btn.className = `bbo-opt-btn${node.completed ? ' completed' : ''}`;
+    btn.disabled = node.completed;
+    btn.innerHTML = `<span class="bbo-opt-letter">${LETTERS[i]}.</span><span>${opt}</span>`;
+    btn.addEventListener('click', () => handleAnswer(node, opt, btn));
+    quizOptions.appendChild(btn);
+  });
+}
+
+// ── Handle answer submission ──────────────────────────────────────
+async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButtonElement) {
+  if (node.completed || !nickname || !supabase) return;
+
+  // Disable all options immediately
+  quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = true);
+
+  const h = await hashAnswer(selectedOpt);
+  const { data, error } = await supabase.rpc('submit_answer', {
+    p_nickname:    nickname,
+    p_node_id:     node.id,
+    p_answer_hash: h,
+  });
+
+  if (error || !data?.ok) {
+    btn.classList.add('wrong');
+    quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = false);
+    return;
+  }
+
+  if (data.correct) {
+    node.completed = true;
+    btn.classList.add('correct');
+
+    // Update HUD EXP
+    if (data.new_exp !== undefined) {
+      updateHudDisplay(data.new_exp, data.new_level, nickname);
+      // Persist updated profile in localStorage
+      try {
+        const cached = localStorage.getItem('ex-profile');
+        if (cached) {
+          const p = JSON.parse(cached);
+          p.exp   = data.new_exp;
+          p.level = data.new_level;
+          localStorage.setItem('ex-profile', JSON.stringify(p));
+        }
+      } catch (_) {}
+    }
+
+    updateProgressBadge();
+    renderDots();
+
+    // Show story popup if a fragment was unlocked
+    if (data.story_fragment) {
+      const sf = data.story_fragment;
+      showStory(sf.title, sf.body, sf.type, node.exp_reward);
+    } else {
+      // Auto-advance to next unanswered question
+      const nextIdx = nodes.findIndex((n, i) => i > current && !n.completed);
+      if (nextIdx !== -1) {
+        setTimeout(() => { current = nextIdx; renderQuestion(); }, 800);
+      } else {
+        setTimeout(() => renderQuestion(), 800);
+      }
+    }
+  } else {
+    // Wrong — re-enable only the options that weren't selected
+    btn.classList.add('wrong');
+    setTimeout(() => {
+      btn.classList.remove('wrong');
+      quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = false);
+    }, 1000);
+  }
+}
+
+// ── Story popup ───────────────────────────────────────────────────
+function showStory(title: string, body: string, type: string, exp: number) {
+  storyType.textContent  = type.toUpperCase();
+  storyTitle.textContent = title;
+  storyBody.textContent  = body.replace(/\{\{nickname\}\}/g, nickname);
+  storyExp.textContent   = `+${exp} EXP`;
+  storyPopup.hidden = false;
+  storyPopup.removeAttribute('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+storyClose.addEventListener('click', () => {
+  storyPopup.hidden = true;
+  document.body.style.overflow = '';
+  // Auto-advance to next unanswered question
+  const nextIdx = nodes.findIndex((n, i) => i > current && !n.completed);
+  if (nextIdx !== -1) { current = nextIdx; renderQuestion(); }
+  else { renderQuestion(); } // may show done banner
+});
+
+// ── Toggle quiz dock ──────────────────────────────────────────────
+toggleBtn.addEventListener('click', () => {
+  dockOpen = !dockOpen;
+  dock.hidden = !dockOpen;
+  toggleLabel.textContent = dockOpen ? '✕ Close' : '📋 Quests';
+  document.body.classList.toggle('bbo-mode', dockOpen);
+});
+
+// ── Nav buttons ───────────────────────────────────────────────────
+prevBtn.addEventListener('click', () => { if (current > 0) { current--; renderQuestion(); } });
+nextBtn.addEventListener('click', () => { if (current < nodes.length - 1) { current++; renderQuestion(); } });
+
+// ── Hint ─────────────────────────────────────────────────────────
+hintBtn.addEventListener('click', () => {
+  hintText.hidden = !hintText.hidden;
+  hintBtn.textContent = hintText.hidden ? '💡 Hint' : '💡 Hide Hint';
+});
+
+// ── Share bonus ───────────────────────────────────────────────────
+async function handleShare(url: string) {
+  if (!shareNode || shareNode.completed || !supabase) return;
+  // Optimistically disable buttons to prevent double-submission
+  shareNode.completed = true;
+  [shareLinkedIn, shareTwitter, shareCopy].forEach(b => { b.disabled = true; });
+  // Open the share URL
+  if (url) window.open(url, '_blank', 'noopener');
+  // Award EXP via submit_answer with hash("shared")
+  const h = await hashAnswer('shared');
+  const { data, error } = await supabase.rpc('submit_answer', {
+    p_nickname:    nickname,
+    p_node_id:     shareNode.id,
+    p_answer_hash: h,
+  });
+  if (error || !data?.ok) {
+    // Roll back optimistic disable on network failure
+    shareNode.completed = false;
+    [shareLinkedIn, shareTwitter, shareCopy].forEach(b => { b.disabled = false; });
+    return;
+  }
+  if (data.correct || data.already_completed) {
+    // Buttons already disabled above
+    shareClaimed.hidden = false;
+    shareBanner.hidden = true;
+    // Update HUD
+    if (data.new_exp !== undefined) {
+      updateHudDisplay(data.new_exp, data.new_level, nickname);
+      try {
+        const cached = localStorage.getItem('ex-profile');
+        if (cached) {
+          const p = JSON.parse(cached);
+          p.exp   = data.new_exp;
+          p.level = data.new_level;
+          localStorage.setItem('ex-profile', JSON.stringify(p));
+        }
+      } catch (_) {}
+    }
+    if (data.story_fragment) {
+      const sf = data.story_fragment;
+      showStory(sf.title, sf.body, sf.type, shareNode.exp_reward);
+    }
+  }
+}
+
+// ── Copy link helper ──────────────────────────────────────────────
+async function copyAndShare() {
+  try { await navigator.clipboard.writeText(window.location.href); } catch (_) {}
+  await handleShare('');
+}
+
+// ── Init ──────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  // Check if explorer session exists
+  let profile: any = null;
+  try {
+    const cached = localStorage.getItem('ex-profile');
+    if (cached) profile = JSON.parse(cached);
+  } catch (_) {}
+
+  nickname = (profile?.nickname) || '';
+  if (!nickname || !supabase) return; // not in explorer mode
+
+  // Show HUD
+  hud.hidden = false;
+  hud.removeAttribute('hidden');
+  updateHudDisplay(profile.exp ?? 0, profile.level ?? 1, nickname);
+
+  // Show share section
+  shareSection.hidden = false;
+
+  // Fetch quiz content
+  const { data, error } = await supabase.rpc('get_project_content', {
+    p_project_slug: 'boulder-box-saigon',
+    p_nickname:     nickname,
+  });
+
+  if (error || !data?.ok || !data.nodes?.length) return;
+
+  const allNodes = data.nodes as QuizNode[];
+  // Separate quiz nodes (dock) from the share puzzle node
+  nodes     = allNodes.filter(n => n.node_type === 'quiz');
+  shareNode = allNodes.find(n => n.node_type === 'puzzle') ?? null;
+
+  // If share already claimed, reflect that in UI
+  if (shareNode?.completed) {
+    [shareLinkedIn, shareTwitter, shareCopy].forEach(b => { b.disabled = true; });
+    shareClaimed.hidden = false;
+  }
+
+  // Wire share buttons
+  const pageUrl  = encodeURIComponent(window.location.href);
+  const pageTitle = encodeURIComponent('Boulder Box Saigon — Portfolio Case Study');
+  shareLinkedIn.addEventListener('click', () =>
+    handleShare(`https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`));
+  shareTwitter.addEventListener('click', () =>
+    handleShare(`https://x.com/intent/post?text=${pageTitle}&url=${pageUrl}`));
+  shareCopy.addEventListener('click', copyAndShare);
+
+  // Find first incomplete quiz question
+  const firstIncomplete = nodes.findIndex(n => !n.completed);
+  current = firstIncomplete === -1 ? 0 : firstIncomplete;
+
+  updateProgressBadge();
+
+  // Open dock if there are incomplete quests
+  const hasPending = nodes.some(n => !n.completed);
+  if (hasPending) {
+    dockOpen = true;
+    dock.hidden = false;
+    dock.removeAttribute('hidden');
+    toggleLabel.textContent = '✕ Close';
+    document.body.classList.add('bbo-mode');
+  }
+
+  // Show share banner if quiz done but share not claimed
+  if (!hasPending && shareNode && !shareNode.completed) {
+    shareBanner.hidden = false;
+  }
+
+  renderQuestion();
+});
+</script>
