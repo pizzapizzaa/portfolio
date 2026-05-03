@@ -197,13 +197,20 @@ import Header from '../../components/Header.astro';
 <!-- HUD bar — appears below the site nav when in explorer mode -->
 <div id="bbo-explorer-hud" class="bbo-hud" hidden aria-label="Explorer HUD">
   <div class="bbo-hud-inner">
+    <!-- Left: exit button + explorer identity -->
     <div class="bbo-hud-left">
-      <span class="bbo-hud-icon">🧭</span>
-      <span class="bbo-hud-label">EXPLORER MODE</span>
+      <button class="bbo-exit-btn" id="bboExitBtn" aria-label="Exit Explorer Mode">
+        <span class="bbo-exit-icon">✕</span>
+        <span class="bbo-exit-label">Exit Explorer</span>
+      </button>
+      <div class="bbo-hud-explorer-id">
+        <span class="bbo-hud-icon">🧭</span>
+        <span class="bbo-hud-nick" id="bboHudNick"></span>
+      </div>
     </div>
+    <!-- Center: rank badge → EXP bar stacked -->
     <div class="bbo-hud-center">
       <span class="bbo-hud-rank" id="bboHudRank">CADET</span>
-      <span class="bbo-hud-nick" id="bboHudNick"></span>
       <div class="bbo-hud-exp-wrap">
         <div class="bbo-hud-exp-bar">
           <div class="bbo-hud-exp-fill" id="bboHudExpFill"></div>
@@ -211,10 +218,11 @@ import Header from '../../components/Header.astro';
         <span class="bbo-hud-exp-text" id="bboHudExpText">0 / 100 EXP</span>
       </div>
     </div>
+    <!-- Right: quest progress + settings -->
     <div class="bbo-hud-right">
       <span class="bbo-hud-progress" id="bboHudProgress"></span>
-      <button class="bbo-hud-toggle" id="bboQuizToggle" aria-label="Toggle quiz panel">
-        <span id="bboToggleLabel">📋 Quests</span>
+      <button class="bbo-settings-btn" id="bboSettingsBtn" aria-label="Explorer settings">
+        <span class="bbo-settings-icon">⚙</span>
       </button>
     </div>
   </div>
@@ -275,6 +283,30 @@ import Header from '../../components/Header.astro';
   </div><!-- end .bbo-dock-body -->
 </div>
 
+<!-- Settings modal -->
+<div class="bbo-settings-modal" id="bboSettingsModal" hidden role="dialog" aria-modal="true" aria-labelledby="bboSettingsTitle">
+  <div class="bbo-settings-inner">
+    <div class="bbo-settings-header">
+      <span class="bbo-settings-title" id="bboSettingsTitle">⚙ EXPLORER SETTINGS</span>
+      <button class="bbo-settings-close" id="bboSettingsClose" aria-label="Close settings">✕</button>
+    </div>
+    <label class="bbo-field-label">Nickname</label>
+    <input class="bbo-field-input" id="bboSettingsNick" type="text" maxlength="20" placeholder="Your explorer name" />
+    <label class="bbo-field-label">Map Icon</label>
+    <div class="bbo-marker-grid" id="bboMarkerGrid">
+      <button class="bbo-marker-opt" type="button" data-marker="pin">📍</button>
+      <button class="bbo-marker-opt" type="button" data-marker="star">⭐</button>
+      <button class="bbo-marker-opt" type="button" data-marker="rocket">🚀</button>
+      <button class="bbo-marker-opt" type="button" data-marker="target">🎯</button>
+      <button class="bbo-marker-opt" type="button" data-marker="crystal">🔮</button>
+      <button class="bbo-marker-opt" type="button" data-marker="bolt">⚡</button>
+      <button class="bbo-marker-opt" type="button" data-marker="glow">🌟</button>
+      <button class="bbo-marker-opt" type="button" data-marker="compass">🧭</button>
+    </div>
+    <button class="bbo-settings-save" id="bboSettingsSave" type="button">SAVE CHANGES</button>
+  </div>
+</div>
+
 <!-- Story fragment popup -->
 <div class="bbo-story-popup" id="bboStoryPopup" hidden role="dialog" aria-modal="true" aria-labelledby="bboStoryTitle">
   <div class="bbo-story-inner">
@@ -292,7 +324,8 @@ import Header from '../../components/Header.astro';
 /* ── CSS custom props matching landing_minigame theme ── */
 #bbo-explorer-hud,
 #bbo-quiz-dock,
-.bbo-story-popup {
+.bbo-story-popup,
+.bbo-settings-modal {
   --bbo-accent:   rgb(47, 199, 142);
   --bbo-gold:     rgb(255, 184, 0);
   --bbo-bg:       rgba(7, 18, 7, 0.96);
@@ -304,12 +337,20 @@ import Header from '../../components/Header.astro';
 }
 
 /* ── Hide main nav when explorer mode is active ── */
-body.explorer-active .header-wrapper {
+:global(body.explorer-active .header-wrapper) {
+  display: none !important;
+}
+/* Hide the Layout background image — BBO page has its own background */
+:global(body.explorer-active > div.fixed) {
   display: none !important;
 }
 /* Override main's default nav-clearance padding in explorer mode */
-body.explorer-active main {
+:global(body.explorer-active) main {
   padding-top: 0 !important;
+}
+/* Body itself gets the BBO dark background so no gaps show through */
+:global(body.explorer-active) {
+  background: linear-gradient(40deg, #071207 0%, #0d2c1a 100%) !important;
 }
 
 /* ── HUD bar ── */
@@ -342,25 +383,53 @@ body.explorer-active main {
 
 .bbo-hud-left {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   flex-shrink: 0;
 }
-.bbo-hud-icon { font-size: 14px; }
-.bbo-hud-label {
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  color: var(--bbo-accent);
+.bbo-hud-icon { font-size: 13px; }
+.bbo-hud-explorer-id {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+/* Exit Explorer button */
+.bbo-exit-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid rgba(255,80,80,0.4);
+  color: rgba(255,110,110,0.9);
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  cursor: pointer;
+  clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
   text-transform: uppercase;
+  white-space: nowrap;
+}
+.bbo-exit-btn:hover {
+  background: rgba(255,60,60,0.15);
+  border-color: rgba(255,80,80,0.8);
+  color: #ff7070;
+}
+.bbo-exit-icon { font-size: 10px; line-height: 1; }
+@media (max-width: 520px) {
+  .bbo-exit-label { display: none; }
+  .bbo-exit-btn { padding: 4px 8px; }
 }
 
 .bbo-hud-center {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   flex: 1;
-  justify-content: center;
   min-width: 0;
 }
 .bbo-hud-rank {
@@ -378,20 +447,21 @@ body.explorer-active main {
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--bbo-text1);
-  max-width: 120px;
+  max-width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  flex-shrink: 0;
 }
 .bbo-hud-exp-wrap {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 3px;
-  flex-shrink: 0;
+  width: 100%;
+  max-width: 160px;
 }
 .bbo-hud-exp-bar {
-  width: 60px;
+  width: 100%;
   height: 3px;
   background: rgba(47,199,142,0.2);
   overflow: hidden;
@@ -423,23 +493,130 @@ body.explorer-active main {
   letter-spacing: 0.1em;
   white-space: nowrap;
 }
-.bbo-hud-toggle {
+/* Settings cog button */
+.bbo-settings-btn {
   background: transparent;
   border: 1px solid var(--bbo-border);
+  color: var(--bbo-text2);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: border-color 0.2s, color 0.2s;
+  flex-shrink: 0;
+  padding: 0;
+}
+.bbo-settings-btn:hover { border-color: var(--bbo-accent); color: var(--bbo-accent); }
+.bbo-settings-icon { font-size: 14px; line-height: 1; }
+
+/* Settings modal overlay */
+.bbo-settings-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9100;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(4px);
+}
+.bbo-settings-modal[hidden] { display: none; }
+.bbo-settings-inner {
+  background: var(--bbo-bg);
+  border: 1px solid var(--bbo-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  width: 100%;
+  max-width: 340px;
+  font-family: 'Orbitron', monospace;
+}
+.bbo-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.bbo-settings-title {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   color: var(--bbo-accent);
-  font-family: inherit;
-  font-size: 9px;
+  text-transform: uppercase;
+}
+.bbo-settings-close {
+  background: transparent;
+  border: none;
+  color: var(--bbo-text2);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: color 0.2s;
+}
+.bbo-settings-close:hover { color: var(--bbo-text1); }
+.bbo-field-label {
+  display: block;
+  font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  padding: 5px 12px;
+  color: var(--bbo-text2);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.bbo-field-input {
+  width: 100%;
+  background: rgba(47,199,142,0.06);
+  border: 1px solid var(--bbo-border);
+  border-radius: 4px;
+  color: var(--bbo-text1);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 7px 10px;
+  margin-bottom: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.bbo-field-input:focus { border-color: var(--bbo-accent); }
+.bbo-marker-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.bbo-marker-opt {
+  background: transparent;
+  border: 1px solid var(--bbo-border);
+  border-radius: 6px;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
-.bbo-hud-toggle:hover {
+.bbo-marker-opt:hover { border-color: var(--bbo-accent); }
+.bbo-marker-opt.sel { border-color: var(--bbo-accent); box-shadow: 0 0 10px var(--bbo-glow); }
+.bbo-settings-save {
+  width: 100%;
   background: var(--bbo-accent);
+  border: none;
   color: #071207;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: opacity 0.2s;
 }
+.bbo-settings-save:hover { opacity: 0.85; }
 
 /* ── Quiz dock ── */
 .bbo-quiz-dock {
@@ -486,7 +663,7 @@ body.explorer-active main {
 }
 .bbo-dock-chevron {
   font-family: 'Orbitron', monospace;
-  font-size: 10px;
+  font-size: 15px;
   color: var(--bbo-accent);
   transition: transform 0.25s;
   flex-shrink: 0;
@@ -803,13 +980,13 @@ body.explorer-active main {
 .bbo-story-close:hover { opacity: 0.85; }
 
 /* ── Body padding when explorer mode is active ── */
-body.explorer-active {
-  padding-top: 48px; /* room for HUD bar at top (nav is hidden) */
+:global(body.explorer-active) {
+  padding-top: 64px; /* room for taller two-row HUD bar */
 }
-body.bbo-mode {
+:global(body.bbo-mode) {
   padding-bottom: 220px; /* room for expanded quiz dock */
 }
-body.bbo-mode.dock-collapsed {
+:global(body.bbo-mode.dock-collapsed) {
   padding-bottom: 48px; /* room for collapsed tab strip only */
 }
 
@@ -894,8 +1071,7 @@ const hudNick      = document.getElementById('bboHudNick')!;
 const hudExpFill   = document.getElementById('bboHudExpFill') as HTMLElement;
 const hudExpText   = document.getElementById('bboHudExpText')!;
 const hudProgress  = document.getElementById('bboHudProgress')!;
-const toggleBtn    = document.getElementById('bboQuizToggle')!;
-const toggleLabel  = document.getElementById('bboToggleLabel')!;
+const exitBtn      = document.getElementById('bboExitBtn')!;
 const quizNum      = document.getElementById('bboQuizNum')!;
 const quizTitle    = document.getElementById('bboQuizTitle')!;
 const quizExp      = document.getElementById('bboQuizExp')!;
@@ -1097,7 +1273,6 @@ const dockStatus   = document.getElementById('bboDockStatus')!;
 function setDockCollapsed(collapsed: boolean) {
   dock.classList.toggle('collapsed', collapsed);
   document.body.classList.toggle('dock-collapsed', collapsed);
-  toggleLabel.textContent = collapsed ? '📋 Quests' : '✕ Close';
 }
 
 dockTab.addEventListener('click', () => {
@@ -1105,10 +1280,78 @@ dockTab.addEventListener('click', () => {
   setDockCollapsed(!isCollapsed);
 });
 
-// Keep HUD toggle button in sync
-toggleBtn.addEventListener('click', () => {
-  const isCollapsed = dock.classList.contains('collapsed');
-  setDockCollapsed(!isCollapsed);
+// ── Settings modal ───────────────────────────────────────────────
+const settingsModal = document.getElementById('bboSettingsModal') as HTMLElement;
+const settingsNick  = document.getElementById('bboSettingsNick') as HTMLInputElement;
+const settingsSave  = document.getElementById('bboSettingsSave')!;
+
+const MARKER_EMOJI: Record<string, string> = {
+  pin: '📍', star: '⭐', rocket: '🚀', target: '🎯',
+  crystal: '🔮', bolt: '⚡', glow: '🌟', compass: '🧭',
+};
+
+document.getElementById('bboSettingsBtn')!.addEventListener('click', () => {
+  // Pre-fill current values
+  settingsNick.value = nickname;
+  try {
+    const p = JSON.parse(localStorage.getItem('ex-profile') || '{}');
+    const cur = p.marker || 'pin';
+    document.querySelectorAll('.bbo-marker-opt').forEach(b =>
+      b.classList.toggle('sel', (b as HTMLElement).dataset.marker === cur));
+  } catch(_) {}
+  settingsModal.hidden = false;
+});
+
+document.getElementById('bboSettingsClose')!.addEventListener('click', () => {
+  settingsModal.hidden = true;
+});
+settingsModal.addEventListener('click', (e) => {
+  if (e.target === settingsModal) settingsModal.hidden = true;
+});
+
+document.querySelectorAll('.bbo-marker-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.bbo-marker-opt').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+  });
+});
+
+settingsSave.addEventListener('click', async () => {
+  const newNick   = settingsNick.value.trim();
+  const newMarker = (document.querySelector('.bbo-marker-opt.sel') as HTMLElement)?.dataset.marker || 'pin';
+  if (!newNick) return;
+
+  // Update local state
+  nickname = newNick;
+  const nickEl = document.getElementById('bboHudNick');
+  if (nickEl) nickEl.textContent = newNick;
+
+  // Persist to localStorage
+  try {
+    const cached = localStorage.getItem('ex-profile');
+    const p = cached ? JSON.parse(cached) : {};
+    p.nickname = newNick;
+    p.marker   = newMarker;
+    localStorage.setItem('ex-profile', JSON.stringify(p));
+  } catch(_) {}
+
+  // Persist to Supabase if available
+  if (supabase) {
+    try {
+      await supabase.from('explorers').update({ nickname: newNick, marker: newMarker })
+        .eq('nickname', nickname);
+    } catch(_) {}
+  }
+
+  settingsModal.hidden = true;
+});
+
+// Exit Explorer Mode
+exitBtn.addEventListener('click', () => {
+  document.body.classList.remove('explorer-active', 'bbo-mode', 'dock-collapsed');
+  hud.hidden = true;
+  dock.hidden = true;
+  dock.classList.add('collapsed');
 });
 
 // ── Nav buttons ───────────────────────────────────────────────────
@@ -1231,15 +1474,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   updateProgressBadge();
 
-  // Open dock if there are incomplete quests
+  // Always show the dock when in explorer mode so user can access quests
+  dock.hidden = false;
+  dock.removeAttribute('hidden');
+  document.body.classList.add('bbo-mode');
+
   const hasPending = nodes.some(n => !n.completed);
   if (hasPending) {
-    dock.hidden = false;
-    dock.removeAttribute('hidden');
     // Start expanded so user immediately sees the quiz
     setDockCollapsed(false);
-    document.body.classList.add('bbo-mode');
   }
+  // else leave collapsed — tab strip still visible so user can reopen
 
   // Show share banner if quiz done but share not claimed
   if (!hasPending && shareNode && !shareNode.completed) {
