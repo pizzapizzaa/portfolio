@@ -221,7 +221,18 @@ import Header from '../../components/Header.astro';
 </div>
 
 <!-- Quiz dock — floats at bottom -->
-<div id="bbo-quiz-dock" class="bbo-quiz-dock" hidden>
+<div id="bbo-quiz-dock" class="bbo-quiz-dock collapsed" hidden>
+  <!-- Tab strip: always visible, click to expand/collapse -->
+  <div class="bbo-dock-tab" id="bboDockTab" role="button" aria-label="Toggle quiz panel">
+    <div class="bbo-dock-tab-left">
+      <span class="bbo-dock-chevron" id="bboDockChevron">▲</span>
+      <span class="bbo-dock-label">📋 Quests</span>
+    </div>
+    <span class="bbo-dock-status" id="bboDockStatus"></span>
+  </div>
+
+  <!-- Scrollable body (collapsed away) -->
+  <div class="bbo-dock-body">
   <!-- Progress dots -->
   <div class="bbo-quiz-dots" id="bboQuizDots"></div>
 
@@ -261,6 +272,7 @@ import Header from '../../components/Header.astro';
       <p class="bbo-done-sub">Share this page to earn a bonus. Use the share buttons below.</p>
     </div>
   </div>
+  </div><!-- end .bbo-dock-body -->
 </div>
 
 <!-- Story fragment popup -->
@@ -291,10 +303,19 @@ import Header from '../../components/Header.astro';
   font-family: 'Orbitron', 'Albert Sans', monospace;
 }
 
+/* ── Hide main nav when explorer mode is active ── */
+body.explorer-active .header-wrapper {
+  display: none !important;
+}
+/* Override main's default nav-clearance padding in explorer mode */
+body.explorer-active main {
+  padding-top: 0 !important;
+}
+
 /* ── HUD bar ── */
 .bbo-hud {
   position: fixed;
-  top: 80px; /* below site nav */
+  top: 0; /* pinned to very top — main nav is hidden in explorer mode */
   left: 0;
   right: 0;
   z-index: 8000;
@@ -431,10 +452,69 @@ import Header from '../../components/Header.astro';
   border-top: 1px solid var(--bbo-border);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  padding: 12px 20px 20px;
-  max-height: 70vh;
-  overflow-y: auto;
+  padding: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 500px; /* expanded */
   animation: bboSlideUp 0.35s ease;
+}
+
+/* Collapsed: only the tab strip is visible (~36px) */
+.bbo-quiz-dock.collapsed {
+  max-height: 36px;
+}
+
+/* Tab strip — always visible, sits at the very top of the dock */
+.bbo-dock-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 36px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.bbo-quiz-dock:not(.collapsed) .bbo-dock-tab {
+  border-bottom-color: var(--bbo-border);
+}
+.bbo-dock-tab-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bbo-dock-chevron {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  color: var(--bbo-accent);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.bbo-quiz-dock.collapsed .bbo-dock-chevron {
+  transform: rotate(180deg);
+}
+.bbo-dock-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--bbo-accent);
+  text-transform: uppercase;
+}
+.bbo-dock-status {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--bbo-text2);
+  letter-spacing: 0.1em;
+}
+
+/* Scrollable content area below the tab strip */
+.bbo-dock-body {
+  padding: 12px 20px 20px;
+  max-height: calc(500px - 36px);
+  overflow-y: auto;
 }
 @keyframes bboSlideUp {
   from { transform: translateY(100%); opacity: 0; }
@@ -722,9 +802,15 @@ import Header from '../../components/Header.astro';
 }
 .bbo-story-close:hover { opacity: 0.85; }
 
-/* ── Body padding when HUD + dock both visible ── */
+/* ── Body padding when explorer mode is active ── */
+body.explorer-active {
+  padding-top: 48px; /* room for HUD bar at top (nav is hidden) */
+}
 body.bbo-mode {
-  padding-bottom: 200px; /* room for quiz dock */
+  padding-bottom: 220px; /* room for expanded quiz dock */
+}
+body.bbo-mode.dock-collapsed {
+  padding-bottom: 48px; /* room for collapsed tab strip only */
 }
 
 /* ── Share section ── */
@@ -794,7 +880,7 @@ let nodes: QuizNode[] = [];      // quiz-type only (shown in dock)
 let shareNode: QuizNode | null = null; // puzzle-type share bonus
 let current = 0;
 let nickname = '';
-let dockOpen = false;
+let dockOpen = false; // kept for share-banner show/hide logic
 
 // ── Element refs ──────────────────────────────────────────────────
 const hud          = document.getElementById('bbo-explorer-hud') as HTMLElement;
@@ -846,6 +932,12 @@ function updateProgressBadge() {
   const done = nodes.filter(n => n.completed).length;
   hudProgress.textContent = `${done} / ${nodes.length} QUESTS`;
   hudProgress.style.color = done === nodes.length ? 'var(--bbo-accent)' : 'var(--bbo-gold)';
+  // Also update the dock tab strip status
+  const dockStatusEl = document.getElementById('bboDockStatus');
+  if (dockStatusEl) {
+    dockStatusEl.textContent = `${done} / ${nodes.length} QUESTS`;
+    dockStatusEl.style.color = done === nodes.length ? 'var(--bbo-accent)' : 'var(--bbo-gold)';
+  }
 }
 
 // ── Render progress dots ──────────────────────────────────────────
@@ -997,12 +1089,26 @@ storyClose.addEventListener('click', () => {
   else { renderQuestion(); } // may show done banner
 });
 
-// ── Toggle quiz dock ──────────────────────────────────────────────
+// ── Dock tab: toggle collapse/expand ─────────────────────────────
+const dockTab      = document.getElementById('bboDockTab')!;
+const dockChevron  = document.getElementById('bboDockChevron')!;
+const dockStatus   = document.getElementById('bboDockStatus')!;
+
+function setDockCollapsed(collapsed: boolean) {
+  dock.classList.toggle('collapsed', collapsed);
+  document.body.classList.toggle('dock-collapsed', collapsed);
+  toggleLabel.textContent = collapsed ? '📋 Quests' : '✕ Close';
+}
+
+dockTab.addEventListener('click', () => {
+  const isCollapsed = dock.classList.contains('collapsed');
+  setDockCollapsed(!isCollapsed);
+});
+
+// Keep HUD toggle button in sync
 toggleBtn.addEventListener('click', () => {
-  dockOpen = !dockOpen;
-  dock.hidden = !dockOpen;
-  toggleLabel.textContent = dockOpen ? '✕ Close' : '📋 Quests';
-  document.body.classList.toggle('bbo-mode', dockOpen);
+  const isCollapsed = dock.classList.contains('collapsed');
+  setDockCollapsed(!isCollapsed);
 });
 
 // ── Nav buttons ───────────────────────────────────────────────────
@@ -1082,6 +1188,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   hud.hidden = false;
   hud.removeAttribute('hidden');
   updateHudDisplay(profile.exp ?? 0, profile.level ?? 1, nickname);
+  // Pin HUD to top and hide main nav
+  document.body.classList.add('explorer-active');
 
   // Show share section
   shareSection.hidden = false;
@@ -1126,10 +1234,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Open dock if there are incomplete quests
   const hasPending = nodes.some(n => !n.completed);
   if (hasPending) {
-    dockOpen = true;
     dock.hidden = false;
     dock.removeAttribute('hidden');
-    toggleLabel.textContent = '✕ Close';
+    // Start expanded so user immediately sees the quiz
+    setDockCollapsed(false);
     document.body.classList.add('bbo-mode');
   }
 
