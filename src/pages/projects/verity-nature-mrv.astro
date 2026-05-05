@@ -35,7 +35,7 @@ import Header from '../../components/Header.astro';
         <h2 class="case-section-title">1. The TL;DR <span class="case-section-sub">(Executive Summary)</span></h2>
         <div class="case-field">
           <h3 class="case-field-label">The Purpose</h3>
-          <p class="case-field-value">Verity Nature's mission is to empower communities to restore nature and act on climate change. We deliver large-scale projects for the highest integrity carbon and co-benefit credits.</p>
+          <p class="case-field-value">Verity Nature's mission is to empower communities to restore nature and act on climate change. The company delivers large-scale projects for the highest integrity carbon and co-benefit credits.</p>
         </div>
         <div class="case-field">
           <h3 class="case-field-label">The Problem</h3>
@@ -60,15 +60,15 @@ import Header from '../../components/Header.astro';
         <h2 class="case-section-title">2. Strategy &amp; Discovery</h2>
         <div class="case-field">
           <h3 class="case-field-label">Insight</h3>
-          <p class="case-field-value">What did the data or user research tell you that others missed?</p>
+          <p class="case-field-value">Partnered with the Chief Scientific Officer to audit legacy ESG MRV workflows, identifying critical inefficiencies in manual data entry and fragmented lab result distribution. By mapping the "paper-to-pixel" journey, we engineered a unified digital architecture that replaced vulnerable manual processes with a high-integrity, centralized data stream.</p>
         </div>
         <div class="case-field">
           <h3 class="case-field-label">Stakeholders</h3>
-          <p class="case-field-value">How did you align the Product, Engineering, and Marketing teams?</p>
+          <p class="case-field-value">I directed the initial design phase as Lead UX/UI Designer, delivering the foundational high-fidelity tablet field-app. I subsequently transitioned to be the Product Manager, managing the cross-functional design to development to launch pipeline in close collaboration with our Chief Technology Officer and Chief Scientist Officer to drive product maturity and delivery.</p>
         </div>
         <div class="case-field">
           <h3 class="case-field-label">Constraint</h3>
-          <p class="case-field-value">What was the main &ldquo;blocker&rdquo; (Technical debt, tight deadline, or budget)?</p>
+          <p class="case-field-value">The primary constraint was the friction between legacy, rigid manual ESG protocols and the granular data requirements of a high-transparency credit cycle.</p>
         </div>
       </section>
 
@@ -76,11 +76,19 @@ import Header from '../../components/Header.astro';
         <h2 class="case-section-title">3. Execution <span class="case-section-sub">(The &ldquo;How&rdquo;)</span></h2>
         <div class="case-field">
           <h3 class="case-field-label">Key Decision</h3>
-          <p class="case-field-value">&ldquo;We chose [Option A] over [Option B] because of [Data/Logic].&rdquo;</p>
+          <ul class="case-field-list">
+            <li><strong>Unified Data Architecture:</strong> Successfully decomposed complex biodiversity and hydraulic metrics into a simplified, robust digital workflow.</li>
+            <li><strong>Field-Resilient Platforms:</strong> Directed the development of offline-first mobile and tablet applications, ensuring mission-critical data collection in any environment.</li>
+            <li><strong>Prototyping &amp; Scale:</strong> Partnered with the CTO (Justin Baird) to deploy a custom ruggedized data-sync prototype, bridging the gap between field labs and ESG institutions.</li>
+            <li><strong>Cloud Synchronization:</strong> Implemented asynchronous data reconciliation to ensure high-integrity updates across all platforms upon internet availability.</li>
+          </ul>
         </div>
         <div class="case-field">
-          <h3 class="case-field-label">Design Leadership</h3>
-          <p class="case-field-value">Mention the Design System, components, or accessibility standards you enforced.</p>
+          <h3 class="case-field-label">Design/Product Leadership</h3>
+          <ul class="case-field-list">
+            <li><strong>Ecosystem Governance:</strong> Led the creation of a comprehensive design system supporting a complex suite of products, including field-specific mobile and tablet apps, an institutional web platform, and dedicated data-sync utilities.</li>
+            <li><strong>Operational Excellence:</strong> Optimized development cycles to handle the inherent volatility of environmental data. By bridging the gap between scientific requirements and software execution, I ensured the platform could adapt to rapid workflow shifts while maintaining high-integrity standards.</li>
+          </ul>
         </div>
         <div class="case-field">
           <h3 class="case-field-label">Visual Highlights</h3>
@@ -88,13 +96,16 @@ import Header from '../../components/Header.astro';
           <div class="gallery-wrap">
             <div class="gallery-track-wrap">
               <div class="gallery-track" id="galleryTrack">
-                <img class="gallery-img" src="/assets/projects/verity-mrv-01.jpg" alt="Project screen 1" />
-                <img class="gallery-img" src="/assets/projects/verity-mrv-01.jpg" alt="Project screen 2" />
+                <img class="gallery-img" src="/assets/projects/verity-nature-mrv/tablet-field-app.jpg" alt="Tablet field app" />
+                <img class="gallery-img" src="/assets/projects/verity-nature-mrv/data-syncing-field-trip.jpg" alt="Data syncing during field trip" />
+                <img class="gallery-img" src="/assets/projects/verity-nature-mrv/justin-baird-and-the-portable-data-backup.avif" alt="Justin Baird and the portable data backup" />
+                <img class="gallery-img" src="/assets/projects/verity-nature-mrv/verity-nature-mrv-field-trip.avif" alt="Verity Nature MRV field trip" />
+                <img class="gallery-img" src="/assets/projects/verity-nature-mrv/visit-nursery-darwin.jpg" alt="Visit to nursery in Darwin" />
               </div>
             </div>
             <div class="gallery-controls">
               <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
-              <span class="gallery-counter" id="galleryCounter">1 / 2</span>
+              <span class="gallery-counter" id="galleryCounter">1 / 5</span>
               <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
             </div>
           </div>
@@ -102,7 +113,7 @@ import Header from '../../components/Header.astro';
         </div>
       </section>
 
-      <section class="case-section">
+      <section class="case-section" style="display:none;">
         <h2 class="case-section-title">4. Outcome &amp; Lessons</h2>
         <div class="case-field">
           <h3 class="case-field-label">KPIs</h3>
@@ -115,6 +126,15 @@ import Header from '../../components/Header.astro';
         <div class="case-field">
           <h3 class="case-field-label">Next Steps</h3>
           <p class="case-field-value">How would you iterate on this in &ldquo;Phase 2&rdquo;?</p>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <h2 class="case-section-title">Publications</h2>
+        <div class="case-field">
+          <ul class="case-field-list">
+            <li><a class="case-link" href="https://www.veritynature.com/news/blue-carbon-restoration-project" target="_blank" rel="noopener noreferrer">Blue Carbon Restoration Project — Verity Nature</a></li>
+          </ul>
         </div>
       </section>
 
@@ -133,6 +153,8 @@ import Header from '../../components/Header.astro';
   .case-field-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
   .case-field-value { font-size: 17px; line-height: 1.75; color: #fafafa; }
   .case-field-list { margin-top: 10px; padding-left: 20px; list-style: disc; font-size: 17px; line-height: 1.75; color: #fafafa; }
+  .case-link { color: rgb(255,184,0); text-decoration: underline; text-underline-offset: 3px; }
+  .case-link:hover { color: #fff; }
   /* Gallery */
   .gallery-wrap { margin-top: 20px; }
   .gallery-track-wrap { overflow: hidden; border-radius: 12px; background: rgba(0,0,0,0.25); }
