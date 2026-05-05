@@ -28,6 +28,7 @@ import Header from '../../components/Header.astro';
     </section>
 
     <!-- Case Study Body -->
+    <div class="case-body-bg">
     <div class="case-study-body reveal-hidden">
 
       <section class="case-section">
@@ -113,10 +114,12 @@ import Header from '../../components/Header.astro';
       </section>
 
     </div>
+    </div>
   </main>
 </Layout>
 
 <style>
+  .case-body-bg { width: 100%; background: linear-gradient(160deg, #0c1a06 0%, #1a2d10 100%); }
   .case-study-body { max-width: 860px; margin: 0 auto; padding: 64px 24px 96px; color: #fff; }
   .case-section { margin-bottom: 64px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 48px; }
   .case-section-title { font-size: 26px; font-weight: 700; color: rgb(255,184,0); margin-bottom: 36px; }
