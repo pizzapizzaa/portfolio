@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
+import ExplorerProjectOverlay from '../../components/ExplorerProjectOverlay.astro';
 ---
 
 <Layout title="Semble - Case Study">
@@ -113,6 +114,12 @@ import Header from '../../components/Header.astro';
 
     </div>
   </main>
+
+  <ExplorerProjectOverlay
+    projectSlug="semble"
+    projectTitle="Semble - Portfolio Case Study"
+    explorerGradient="linear-gradient(40deg, #0e0e0e 0%, #1a1f2c 100%)"
+  />
 </Layout>
 
 <!-- TODO: Remove when case study content is ready -->

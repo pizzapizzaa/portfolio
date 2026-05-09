@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
+import ExplorerProjectOverlay from '../../components/ExplorerProjectOverlay.astro';
 ---
 
 <Layout title="e-America Platform - Case Study">
@@ -114,6 +115,12 @@ import Header from '../../components/Header.astro';
 
     </div>
   </main>
+
+  <ExplorerProjectOverlay
+    projectSlug="e-america"
+    projectTitle="e-America Platform - Portfolio Case Study"
+    explorerGradient="linear-gradient(40deg, #122249 0%, #542045 100%)"
+  />
 </Layout>
 
 <style>
@@ -140,6 +147,9 @@ import Header from '../../components/Header.astro';
   .gallery-btn:hover { background: rgba(255,255,255,0.16); }
   .gallery-counter { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; }
 
+  :global(body.explorer-active .bbo-share-page-end-wrap) {
+    background: #122249;
+  }
 
 </style>
 

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
+import ExplorerProjectOverlay from '../../components/ExplorerProjectOverlay.astro';
 ---
 
 <Layout title="GoldTracker - Case Study">
@@ -113,6 +114,12 @@ import Header from '../../components/Header.astro';
 
     </div>
   </main>
+
+  <ExplorerProjectOverlay
+    projectSlug="gold-tracker"
+    projectTitle="GoldTracker - Portfolio Case Study"
+    explorerGradient="linear-gradient(40deg, #0e0e0e 0%, #1f1a10 100%)"
+  />
 </Layout>
 
 <!-- TODO: Remove when case study content is ready -->

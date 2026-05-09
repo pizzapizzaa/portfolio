@@ -195,7 +195,7 @@ import Header from '../../components/Header.astro';
      EXPLORER MODE OVERLAY  (hidden until explorer is detected)
      ════════════════════════════════════════════════════════ -->
 <!-- HUD bar — appears below the site nav when in explorer mode -->
-<div id="bbo-explorer-hud" class="bbo-hud" hidden aria-label="Explorer HUD">
+<div id="bbo-explorer-hud" class="bbo-hud" hidden aria-label="Explorer HUD" data-explorer-style-template="explorer_project" data-explorer-section="top-hud">
   <div class="bbo-hud-inner">
     <!-- Left: exit button + explorer identity -->
     <div class="bbo-hud-left">
@@ -229,7 +229,7 @@ import Header from '../../components/Header.astro';
 </div>
 
 <!-- Quiz dock — floats at bottom -->
-<div id="bbo-quiz-dock" class="bbo-quiz-dock collapsed" hidden>
+<div id="bbo-quiz-dock" class="bbo-quiz-dock collapsed" hidden data-explorer-style-template="explorer_project" data-explorer-section="bottom-quiz">
   <!-- Tab strip: always visible, click to expand/collapse -->
   <div class="bbo-dock-tab" id="bboDockTab" role="button" aria-label="Toggle quiz panel">
     <div class="bbo-dock-tab-left">
@@ -739,7 +739,7 @@ import Header from '../../components/Header.astro';
   font-family: 'Orbitron', monospace;
   font-size: 11px;
   font-weight: 600;
-  color: var(--bbo-text2);
+  color: var(--bbo-gold);
   letter-spacing: 0.08em;
 }
 
@@ -1198,12 +1198,12 @@ function updateHudDisplay(exp: number, level: number, nick: string) {
 function updateProgressBadge() {
   const done = nodes.filter(n => n.completed).length;
   hudProgress.textContent = `${done} / ${nodes.length} QUESTS`;
-  hudProgress.style.color = done === nodes.length ? 'var(--bbo-accent)' : 'var(--bbo-gold)';
+  hudProgress.style.color = 'var(--bbo-gold)';
   // Also update the dock tab strip status
   const dockStatusEl = document.getElementById('bboDockStatus');
   if (dockStatusEl) {
     dockStatusEl.textContent = `${done} / ${nodes.length} QUESTS`;
-    dockStatusEl.style.color = done === nodes.length ? 'var(--bbo-accent)' : 'var(--bbo-gold)';
+    dockStatusEl.style.color = 'var(--bbo-gold)';
   }
 }
 
@@ -1570,7 +1570,7 @@ async function copyAndShare() {
 }
 
 // ── Init ──────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', async () => {
+const initBboExplorerOverlay = async () => {
   // Check if explorer session exists
   let profile: any = null;
   try {
@@ -1578,7 +1578,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (cached) profile = JSON.parse(cached);
   } catch (_) {}
 
-  nickname = (profile?.nickname) || '';
+  const legacyNickname = localStorage.getItem('ex-nickname') || '';
+  if (!profile && legacyNickname) {
+    profile = { nickname: legacyNickname, exp: 0, level: 1 };
+  }
+
+  nickname = (profile?.nickname) || legacyNickname;
   pinHash = localStorage.getItem('ex-pin-hash') || '';
   if (!nickname) return; // not in explorer mode — no profile in localStorage
 
@@ -1683,5 +1688,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   renderQuestion();
-});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    void initBboExplorerOverlay();
+  }, { once: true });
+} else {
+  void initBboExplorerOverlay();
+}
 </script>

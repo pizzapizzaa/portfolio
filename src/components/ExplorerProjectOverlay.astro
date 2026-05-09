@@ -1,0 +1,1082 @@
+---
+interface Props {
+  projectSlug: string;
+  projectTitle?: string;
+  explorerGradient?: string;
+}
+
+const {
+  projectSlug,
+  projectTitle = 'Portfolio Case Study',
+  explorerGradient = 'linear-gradient(40deg, #071207 0%, #0d2c1a 100%)',
+} = Astro.props;
+---
+
+<div id="bbo-explorer-hud" class="bbo-hud" hidden aria-label="Explorer HUD" data-explorer-style-template="explorer_project" data-explorer-section="top-hud" data-project-slug={projectSlug} data-project-title={projectTitle} data-project-gradient={explorerGradient}>
+  <div class="bbo-hud-inner">
+    <div class="bbo-hud-left">
+      <button class="bbo-exit-btn" id="bboExitBtn" aria-label="Exit Explorer Mode">
+        <span class="bbo-exit-icon">✕</span>
+        <span class="bbo-exit-label">Exit Explorer</span>
+      </button>
+      <div class="bbo-hud-explorer-id">
+        <span class="bbo-hud-icon">🎮</span>
+        <span class="bbo-hud-nick" id="bboHudNick"></span>
+      </div>
+    </div>
+
+    <div class="bbo-hud-center">
+      <span class="bbo-hud-rank" id="bboHudRank">CADET</span>
+      <div class="bbo-hud-exp-wrap">
+        <div class="bbo-hud-exp-bar">
+          <div class="bbo-hud-exp-fill" id="bboHudExpFill"></div>
+        </div>
+        <span class="bbo-hud-exp-text" id="bboHudExpText">0 / 100 EXP</span>
+      </div>
+    </div>
+
+    <div class="bbo-hud-right">
+      <span class="bbo-hud-progress" id="bboHudProgress"></span>
+      <button class="bbo-settings-btn" id="bboSettingsBtn" aria-label="Explorer settings">
+        <span class="bbo-settings-icon">⚙</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="bbo-quiz-dock" class="bbo-quiz-dock collapsed" hidden data-explorer-style-template="explorer_project" data-explorer-section="bottom-quiz">
+  <div class="bbo-dock-tab" id="bboDockTab" role="button" aria-label="Toggle quest panel">
+    <div class="bbo-dock-tab-left">
+      <span class="bbo-dock-chevron">▼</span>
+      <span class="bbo-dock-label">📋 Quests</span>
+    </div>
+    <span class="bbo-dock-status" id="bboDockStatus"></span>
+  </div>
+
+  <div class="bbo-dock-body">
+    <div class="bbo-quiz-dots" id="bboQuizDots"></div>
+
+    <div class="bbo-quiz-card" id="bboQuizCard">
+      <div class="bbo-quiz-card-header">
+        <span class="bbo-quiz-num" id="bboQuizNum">1 / 1</span>
+        <span class="bbo-quiz-title" id="bboQuizTitle">Quest</span>
+        <span class="bbo-quiz-exp" id="bboQuizExp">+0 EXP</span>
+      </div>
+      <p class="bbo-quiz-prompt" id="bboQuizPrompt"></p>
+      <div class="bbo-quiz-options" id="bboQuizOptions"></div>
+      <div class="bbo-quiz-footer">
+        <button class="bbo-hint-btn" id="bboHintBtn">💡 Hint</button>
+        <p class="bbo-hint-text" id="bboHintText" hidden></p>
+        <div class="bbo-quiz-nav">
+          <button class="bbo-nav-btn" id="bboPrev" aria-label="Previous question">‹ Prev</button>
+          <button class="bbo-nav-btn" id="bboNext" aria-label="Next question">Next ›</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bbo-quiz-done" id="bboQuizDone" hidden>
+      <span class="bbo-done-icon">🏆</span>
+      <div>
+        <p class="bbo-done-title">Project Quests Complete</p>
+        <p class="bbo-done-sub" id="bboDoneSub">All quests cleared.</p>
+      </div>
+    </div>
+
+    <div class="bbo-share-banner" id="bboShareBanner" hidden>
+      <span class="bbo-done-icon">📣</span>
+      <div>
+        <p class="bbo-done-title">Bonus Quest: Share &amp; Earn +50 EXP</p>
+        <p class="bbo-done-sub">Share this page to earn a bonus.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bbo-share-page-end-wrap" data-explorer-section="page-end-share">
+  <div id="bboShareSection" class="bbo-share-page-end" hidden>
+    <p class="bbo-share-page-end-title">📣 Explorer Bonus - Share for +50 EXP</p>
+    <div class="bbo-share-actions">
+      <button id="bboShareLinkedIn" class="bbo-share-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/></svg>
+        Share on LinkedIn
+      </button>
+      <button id="bboShareTwitter" class="bbo-share-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Share on X
+      </button>
+      <button id="bboShareCopy" class="bbo-share-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        Copy Link
+      </button>
+    </div>
+    <p id="bboShareClaimed" hidden class="bbo-share-claimed">✓ +50 EXP bonus claimed</p>
+  </div>
+</div>
+
+<div class="bbo-settings-modal" id="bboSettingsModal" hidden role="dialog" aria-modal="true" aria-labelledby="bboSettingsTitle">
+  <div class="bbo-settings-inner">
+    <div class="bbo-settings-header">
+      <span class="bbo-settings-title" id="bboSettingsTitle">⚙ EXPLORER SETTINGS</span>
+      <button class="bbo-settings-close" id="bboSettingsClose" aria-label="Close settings">✕</button>
+    </div>
+    <label class="bbo-field-label">Nickname</label>
+    <input class="bbo-field-input" id="bboSettingsNick" type="text" maxlength="20" placeholder="Your explorer name" />
+    <label class="bbo-field-label">Map Icon</label>
+    <div class="bbo-marker-grid" id="bboMarkerGrid">
+      <button class="bbo-marker-opt" type="button" data-marker="pin">📍</button>
+      <button class="bbo-marker-opt" type="button" data-marker="star">⭐</button>
+      <button class="bbo-marker-opt" type="button" data-marker="rocket">🚀</button>
+      <button class="bbo-marker-opt" type="button" data-marker="target">🎯</button>
+      <button class="bbo-marker-opt" type="button" data-marker="crystal">🔮</button>
+      <button class="bbo-marker-opt" type="button" data-marker="bolt">⚡</button>
+      <button class="bbo-marker-opt" type="button" data-marker="glow">🌟</button>
+      <button class="bbo-marker-opt" type="button" data-marker="compass">🧭</button>
+    </div>
+    <div class="bbo-settings-actions">
+      <button class="bbo-settings-save" id="bboSettingsSave" type="button">SAVE CHANGES</button>
+      <button class="bbo-settings-logout" id="bboSettingsLogout" type="button">LOGOUT</button>
+    </div>
+  </div>
+</div>
+
+<div class="bbo-story-popup" id="bboStoryPopup" hidden role="dialog" aria-modal="true" aria-labelledby="bboStoryTitle">
+  <div class="bbo-story-inner">
+    <div class="bbo-story-type" id="bboStoryType">DISCOVERY</div>
+    <h3 class="bbo-story-title" id="bboStoryTitle"></h3>
+    <p class="bbo-story-body" id="bboStoryBody"></p>
+    <div class="bbo-story-footer">
+      <span class="bbo-story-exp" id="bboStoryExp">+25 EXP</span>
+      <button class="bbo-story-close" id="bboStoryClose" type="button">Continue ›</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #bbo-explorer-hud,
+  #bbo-quiz-dock,
+  .bbo-story-popup,
+  .bbo-settings-modal {
+    --bbo-accent: rgb(47, 199, 142);
+    --bbo-gold: rgb(255, 184, 0);
+    --bbo-bg: rgba(7, 18, 7, 0.96);
+    --bbo-border: rgba(47, 199, 142, 0.3);
+    --bbo-text1: rgb(200, 230, 200);
+    --bbo-text2: rgba(200, 230, 200, 0.55);
+    --bbo-glow: rgba(47, 199, 142, 0.4);
+    --bbo-page-bg: linear-gradient(40deg, #071207 0%, #0d2c1a 100%);
+    font-family: 'Orbitron', 'Albert Sans', monospace;
+  }
+
+  :global(body.explorer-active .header-wrapper) {
+    display: none !important;
+  }
+
+  :global(body.explorer-active > div.fixed) {
+    display: none !important;
+  }
+
+  :global(body.explorer-active) {
+    --bbo-page-bg: linear-gradient(40deg, #071207 0%, #0d2c1a 100%);
+    background: var(--bbo-page-bg, linear-gradient(40deg, #071207 0%, #0d2c1a 100%)) !important;
+  }
+
+  :global(html.explorer-active-root) {
+    background: var(--bbo-page-bg, linear-gradient(40deg, #071207 0%, #0d2c1a 100%)) !important;
+  }
+
+  :global(body.explorer-active) main {
+    padding-top: 0 !important;
+    background: var(--bbo-page-bg, linear-gradient(40deg, #071207 0%, #0d2c1a 100%)) !important;
+    min-height: 100vh;
+  }
+
+  .bbo-hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 8000;
+    background: var(--bbo-bg);
+    border-bottom: 1px solid var(--bbo-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: bboSlideDown 0.35s ease;
+  }
+
+  @keyframes bboSlideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .bbo-hud-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .bbo-hud-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .bbo-hud-icon { font-size: 16px; }
+  .bbo-hud-explorer-id { display: flex; align-items: center; gap: 8px; }
+  .bbo-hud-nick {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--bbo-text1);
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bbo-exit-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: transparent;
+    border: 1px solid rgba(255, 80, 80, 0.4);
+    color: rgba(255, 110, 110, 0.9);
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 6px 12px;
+    cursor: pointer;
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .bbo-exit-btn:hover {
+    background: rgba(255, 60, 60, 0.15);
+    border-color: rgba(255, 80, 80, 0.8);
+    color: #ff7070;
+  }
+
+  .bbo-exit-icon { font-size: 18px; line-height: 1; }
+
+  .bbo-hud-center { display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1; min-width: 0; }
+  .bbo-hud-rank {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #071207;
+    background: var(--bbo-accent);
+    padding: 5px 12px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    flex-shrink: 0;
+  }
+  .bbo-hud-exp-wrap {
+    width: 100%;
+    max-width: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .bbo-hud-exp-bar { width: 100%; height: 7px; background: rgba(47, 199, 142, 0.2); border-radius: 2px; }
+  .bbo-hud-exp-fill { height: 100%; background: var(--bbo-accent); width: 0%; transition: width 0.6s ease; box-shadow: 0 0 8px var(--bbo-glow); }
+  .bbo-hud-exp-text { font-size: 10px; font-weight: 600; color: var(--bbo-text2); letter-spacing: 0.08em; }
+
+  .bbo-hud-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  .bbo-hud-progress { font-size: 11px; font-weight: 700; color: var(--bbo-gold); letter-spacing: 0.08em; }
+  .bbo-settings-btn {
+    background: transparent;
+    border: 1px solid var(--bbo-border);
+    color: var(--bbo-text2);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+    padding: 0;
+  }
+  .bbo-settings-btn:hover { border-color: var(--bbo-accent); color: var(--bbo-accent); }
+  .bbo-settings-icon { font-size: 22px; line-height: 1; }
+
+  .bbo-quiz-dock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 7900;
+    background: var(--bbo-bg);
+    border-top: 1px solid var(--bbo-border);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 0;
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: bboSlideUp 0.35s ease;
+  }
+
+  @keyframes bboSlideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .bbo-quiz-dock.collapsed { max-height: 42px; }
+  .bbo-dock-tab {
+    height: 42px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .bbo-quiz-dock:not(.collapsed) .bbo-dock-tab { border-bottom-color: var(--bbo-border); }
+  .bbo-dock-tab-left { display: flex; gap: 10px; align-items: center; }
+  .bbo-dock-chevron {
+    font-family: 'Orbitron', monospace;
+    color: var(--bbo-accent);
+    font-size: 15px;
+    line-height: 1;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .bbo-quiz-dock.collapsed .bbo-dock-chevron { transform: rotate(180deg); }
+  .bbo-dock-label { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: var(--bbo-accent); text-transform: uppercase; }
+  .bbo-dock-status { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 600; color: var(--bbo-gold); letter-spacing: 0.08em; }
+  .bbo-dock-body { padding: 14px 20px 20px; max-height: calc(500px - 42px); overflow-y: auto; }
+
+  .bbo-quiz-dots { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
+  .bbo-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--bbo-border); background: rgba(47, 199, 142, 0.2); cursor: pointer; transition: all 0.2s; }
+  .bbo-dot.active { background: var(--bbo-gold); border-color: var(--bbo-gold); transform: scale(1.3); }
+  .bbo-dot.done { background: var(--bbo-accent); border-color: var(--bbo-accent); }
+
+  .bbo-quiz-card { max-width: 680px; margin: 0 auto; }
+  .bbo-quiz-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .bbo-quiz-num { font-size: 8px; font-weight: 800; color: var(--bbo-text2); letter-spacing: 0.16em; flex-shrink: 0; }
+  .bbo-quiz-title { font-size: 10px; font-weight: 800; color: var(--bbo-accent); letter-spacing: 0.12em; text-transform: uppercase; flex: 1; }
+  .bbo-quiz-exp { font-size: 9px; font-weight: 700; color: var(--bbo-gold); letter-spacing: 0.1em; background: rgba(255, 184, 0, 0.1); padding: 3px 8px; clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%); }
+  .bbo-quiz-prompt { font-family: 'Albert Sans', sans-serif; font-size: 15px !important; line-height: 1.6; color: rgb(220, 240, 220) !important; margin-bottom: 14px; }
+
+  .bbo-quiz-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+  .bbo-opt-btn { display: flex; align-items: center; gap: 10px; background: rgba(47, 199, 142, 0.05); border: 1px solid var(--bbo-border); color: var(--bbo-text1); font-family: 'Albert Sans', sans-serif; font-size: 13px; padding: 10px 14px; text-align: left; border-radius: 4px; cursor: pointer; line-height: 1.4; transition: background 0.2s, border-color 0.2s, transform 0.15s; }
+  .bbo-opt-btn:hover:not(:disabled) { background: rgba(47, 199, 142, 0.12); border-color: var(--bbo-accent); transform: translateX(3px); }
+  .bbo-opt-btn:disabled { cursor: default; }
+  .bbo-opt-btn.correct { background: rgba(47, 199, 142, 0.18); border-color: var(--bbo-accent); color: var(--bbo-accent); }
+  .bbo-opt-btn.wrong { background: rgba(220, 70, 70, 0.12); border-color: rgba(220, 70, 70, 0.4); color: rgba(220, 70, 70, 0.8); }
+  .bbo-opt-btn.completed { background: rgba(47, 199, 142, 0.1); border-color: rgba(47, 199, 142, 0.4); color: rgba(47, 199, 142, 0.7); cursor: default; }
+
+  @keyframes bboWrongShake {
+    0% { transform: translateX(0) rotate(0deg); }
+    16% { transform: translateX(-7px) rotate(-0.6deg); }
+    32% { transform: translateX(6px) rotate(0.6deg); }
+    48% { transform: translateX(-5px) rotate(-0.4deg); }
+    64% { transform: translateX(4px) rotate(0.4deg); }
+    80% { transform: translateX(-2px) rotate(-0.2deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+  }
+
+  @keyframes bboCorrectGlow {
+    0% { transform: translateX(0) scale(1); box-shadow: 0 0 0 rgba(47, 199, 142, 0); }
+    50% { transform: translateX(0) scale(1.01); box-shadow: 0 0 18px rgba(47, 199, 142, 0.45); }
+    100% { transform: translateX(0) scale(1); box-shadow: 0 0 0 rgba(47, 199, 142, 0); }
+  }
+
+  .bbo-opt-btn.shake { animation: bboWrongShake 0.46s cubic-bezier(0.36, 0.07, 0.19, 0.97); will-change: transform; }
+  .bbo-opt-btn.correct { animation: bboCorrectGlow 0.55s ease; }
+  .bbo-opt-letter { font-size: 10px; font-weight: 800; font-family: 'Orbitron', monospace; color: var(--bbo-text2); flex-shrink: 0; width: 18px; }
+  .bbo-opt-btn.correct .bbo-opt-letter,
+  .bbo-opt-btn.completed .bbo-opt-letter { color: var(--bbo-accent); }
+  .bbo-opt-btn.wrong .bbo-opt-letter { color: rgba(220, 70, 70, 0.7); }
+
+  .bbo-quiz-footer { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .bbo-hint-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 184, 0, 0.3);
+    color: var(--bbo-gold);
+    font-family: 'Albert Sans', sans-serif;
+    font-size: 11px;
+    padding: 5px 12px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .bbo-hint-btn:hover { background: rgba(255, 184, 0, 0.08); }
+  .bbo-hint-text { font-family: 'Albert Sans', sans-serif; font-size: 12px !important; color: var(--bbo-gold) !important; font-style: italic; margin: 0 !important; flex: 1; }
+  .bbo-quiz-nav { display: flex; gap: 8px; margin-left: auto; }
+  .bbo-nav-btn {
+    background: transparent;
+    border: 1px solid var(--bbo-border);
+    color: var(--bbo-text1);
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 6px 14px;
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .bbo-nav-btn:hover { background: rgba(47, 199, 142, 0.1); border-color: var(--bbo-accent); }
+  .bbo-nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  .bbo-quiz-done {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+  }
+  .bbo-done-icon { font-size: 32px; flex-shrink: 0; }
+  .bbo-done-title { margin: 0 0 4px !important; color: var(--bbo-gold); font-size: 13px; font-weight: 800; letter-spacing: 0.1em; font-family: 'Orbitron', monospace; }
+  .bbo-done-sub { margin: 0 !important; color: var(--bbo-text2) !important; font-size: 12px !important; font-family: 'Albert Sans', sans-serif; }
+  .bbo-share-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: rgba(255, 184, 0, 0.08);
+    border-top: 1px solid rgba(255, 184, 0, 0.25);
+    border-radius: 0 0 16px 16px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .bbo-share-page-end-wrap {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 24px 96px;
+    display: flex;
+    justify-content: center;
+    background: var(--bbo-page-bg, linear-gradient(40deg, #071207 0%, #0d2c1a 100%));
+  }
+  .bbo-share-page-end {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 860px;
+  }
+  .bbo-share-page-end-title {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bbo-accent);
+    opacity: 0.8;
+  }
+  .bbo-share-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .bbo-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(47, 199, 142, 0.12);
+    border: 1px solid rgba(47, 199, 142, 0.4);
+    color: rgb(47, 199, 142);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .bbo-share-btn:hover {
+    background: rgba(47, 199, 142, 0.25);
+    border-color: rgb(47, 199, 142);
+    color: #fff;
+  }
+  .bbo-share-btn:disabled { opacity: 0.4; cursor: default; }
+  .bbo-share-claimed { margin: 6px 0 0; color: var(--bbo-accent); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .bbo-settings-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9100;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    backdrop-filter: blur(4px);
+  }
+  .bbo-settings-modal[hidden] { display: none; }
+  .bbo-settings-inner { width: 100%; max-width: 340px; background: var(--bbo-bg); border: 1px solid var(--bbo-border); border-radius: 8px; padding: 20px 24px; }
+  .bbo-settings-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .bbo-settings-title { font-size: 10px; font-weight: 800; color: var(--bbo-accent); letter-spacing: 0.16em; text-transform: uppercase; }
+  .bbo-settings-close { background: transparent; border: 0; color: var(--bbo-text2); font-size: 14px; cursor: pointer; padding: 2px 6px; transition: color 0.2s; }
+  .bbo-settings-close:hover { color: var(--bbo-text1); }
+  .bbo-field-label { display: block; font-size: 8px; font-weight: 700; color: var(--bbo-text2); margin-bottom: 6px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .bbo-field-input { width: 100%; margin-bottom: 14px; background: rgba(47, 199, 142, 0.06); border: 1px solid var(--bbo-border); border-radius: 4px; color: var(--bbo-text1); font-size: 11px; padding: 7px 10px; box-sizing: border-box; transition: border-color 0.2s; }
+  .bbo-field-input:focus { border-color: var(--bbo-accent); }
+  .bbo-marker-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .bbo-marker-opt { width: 40px; height: 40px; border: 1px solid var(--bbo-border); border-radius: 6px; background: transparent; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, box-shadow 0.15s; }
+  .bbo-marker-opt:hover { border-color: var(--bbo-accent); }
+  .bbo-marker-opt.sel { border-color: var(--bbo-accent); box-shadow: 0 0 10px var(--bbo-glow); }
+  .bbo-settings-actions { display: grid; gap: 10px; }
+  .bbo-settings-save { background: var(--bbo-accent); border: 0; color: #071207; padding: 10px; font-size: 9px; font-weight: 800; letter-spacing: 0.14em; cursor: pointer; border-radius: 4px; transition: opacity 0.2s; }
+  .bbo-settings-save:hover { opacity: 0.85; }
+  .bbo-settings-logout { background: rgba(255, 96, 96, 0.14); border: 1px solid rgba(255, 120, 120, 0.55); color: rgba(255, 150, 150, 0.95); padding: 10px; font-size: 9px; font-weight: 800; letter-spacing: 0.14em; cursor: pointer; border-radius: 4px; transition: background 0.2s, border-color 0.2s, color 0.2s; }
+  .bbo-settings-logout:hover { background: rgba(255, 96, 96, 0.2); border-color: rgba(255, 130, 130, 0.8); color: #ffd3d3; }
+
+  .bbo-story-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 9500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    animation: bboPop 0.3s ease;
+  }
+  @keyframes bboPop {
+    from { opacity: 0; transform: scale(0.94); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .bbo-story-popup[hidden] { display: none; }
+  .bbo-story-inner { max-width: 520px; width: 100%; background: var(--bbo-bg); border: 1px solid var(--bbo-border); border-radius: 2px; padding: 32px; box-shadow: 0 0 60px rgba(47, 199, 142, 0.15); }
+  .bbo-story-type { font-size: 8px; font-weight: 800; letter-spacing: 0.22em; color: var(--bbo-accent); margin-bottom: 12px; }
+  .bbo-story-title { margin: 0 0 16px !important; color: var(--bbo-gold); font-size: 18px !important; font-weight: 800; font-family: 'Orbitron', monospace; line-height: 1.3; padding-bottom: 0 !important; }
+  .bbo-story-body { margin: 0 0 24px !important; color: var(--bbo-text1) !important; font-size: 15px !important; line-height: 1.75; font-family: 'Albert Sans', sans-serif; }
+  .bbo-story-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .bbo-story-exp { color: var(--bbo-gold); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; background: rgba(255, 184, 0, 0.1); padding: 4px 12px; clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%); }
+  .bbo-story-close { background: var(--bbo-accent); border: 0; color: #071207; font-size: 10px; font-weight: 800; letter-spacing: 0.14em; font-family: 'Orbitron', monospace; padding: 10px 24px; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); cursor: pointer; transition: opacity 0.2s; }
+  .bbo-story-close:hover { opacity: 0.85; }
+
+  :global(body.explorer-active) { padding-top: 64px; }
+  :global(body.bbo-mode) { padding-bottom: 220px; }
+  :global(body.bbo-mode.dock-collapsed) { padding-bottom: 48px; }
+
+  @media (max-width: 640px) {
+    .bbo-hud-inner { padding: 10px 14px; gap: 12px; }
+    .bbo-hud-rank { font-size: 10px; padding: 4px 10px; }
+    .bbo-hud-nick { font-size: 11px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bbo-hud-exp-wrap { max-width: 150px; }
+    .bbo-hud-exp-text,
+    .bbo-hud-progress { font-size: 9px; }
+    .bbo-settings-btn { width: 34px; height: 34px; }
+    .bbo-settings-icon { font-size: 19px; }
+    .bbo-quiz-options { grid-template-columns: 1fr; }
+    .bbo-exit-label { display: none; }
+  }
+
+  @media (max-width: 520px) {
+    .bbo-exit-btn { padding: 6px 10px; }
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  import { supabase, expProgress, rankTitle } from '../lib/supabase';
+  import {
+    createDefaultExplorerProjectTemplateConfig,
+    registerExplorerProjectTemplate,
+  } from '../lib/explorerProjectTemplate';
+
+  const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+  async function hashAnswer(answer) {
+    const enc = new TextEncoder();
+    const buf = await crypto.subtle.digest('SHA-256', enc.encode(answer.toLowerCase().trim()));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  const initExplorerProjectOverlay = async () => {
+    const hud = document.getElementById('bbo-explorer-hud');
+    const dock = document.getElementById('bbo-quiz-dock');
+    const storyPopup = document.getElementById('bboStoryPopup');
+    const dotsEl = document.getElementById('bboQuizDots');
+    const cardEl = document.getElementById('bboQuizCard');
+    const doneEl = document.getElementById('bboQuizDone');
+    const hudRank = document.getElementById('bboHudRank');
+    const hudNick = document.getElementById('bboHudNick');
+    const hudExpFill = document.getElementById('bboHudExpFill');
+    const hudExpText = document.getElementById('bboHudExpText');
+    const hudProgress = document.getElementById('bboHudProgress');
+    const quizNum = document.getElementById('bboQuizNum');
+    const quizTitle = document.getElementById('bboQuizTitle');
+    const quizExp = document.getElementById('bboQuizExp');
+    const quizPrompt = document.getElementById('bboQuizPrompt');
+    const quizOptions = document.getElementById('bboQuizOptions');
+    const hintBtn = document.getElementById('bboHintBtn');
+    const hintText = document.getElementById('bboHintText');
+    const prevBtn = document.getElementById('bboPrev');
+    const nextBtn = document.getElementById('bboNext');
+    const doneSub = document.getElementById('bboDoneSub');
+    const dockTab = document.getElementById('bboDockTab');
+    const dockStatus = document.getElementById('bboDockStatus');
+    const dockChevron = dockTab?.querySelector('.bbo-dock-chevron');
+    const storyType = document.getElementById('bboStoryType');
+    const storyTitle = document.getElementById('bboStoryTitle');
+    const storyBody = document.getElementById('bboStoryBody');
+    const storyExp = document.getElementById('bboStoryExp');
+    const storyClose = document.getElementById('bboStoryClose');
+
+    const settingsModal = document.getElementById('bboSettingsModal');
+    const settingsNick = document.getElementById('bboSettingsNick');
+    const settingsSave = document.getElementById('bboSettingsSave');
+    const settingsLogout = document.getElementById('bboSettingsLogout');
+    const settingsBtn = document.getElementById('bboSettingsBtn');
+    const settingsClose = document.getElementById('bboSettingsClose');
+    const exitBtn = document.getElementById('bboExitBtn');
+
+    const shareSection = document.getElementById('bboShareSection');
+    const shareBanner = document.getElementById('bboShareBanner');
+    const shareLinkedIn = document.getElementById('bboShareLinkedIn');
+    const shareTwitter = document.getElementById('bboShareTwitter');
+    const shareCopy = document.getElementById('bboShareCopy');
+    const shareClaimed = document.getElementById('bboShareClaimed');
+
+    const projectSlug = hud?.dataset?.projectSlug || '';
+    const projectTitle = hud?.dataset?.projectTitle || 'Portfolio Case Study';
+    const projectGradient = hud?.dataset?.projectGradient || '';
+
+    if (!projectSlug) return;
+
+    if (projectGradient) {
+      document.body.style.setProperty('--bbo-page-bg', projectGradient);
+      document.documentElement.style.setProperty('--bbo-page-bg', projectGradient);
+    }
+
+    const templateConfig = createDefaultExplorerProjectTemplateConfig(projectSlug);
+    registerExplorerProjectTemplate(templateConfig);
+
+    if (
+      !hud || !dock || !storyPopup || !dotsEl || !cardEl || !doneEl ||
+      !hudRank || !hudNick || !hudExpFill || !hudExpText || !hudProgress ||
+      !quizNum || !quizTitle || !quizExp || !quizPrompt || !quizOptions ||
+      !hintBtn || !hintText || !prevBtn || !nextBtn || !doneSub ||
+      !dockTab || !dockStatus || !storyType || !storyTitle || !storyBody || !storyExp || !storyClose ||
+      !settingsModal || !settingsNick || !settingsSave || !settingsLogout || !settingsBtn || !settingsClose || !exitBtn ||
+      !shareSection || !shareBanner || !shareLinkedIn || !shareTwitter || !shareCopy || !shareClaimed
+    ) {
+      return;
+    }
+
+    let profile = null;
+    try {
+      const cached = localStorage.getItem('ex-profile');
+      if (cached) profile = JSON.parse(cached);
+    } catch (_) {}
+
+    const legacyNickname = localStorage.getItem('ex-nickname') || '';
+    if (!profile && legacyNickname) {
+      profile = { nickname: legacyNickname, exp: 0, level: 1 };
+    }
+
+    const nickname = profile?.nickname || legacyNickname;
+    const pinHash = localStorage.getItem('ex-pin-hash') || '';
+    if (!nickname) return;
+
+    const MARKER_KEY = 'ex-marker';
+
+    let nodes = [];
+    let shareNode = null;
+    let currentQuestion = 0;
+
+    function setDockCollapsed(collapsed) {
+      dock.classList.toggle('collapsed', collapsed);
+      document.body.classList.toggle('dock-collapsed', collapsed);
+      if (dockChevron) {
+        dockChevron.textContent = '▼';
+      }
+    }
+
+    function updateHudDisplay(exp, level, nick) {
+      const safeLevel = Number.isFinite(level) && level > 0 ? level : Math.max(1, Math.floor(exp / 100) + 1);
+      const base = (safeLevel - 1) * 100;
+      const progress = expProgress(exp);
+      hudRank.textContent = `LVL ${safeLevel} · ${rankTitle(safeLevel)}`;
+      hudNick.textContent = nick;
+      hudExpFill.style.width = `${Math.round(progress * 100)}%`;
+      hudExpText.textContent = `${Math.max(0, exp - base)} / 100 EXP`;
+    }
+
+    function updateProgressBadge() {
+      const done = nodes.filter((n) => n.completed).length;
+      hudProgress.textContent = `${done} / ${nodes.length} QUESTS`;
+      dockStatus.textContent = `${done} / ${nodes.length} QUESTS`;
+      hudProgress.style.color = 'var(--bbo-gold)';
+      dockStatus.style.color = 'var(--bbo-gold)';
+    }
+
+    function renderDots() {
+      dotsEl.innerHTML = '';
+      nodes.forEach((n, i) => {
+        const dot = document.createElement('button');
+        dot.className = `bbo-dot${i === currentQuestion ? ' active' : ''}${n.completed ? ' done' : ''}`;
+        dot.setAttribute('aria-label', `Question ${i + 1}`);
+        dot.addEventListener('click', () => {
+          currentQuestion = i;
+          renderQuestion();
+        });
+        dotsEl.appendChild(dot);
+      });
+    }
+
+    function showStory(title, body, type, exp) {
+      storyType.textContent = type.toUpperCase();
+      storyTitle.textContent = title;
+      storyBody.textContent = body.replace(/\{\{nickname\}\}/g, nickname);
+      storyExp.textContent = `+${exp} EXP`;
+      storyPopup.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderQuestion() {
+      if (!nodes.length) {
+        cardEl.hidden = false;
+        doneEl.hidden = true;
+        quizNum.textContent = '0 / 0';
+        quizTitle.textContent = 'Quest Sync Pending';
+        quizExp.textContent = '+0 EXP';
+        quizPrompt.textContent = 'No project-specific quests are available yet. Continue exploring to earn XP from other project pages.';
+        quizOptions.innerHTML = '';
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        hintText.hidden = true;
+        return;
+      }
+
+      renderDots();
+      const node = nodes[currentQuestion];
+      if (!node) return;
+
+      const allDone = nodes.every((n) => n.completed);
+      if (allDone) {
+        cardEl.hidden = true;
+        doneEl.hidden = false;
+        const total = nodes.reduce((sum, n) => sum + n.exp_reward, 0);
+        doneSub.textContent = `+${total} EXP earned across all quests.`;
+        if (shareNode && !shareNode.completed) {
+          shareBanner.hidden = false;
+          shareSection.hidden = false;
+        }
+        return;
+      }
+
+      cardEl.hidden = false;
+      doneEl.hidden = true;
+      quizNum.textContent = `${currentQuestion + 1} / ${nodes.length}`;
+      quizTitle.textContent = node.title;
+      quizExp.textContent = `+${node.exp_reward} EXP`;
+      quizPrompt.textContent = node.prompt;
+      prevBtn.disabled = currentQuestion === 0;
+      nextBtn.disabled = currentQuestion === nodes.length - 1;
+      hintText.hidden = true;
+      hintText.textContent = node.hint || '';
+
+      quizOptions.innerHTML = '';
+      (node.options || []).forEach((option, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `bbo-opt-btn${node.completed ? ' completed' : ''}`;
+        btn.disabled = node.completed;
+
+        const letter = document.createElement('span');
+        letter.className = 'bbo-opt-letter';
+        letter.textContent = `${LETTERS[i] || ''}. `;
+        const text = document.createElement('span');
+        text.textContent = option;
+
+        btn.appendChild(letter);
+        btn.appendChild(text);
+        btn.addEventListener('click', async () => {
+          if (!supabase || !pinHash || node.completed) return;
+          quizOptions.querySelectorAll('button').forEach((b) => { b.disabled = true; });
+
+          const answerHash = await hashAnswer(option);
+          const { data, error } = await supabase.rpc('submit_answer', {
+            p_nickname: nickname,
+            p_node_id: node.id,
+            p_answer_hash: answerHash,
+            p_pin_hash: pinHash,
+          });
+
+          if (error || !data?.ok || !data.correct) {
+            btn.classList.add('wrong');
+            btn.classList.remove('shake');
+            void btn.offsetWidth;
+            btn.classList.add('shake');
+            setTimeout(() => {
+              btn.classList.remove('wrong');
+              btn.classList.remove('shake');
+              quizOptions.querySelectorAll('button').forEach((b) => { b.disabled = false; });
+            }, 420);
+            return;
+          }
+
+          node.completed = true;
+          btn.classList.add('correct');
+          if (data.new_exp !== undefined) {
+            updateHudDisplay(data.new_exp, data.new_level, nickname);
+            try {
+              const cached = localStorage.getItem('ex-profile');
+              if (cached) {
+                const p = JSON.parse(cached);
+                p.exp = data.new_exp;
+                p.level = data.new_level;
+                localStorage.setItem('ex-profile', JSON.stringify(p));
+              }
+            } catch (_) {}
+          }
+
+          updateProgressBadge();
+          if (data.story_fragment) {
+            const sf = data.story_fragment;
+            showStory(sf.title, sf.body, sf.type, node.exp_reward);
+          } else {
+            const nextIncomplete = nodes.findIndex((n, i2) => i2 > currentQuestion && !n.completed);
+            currentQuestion = nextIncomplete === -1 ? currentQuestion : nextIncomplete;
+            renderQuestion();
+          }
+        });
+
+        quizOptions.appendChild(btn);
+      });
+    }
+
+    storyClose.addEventListener('click', () => {
+      storyPopup.hidden = true;
+      document.body.style.overflow = '';
+      const nextIncomplete = nodes.findIndex((n, i) => i > currentQuestion && !n.completed);
+      currentQuestion = nextIncomplete === -1 ? currentQuestion : nextIncomplete;
+      renderQuestion();
+    });
+
+    dockTab.addEventListener('click', () => {
+      setDockCollapsed(!dock.classList.contains('collapsed'));
+    });
+
+    hintBtn.addEventListener('click', () => {
+      hintText.hidden = !hintText.hidden;
+      hintBtn.textContent = hintText.hidden ? '💡 Hint' : '💡 Hide Hint';
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentQuestion > 0) {
+        currentQuestion -= 1;
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentQuestion < nodes.length - 1) {
+        currentQuestion += 1;
+        renderQuestion();
+      }
+    });
+
+    settingsBtn.addEventListener('click', () => {
+      settingsNick.value = nickname;
+      try {
+        const marker = localStorage.getItem(MARKER_KEY) || 'pin';
+        document.querySelectorAll('.bbo-marker-opt').forEach((el) => {
+          el.classList.toggle('sel', el.dataset.marker === marker);
+        });
+      } catch (_) {}
+      settingsModal.hidden = false;
+    });
+
+    settingsClose.addEventListener('click', () => { settingsModal.hidden = true; });
+    settingsModal.addEventListener('click', (event) => {
+      if (event.target === settingsModal) settingsModal.hidden = true;
+    });
+
+    document.querySelectorAll('.bbo-marker-opt').forEach((el) => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.bbo-marker-opt').forEach((btn) => btn.classList.remove('sel'));
+        el.classList.add('sel');
+      });
+    });
+
+    settingsSave.addEventListener('click', () => {
+      const selectedMarker = document.querySelector('.bbo-marker-opt.sel');
+      const marker = (selectedMarker && selectedMarker.dataset && selectedMarker.dataset.marker) || 'pin';
+      try {
+        localStorage.setItem(MARKER_KEY, marker);
+      } catch (_) {}
+      settingsModal.hidden = true;
+    });
+
+    settingsLogout.addEventListener('click', () => {
+      try {
+        localStorage.removeItem('ex-profile');
+        localStorage.removeItem('ex-pin-hash');
+        localStorage.removeItem('ex-nickname');
+        localStorage.removeItem('ex-server');
+        localStorage.removeItem('ex-marker');
+      } catch (_) {}
+      window.location.href = '/explorer_start';
+    });
+
+    exitBtn.addEventListener('click', () => {
+      document.body.classList.remove('explorer-active', 'bbo-mode', 'dock-collapsed');
+      document.documentElement.classList.remove('explorer-active-root');
+      hud.hidden = true;
+      dock.hidden = true;
+      dock.classList.add('collapsed');
+    });
+
+    async function awardShareBonus() {
+      if (!shareNode || shareNode.completed || !supabase || !pinHash) return;
+      const answerHash = await hashAnswer('shared');
+      const { data, error } = await supabase.rpc('submit_answer', {
+        p_nickname: nickname,
+        p_node_id: shareNode.id,
+        p_answer_hash: answerHash,
+        p_pin_hash: pinHash,
+      });
+      if (error || !data?.ok) return;
+
+      shareNode.completed = true;
+      shareBanner.hidden = true;
+      shareClaimed.hidden = false;
+      shareLinkedIn.disabled = true;
+      shareTwitter.disabled = true;
+      shareCopy.disabled = true;
+
+      if (data.new_exp !== undefined) {
+        updateHudDisplay(data.new_exp, data.new_level, nickname);
+        try {
+          const cached = localStorage.getItem('ex-profile');
+          if (cached) {
+            const p = JSON.parse(cached);
+            p.exp = data.new_exp;
+            p.level = data.new_level;
+            localStorage.setItem('ex-profile', JSON.stringify(p));
+          }
+        } catch (_) {}
+      }
+
+      if (data.story_fragment) {
+        const sf = data.story_fragment;
+        showStory(sf.title, sf.body, sf.type, shareNode.exp_reward);
+      }
+    }
+
+    const pageUrl = encodeURIComponent(window.location.href);
+    const pageText = encodeURIComponent(projectTitle);
+
+    shareLinkedIn.addEventListener('click', () => {
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`, '_blank', 'noopener');
+      void awardShareBonus();
+    });
+
+    shareTwitter.addEventListener('click', () => {
+      window.open(`https://x.com/intent/post?text=${pageText}&url=${pageUrl}`, '_blank', 'noopener');
+      void awardShareBonus();
+    });
+
+    shareCopy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+      } catch (_) {}
+      void awardShareBonus();
+    });
+
+    hud.hidden = false;
+    dock.hidden = false;
+    shareSection.hidden = false;
+    document.body.classList.add('explorer-active', 'bbo-mode');
+    document.documentElement.classList.add('explorer-active-root');
+    setDockCollapsed(true);
+
+    updateHudDisplay(profile.exp ?? 0, profile.level ?? 1, nickname);
+
+    if (!supabase) {
+      updateProgressBadge();
+      renderQuestion();
+      return;
+    }
+
+    let data = null;
+    let error = null;
+
+    ({ data, error } = await supabase.rpc('get_project_content', {
+      p_project_slug: projectSlug,
+      p_nickname: nickname,
+      p_pin_hash: pinHash || null,
+    }));
+
+    if (error || !data?.ok) {
+      ({ data, error } = await supabase.rpc('get_project_content', {
+        p_project_slug: projectSlug,
+        p_nickname: nickname,
+      }));
+    }
+
+    if (error || !data?.ok || !Array.isArray(data.nodes)) {
+      const fallback = await supabase
+        .from('content_nodes')
+        .select('id,node_type,order_index,title,prompt,options,hint,exp_reward')
+        .eq('project_slug', projectSlug)
+        .order('order_index', { ascending: true });
+
+      if (!fallback.error && Array.isArray(fallback.data) && fallback.data.length) {
+        data = {
+          ok: true,
+          nodes: fallback.data.map((n) => ({
+            id: n.id,
+            type: n.node_type,
+            title: n.title,
+            prompt: n.prompt,
+            options: n.options,
+            hint: n.hint,
+            exp_reward: n.exp_reward,
+            completed: false,
+            attempts: 0,
+          })),
+        };
+      }
+    }
+
+    if (data?.ok && Array.isArray(data.nodes)) {
+      const allNodes = data.nodes;
+      nodes = allNodes.filter((n) => n.type === 'quiz');
+      shareNode = allNodes.find((n) => n.type === 'puzzle') ?? null;
+      if (shareNode?.completed) {
+        shareClaimed.hidden = false;
+        shareLinkedIn.disabled = true;
+        shareTwitter.disabled = true;
+        shareCopy.disabled = true;
+      }
+      if (nodes.length > 0) {
+        const firstIncomplete = nodes.findIndex((n) => !n.completed);
+        currentQuestion = firstIncomplete === -1 ? 0 : firstIncomplete;
+      }
+    }
+
+    const hasPending = nodes.some((n) => !n.completed);
+    if (!hasPending && shareNode && !shareNode.completed) {
+      shareBanner.hidden = false;
+    }
+
+    updateProgressBadge();
+    renderQuestion();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      void initExplorerProjectOverlay();
+    }, { once: true });
+  } else {
+    void initExplorerProjectOverlay();
+  }
+</script>
