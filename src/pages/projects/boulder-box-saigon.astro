@@ -233,7 +233,7 @@ import Header from '../../components/Header.astro';
   <!-- Tab strip: always visible, click to expand/collapse -->
   <div class="bbo-dock-tab" id="bboDockTab" role="button" aria-label="Toggle quiz panel">
     <div class="bbo-dock-tab-left">
-      <span class="bbo-dock-chevron" id="bboDockChevron">▲</span>
+      <span class="bbo-dock-chevron" id="bboDockChevron">▼</span>
       <span class="bbo-dock-label">📋 Quests</span>
     </div>
     <span class="bbo-dock-status" id="bboDockStatus"></span>
@@ -801,6 +801,37 @@ import Header from '../../components/Header.astro';
   border-color: rgba(220,70,70,0.4);
   color: rgba(220,70,70,0.8);
 }
+
+@keyframes bboWrongShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+@keyframes bboCorrectGlow {
+  0% {
+    transform: translateX(0) scale(1);
+    box-shadow: 0 0 0 rgba(47,199,142,0);
+  }
+  50% {
+    transform: translateX(0) scale(1.01);
+    box-shadow: 0 0 18px rgba(47,199,142,0.45);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    box-shadow: 0 0 0 rgba(47,199,142,0);
+  }
+}
+
+.bbo-opt-btn.wrong {
+  animation: bboWrongShake 0.42s ease;
+}
+
+.bbo-opt-btn.correct {
+  animation: bboCorrectGlow 0.55s ease;
+}
 .bbo-opt-btn.completed {
   background: rgba(47,199,142,0.1);
   border-color: rgba(47,199,142,0.4);
@@ -1185,6 +1216,9 @@ function renderQuestion() {
 async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButtonElement) {
   if (node.completed || !nickname || !pinHash || !supabase) return;
 
+  const WRONG_FEEDBACK_MS = 520;
+  const CORRECT_FEEDBACK_MS = 560;
+
   // Disable all options immediately
   quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = true);
 
@@ -1198,7 +1232,10 @@ async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButton
 
   if (error || !data?.ok) {
     btn.classList.add('wrong');
-    quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = false);
+    setTimeout(() => {
+      btn.classList.remove('wrong');
+      quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = false);
+    }, WRONG_FEEDBACK_MS);
     return;
   }
 
@@ -1224,26 +1261,30 @@ async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButton
     updateProgressBadge();
     renderDots();
 
-    // Show story popup if a fragment was unlocked
-    if (data.story_fragment) {
-      const sf = data.story_fragment;
-      showStory(sf.title, sf.body, sf.type, node.exp_reward);
-    } else {
-      // Auto-advance to next unanswered question
-      const nextIdx = nodes.findIndex((n, i) => i > current && !n.completed);
-      if (nextIdx !== -1) {
-        setTimeout(() => { current = nextIdx; renderQuestion(); }, 800);
+    // Let the success glow play before popup/auto-advance.
+    setTimeout(() => {
+      // Show story popup if a fragment was unlocked
+      if (data.story_fragment) {
+        const sf = data.story_fragment;
+        showStory(sf.title, sf.body, sf.type, node.exp_reward);
       } else {
-        setTimeout(() => renderQuestion(), 800);
+        // Auto-advance to next unanswered question
+        const nextIdx = nodes.findIndex((n, i) => i > current && !n.completed);
+        if (nextIdx !== -1) {
+          current = nextIdx;
+          renderQuestion();
+        } else {
+          renderQuestion();
+        }
       }
-    }
+    }, CORRECT_FEEDBACK_MS);
   } else {
     // Wrong — re-enable only the options that weren't selected
     btn.classList.add('wrong');
     setTimeout(() => {
       btn.classList.remove('wrong');
       quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = false);
-    }, 1000);
+    }, WRONG_FEEDBACK_MS);
   }
 }
 
@@ -1511,11 +1552,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.body.classList.add('bbo-mode');
 
   const hasPending = nodes.some(n => !n.completed);
-  if (hasPending) {
-    // Start expanded so user immediately sees the quiz
-    setDockCollapsed(false);
-  }
-  // else leave collapsed — tab strip still visible so user can reopen
+  // Default to collapsed on load; users can expand from the tab strip.
+  setDockCollapsed(true);
 
   // Show share banner if quiz done but share not claimed
   if (!hasPending && shareNode && !shareNode.completed) {
