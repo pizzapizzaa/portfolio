@@ -1522,11 +1522,15 @@
               ? new Date(result.lockedUntil).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
               : '';
             pinHint.textContent = `Too many failed attempts \u2014 try again after ${until}`;
+          } else if (result.reason === 'db_error') {
+            // Do not silently switch to offline mode when DB is configured.
+            // This avoids "successful" sessions that were never persisted.
+            pinHint.textContent = 'Could not save explorer to server. Please retry in a moment.';
+            return;
           } else {
-            // db_error / invalid_input — save offline profile so project pages show HUD
+            // invalid_input should be actionable to the user.
             console.warn('[Explorer] registration error:', result.reason);
-            saveOffline();
-            openModal('worldMapModal');
+            pinHint.textContent = 'Invalid input. Please check nickname, server, and PIN format.';
           }
           return;
         }
@@ -1543,8 +1547,11 @@
         updateHud(result.explorer);
         showAchievementToasts(result.explorer.achievements, previousAchievements);
       } catch (err) {
-        console.warn('[Explorer] Supabase save failed, continuing offline:', err);
-        saveOffline();
+        // Keep registration strict: surface server/network errors so the
+        // user can retry and ensure explorer rows are actually persisted.
+        console.warn('[Explorer] Supabase save failed:', err);
+        pinHint.textContent = 'Network/server error. Please retry to complete registration.';
+        return;
       } finally {
         ctaBtn.disabled = false;
         ctaBtn.innerHTML = prevText;

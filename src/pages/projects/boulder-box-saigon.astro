@@ -204,7 +204,7 @@ import Header from '../../components/Header.astro';
         <span class="bbo-exit-label">Exit Explorer</span>
       </button>
       <div class="bbo-hud-explorer-id">
-        <span class="bbo-hud-icon">🧭</span>
+        <span class="bbo-hud-icon">🎮</span>
         <span class="bbo-hud-nick" id="bboHudNick"></span>
       </div>
     </div>
@@ -418,7 +418,7 @@ import Header from '../../components/Header.astro';
   border-color: rgba(255,80,80,0.8);
   color: #ff7070;
 }
-.bbo-exit-icon { font-size: 10px; line-height: 1; }
+.bbo-exit-icon { font-size: 16px; line-height: 1; }
 @media (max-width: 520px) {
   .bbo-exit-label { display: none; }
   .bbo-exit-btn { padding: 4px 8px; }
@@ -510,7 +510,7 @@ import Header from '../../components/Header.astro';
   padding: 0;
 }
 .bbo-settings-btn:hover { border-color: var(--bbo-accent); color: var(--bbo-accent); }
-.bbo-settings-icon { font-size: 14px; line-height: 1; }
+.bbo-settings-icon { font-size: 16px; line-height: 1; }
 
 /* Settings modal overlay */
 .bbo-settings-modal {
@@ -1352,12 +1352,16 @@ hintBtn.addEventListener('click', () => {
 
 // ── Share bonus ───────────────────────────────────────────────────
 async function handleShare(url: string) {
-  if (!shareNode || shareNode.completed || !pinHash || !supabase) return;
+  // Open the share URL
+  if (url) window.open(url, '_blank', 'noopener');
+
+  // If share bonus cannot be claimed yet, still allow sharing UX.
+  if (!shareNode || shareNode.completed || !pinHash || !supabase || !nickname) return;
+
   // Optimistically disable buttons to prevent double-submission
   shareNode.completed = true;
   [shareLinkedIn, shareTwitter, shareCopy].forEach(b => { b.disabled = true; });
-  // Open the share URL
-  if (url) window.open(url, '_blank', 'noopener');
+
   // Award EXP via submit_answer with hash("shared")
   const h = await hashAnswer('shared');
   const { data, error } = await supabase.rpc('submit_answer', {
@@ -1425,17 +1429,64 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Show share section
   shareSection.hidden = false;
 
+  // Wire share buttons early so they always work, even if quiz loading fails.
+  const pageUrl  = encodeURIComponent(window.location.href);
+  const pageTitle = encodeURIComponent('Boulder Box Saigon - Portfolio Case Study');
+  shareLinkedIn.addEventListener('click', () =>
+    handleShare(`https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`));
+  shareTwitter.addEventListener('click', () =>
+    handleShare(`https://x.com/intent/post?text=${pageTitle}&url=${pageUrl}`));
+  shareCopy.addEventListener('click', copyAndShare);
+
   // Quiz requires Supabase — bail out gracefully if client is unavailable
   if (!supabase) return;
 
-  // Fetch quiz content
-  const { data, error } = await supabase.rpc('get_project_content', {
+  // Fetch quiz content with fallbacks for legacy RPC overloads.
+  let data: any = null;
+  let error: any = null;
+
+  ({ data, error } = await supabase.rpc('get_project_content', {
     p_project_slug: 'boulder-box-saigon',
     p_nickname:     nickname,
     p_pin_hash:     pinHash || null,
-  });
+  }));
 
-  if (error || !data?.ok || !data.nodes?.length) return;
+  if (error || !data?.ok) {
+    ({ data, error } = await supabase.rpc('get_project_content', {
+      p_project_slug: 'boulder-box-saigon',
+      p_nickname:     nickname,
+    }));
+  }
+
+  // Last-resort fallback: read public node content directly.
+  if (error || !data?.ok || !Array.isArray(data.nodes)) {
+    const fallback = await supabase
+      .from('content_nodes')
+      .select('id,node_type,order_index,title,prompt,options,hint,exp_reward')
+      .eq('project_slug', 'boulder-box-saigon')
+      .order('order_index', { ascending: true });
+
+    if (!fallback.error && Array.isArray(fallback.data) && fallback.data.length) {
+      data = {
+        ok: true,
+        nodes: fallback.data.map((n: any) => ({
+          id: n.id,
+          type: n.node_type,
+          order: n.order_index,
+          title: n.title,
+          prompt: n.prompt,
+          options: n.options,
+          hint: n.hint,
+          exp_reward: n.exp_reward,
+          completed: false,
+          attempts: 0,
+        })),
+      };
+      error = null;
+    }
+  }
+
+  if (error || !data?.ok || !Array.isArray(data.nodes) || !data.nodes.length) return;
 
   const allNodes = (data.nodes as QuizNode[]).map(n => ({ ...n, node_type: n.type }));
   // Separate quiz nodes (dock) from the share puzzle node
@@ -1447,15 +1498,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     [shareLinkedIn, shareTwitter, shareCopy].forEach(b => { b.disabled = true; });
     shareClaimed.hidden = false;
   }
-
-  // Wire share buttons
-  const pageUrl  = encodeURIComponent(window.location.href);
-  const pageTitle = encodeURIComponent('Boulder Box Saigon — Portfolio Case Study');
-  shareLinkedIn.addEventListener('click', () =>
-    handleShare(`https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`));
-  shareTwitter.addEventListener('click', () =>
-    handleShare(`https://x.com/intent/post?text=${pageTitle}&url=${pageUrl}`));
-  shareCopy.addEventListener('click', copyAndShare);
 
   // Find first incomplete quiz question
   const firstIncomplete = nodes.findIndex(n => !n.completed);
