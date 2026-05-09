@@ -1527,6 +1527,10 @@
             // This avoids "successful" sessions that were never persisted.
             pinHint.textContent = 'Could not save explorer to server. Please retry in a moment.';
             return;
+          } else if (result.reason === 'missing_config') {
+            // Distinguish backend connectivity from local misconfiguration.
+            pinHint.textContent = 'Supabase is not configured. Set PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY.';
+            return;
           } else {
             // invalid_input should be actionable to the user.
             console.warn('[Explorer] registration error:', result.reason);

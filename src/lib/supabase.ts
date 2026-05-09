@@ -32,7 +32,7 @@ export interface Explorer {
 
 export type RegisterResult =
   | { ok: true;  explorer: Explorer; isNew: boolean }
-  | { ok: false; reason: 'wrong_pin' | 'locked' | 'invalid_input' | 'db_error'; lockedUntil?: string };
+  | { ok: false; reason: 'wrong_pin' | 'locked' | 'invalid_input' | 'db_error' | 'missing_config'; lockedUntil?: string };
 
 // ── Level helpers ───────────────────────────────────────────
 
@@ -113,7 +113,7 @@ export async function registerExplorer(
   marker:   string,
   pin:      string,
 ): Promise<RegisterResult> {
-  if (!supabase) return { ok: false, reason: 'db_error' };
+  if (!supabase) return { ok: false, reason: 'missing_config' };
 
   const pinHash = await hashPin(nickname, pin);
 
@@ -134,7 +134,7 @@ export async function registerExplorer(
   if (!res.ok) {
     return {
       ok:          false,
-      reason:      (res.reason as 'wrong_pin' | 'locked' | 'invalid_input' | 'db_error') ?? 'db_error',
+      reason:      (res.reason as 'wrong_pin' | 'locked' | 'invalid_input' | 'db_error' | 'missing_config') ?? 'db_error',
       lockedUntil: res.locked_until as string | undefined,
     };
   }
