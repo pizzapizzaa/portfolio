@@ -147,7 +147,8 @@ create policy "explorer_story_read"    on public.explorer_story            for s
 create or replace function public.submit_answer(
   p_nickname    text,
   p_node_id     uuid,
-  p_answer_hash text
+  p_answer_hash text,
+  p_pin_hash    text
 ) returns jsonb
 language plpgsql
 security definer
@@ -163,7 +164,7 @@ declare
   v_is_new_frag boolean := false;
 begin
   -- Validate inputs
-  if length(p_answer_hash) <> 64 then
+  if length(p_answer_hash) <> 64 or length(p_pin_hash) <> 64 then
     return jsonb_build_object('ok', false, 'reason', 'invalid_input');
   end if;
 
@@ -175,6 +176,11 @@ begin
 
   if not found then
     return jsonb_build_object('ok', false, 'reason', 'explorer_not_found');
+  end if;
+
+  -- Require proof of explorer identity for EXP/story writes
+  if v_explorer.pin_hash <> p_pin_hash then
+    return jsonb_build_object('ok', false, 'reason', 'forbidden');
   end if;
 
   -- Fetch node (no lock needed — content is immutable)
@@ -274,7 +280,8 @@ $$;
 
 create or replace function public.get_project_content(
   p_project_slug text,
-  p_nickname     text default null
+  p_nickname     text default null,
+  p_pin_hash     text default null
 ) returns jsonb
 language plpgsql
 security definer
@@ -283,10 +290,11 @@ as $$
 declare
   v_explorer_id uuid;
 begin
-  if p_nickname is not null then
+  if p_nickname is not null and p_pin_hash is not null and length(p_pin_hash) = 64 then
     select id into v_explorer_id
     from public.explorers
-    where nickname = trim(p_nickname);
+    where nickname = trim(p_nickname)
+      and pin_hash = p_pin_hash;
   end if;
 
   return jsonb_build_object(
@@ -338,7 +346,8 @@ $$;
 -- ============================================================
 
 create or replace function public.get_explorer_storyline(
-  p_nickname text
+  p_nickname text,
+  p_pin_hash text
 ) returns jsonb
 language plpgsql
 security definer
@@ -347,9 +356,14 @@ as $$
 declare
   v_explorer public.explorers%rowtype;
 begin
+  if length(p_pin_hash) <> 64 then
+    return jsonb_build_object('ok', false, 'reason', 'invalid_input');
+  end if;
+
   select * into v_explorer
   from public.explorers
-  where nickname = trim(p_nickname);
+  where nickname = trim(p_nickname)
+    and pin_hash = p_pin_hash;
 
   if not found then
     return jsonb_build_object('ok', false, 'reason', 'not_found');
@@ -392,6 +406,46 @@ begin
 end;
 $$;
 
+
+-- ============================================================
+-- ROLE GRANTS  (run after every fresh schema_storyline apply)
+-- ============================================================
+-- story_fragments and content_nodes are public content — anon
+-- may read them (questions/prompts are shown on project pages).
+-- answer_hash is present in content_nodes but SHA-256 is
+-- pre-image resistant; keep the column restricted to prevent
+-- trivial enumeration of hash-to-answer mappings.
+-- explorer_content_progress and explorer_story are personal
+-- data; restrict to authenticated RPCs only — direct table
+-- reads are left open only because the current auth model
+-- uses anon-role with nickname-based identity (no JWT sub).
+-- ============================================================
+-- If you upgraded from older signatures, remove legacy overloads:
+-- drop function if exists public.submit_answer(text, uuid, text);
+-- drop function if exists public.get_project_content(text, text);
+-- drop function if exists public.get_explorer_storyline(text);
+
+grant select on public.story_fragments to anon, authenticated;
+
+-- Omit answer_hash from direct public reads
+grant select (
+  id, project_slug, node_type, order_index,
+  title, prompt, options, hint, exp_reward,
+  story_fragment_id, created_at
+) on public.content_nodes to anon, authenticated;
+
+-- Progress tables: anon-readable per RLS policy (true),
+-- but no direct write access — all writes via RPCs.
+grant select on public.explorer_content_progress to anon, authenticated;
+grant select on public.explorer_story            to anon, authenticated;
+
+-- RPC access
+grant execute on function public.submit_answer(text, uuid, text, text)
+  to anon, authenticated;
+grant execute on function public.get_project_content(text, text, text)
+  to anon, authenticated;
+grant execute on function public.get_explorer_storyline(text, text)
+  to anon, authenticated;
 
 -- ============================================================
 -- HELPER (run locally, not in Supabase)

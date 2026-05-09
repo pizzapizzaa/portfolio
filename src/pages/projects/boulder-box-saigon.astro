@@ -1057,6 +1057,7 @@ let nodes: QuizNode[] = [];      // quiz-type only (shown in dock)
 let shareNode: QuizNode | null = null; // puzzle-type share bonus
 let current = 0;
 let nickname = '';
+let pinHash = '';
 let dockOpen = false; // kept for share-banner show/hide logic
 
 // ── Element refs ──────────────────────────────────────────────────
@@ -1182,7 +1183,7 @@ function renderQuestion() {
 
 // ── Handle answer submission ──────────────────────────────────────
 async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButtonElement) {
-  if (node.completed || !nickname || !supabase) return;
+  if (node.completed || !nickname || !pinHash || !supabase) return;
 
   // Disable all options immediately
   quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = true);
@@ -1192,6 +1193,7 @@ async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButton
     p_nickname:    nickname,
     p_node_id:     node.id,
     p_answer_hash: h,
+    p_pin_hash:    pinHash,
   });
 
   if (error || !data?.ok) {
@@ -1316,32 +1318,16 @@ document.querySelectorAll('.bbo-marker-opt').forEach(btn => {
   });
 });
 
-settingsSave.addEventListener('click', async () => {
-  const newNick   = settingsNick.value.trim();
+settingsSave.addEventListener('click', () => {
   const newMarker = (document.querySelector('.bbo-marker-opt.sel') as HTMLElement)?.dataset.marker || 'pin';
-  if (!newNick) return;
-
-  // Update local state
-  nickname = newNick;
-  const nickEl = document.getElementById('bboHudNick');
-  if (nickEl) nickEl.textContent = newNick;
 
   // Persist to localStorage
   try {
     const cached = localStorage.getItem('ex-profile');
     const p = cached ? JSON.parse(cached) : {};
-    p.nickname = newNick;
     p.marker   = newMarker;
     localStorage.setItem('ex-profile', JSON.stringify(p));
   } catch(_) {}
-
-  // Persist to Supabase if available
-  if (supabase) {
-    try {
-      await supabase.from('explorers').update({ nickname: newNick, marker: newMarker })
-        .eq('nickname', nickname);
-    } catch(_) {}
-  }
 
   settingsModal.hidden = true;
 });
@@ -1366,7 +1352,7 @@ hintBtn.addEventListener('click', () => {
 
 // ── Share bonus ───────────────────────────────────────────────────
 async function handleShare(url: string) {
-  if (!shareNode || shareNode.completed || !supabase) return;
+  if (!shareNode || shareNode.completed || !pinHash || !supabase) return;
   // Optimistically disable buttons to prevent double-submission
   shareNode.completed = true;
   [shareLinkedIn, shareTwitter, shareCopy].forEach(b => { b.disabled = true; });
@@ -1378,6 +1364,7 @@ async function handleShare(url: string) {
     p_nickname:    nickname,
     p_node_id:     shareNode.id,
     p_answer_hash: h,
+    p_pin_hash:    pinHash,
   });
   if (error || !data?.ok) {
     // Roll back optimistic disable on network failure
@@ -1425,6 +1412,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (_) {}
 
   nickname = (profile?.nickname) || '';
+  pinHash = localStorage.getItem('ex-pin-hash') || '';
   if (!nickname) return; // not in explorer mode — no profile in localStorage
 
   // Show HUD from localStorage (works without Supabase)
@@ -1444,6 +1432,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const { data, error } = await supabase.rpc('get_project_content', {
     p_project_slug: 'boulder-box-saigon',
     p_nickname:     nickname,
+    p_pin_hash:     pinHash || null,
   });
 
   if (error || !data?.ok || !data.nodes?.length) return;

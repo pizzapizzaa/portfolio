@@ -1239,6 +1239,7 @@
   <script>
     import {
       registerExplorer,
+      hashPin,
       checkNicknameExists,
       calcLevel,
       expProgress,
@@ -1532,8 +1533,10 @@
 
         // PIN verified — safe to persist
         try {
+          const pinHash = await hashPin(nick, pin);
           localStorage.setItem('ex-nickname', nick);
           localStorage.setItem('ex-server', server);
+          localStorage.setItem('ex-pin-hash', pinHash);
           localStorage.setItem('ex-profile', JSON.stringify(result.explorer));
         } catch(_) {}
 

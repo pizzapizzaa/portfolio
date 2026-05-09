@@ -88,8 +88,10 @@ export async function hashPin(nickname: string, pin: string): Promise<string> {
 /** Lightweight nickname existence check for the "welcome back" UI hint. */
 export async function checkNicknameExists(nickname: string): Promise<boolean> {
   if (!supabase) return false;
+  // Query the safe view — never the base table — so sensitive columns
+  // (pin_hash, failed_attempts, locked_until) are never in scope.
   const { data } = await supabase
-    .from('explorers')
+    .from('explorers_public')
     .select('nickname')
     .eq('nickname', nickname)
     .maybeSingle();
@@ -156,14 +158,16 @@ export async function registerExplorer(
 
 /**
  * Atomically append a page slug to the explorer's pages_explored array.
- * Uses an RPC to avoid the read-modify-write race of the previous approach.
+ * Uses an RPC to avoid the read-modify-write race and requires a
+ * PIN-derived hash to prevent nickname spoofing.
  */
-export async function trackPage(nickname: string, pageSlug: string): Promise<void> {
-  if (!supabase || !nickname) return;
+export async function trackPage(nickname: string, pageSlug: string, pinHash: string): Promise<void> {
+  if (!supabase || !nickname || !pinHash) return;
 
   await supabase.rpc('track_explorer_page', {
     p_nickname: nickname,
     p_page:     pageSlug,
+    p_pin_hash: pinHash,
   });
 }
 

@@ -48,7 +48,14 @@ create policy "explorers_read_all"
 -- which enforces PIN verification, rate-limiting, and atomic updates.
 
 -- ── Safe public view (excludes sensitive columns) ────────────
-create or replace view public.explorers_public as
+-- security_invoker = true: the view runs as the querying role,
+-- so Postgres RLS is enforced on the caller's behalf rather than
+-- silently bypassed by the view owner.  This also prevents any
+-- direct leakage of sensitive columns (pin_hash, failed_attempts,
+-- locked_until) that are absent from this projection.
+create or replace view public.explorers_public
+  with (security_invoker = true)
+as
   select
     id, nickname, server, marker,
     exp, level, visit_count,
@@ -197,17 +204,72 @@ $$;
 -- ── Page-tracking RPC (atomic, no race condition) ─────────────
 create or replace function public.track_explorer_page(
   p_nickname text,
-  p_page     text
+  p_page     text,
+  p_pin_hash text
 ) returns void
-language sql
+language plpgsql
 security definer
 set search_path = public
 as $$
-  update public.explorers
-  set pages_explored = array_append(pages_explored, p_page)
-  where nickname = p_nickname
-    and not (pages_explored @> array[p_page]);
+declare
+  v_row public.explorers%rowtype;
+begin
+  if p_nickname is null or length(trim(p_nickname)) < 2
+     or p_page is null or length(trim(p_page)) = 0
+     or length(p_pin_hash) <> 64
+  then
+    return;
+  end if;
+
+  select * into v_row
+  from public.explorers
+  where nickname = trim(p_nickname)
+  for update;
+
+  if not found then
+    return;
+  end if;
+
+  if v_row.pin_hash <> p_pin_hash then
+    return;
+  end if;
+
+  if not (v_row.pages_explored @> array[p_page]) then
+    update public.explorers
+    set pages_explored = array_append(pages_explored, p_page)
+    where id = v_row.id;
+  end if;
+end;
 $$;
+
+-- ============================================================
+-- ROLE GRANTS  (run after every fresh schema apply)
+-- ============================================================
+-- Revoke broad default table access so neither anon nor
+-- authenticated roles can read sensitive columns directly.
+-- All public data flows through explorers_public; all writes
+-- and PIN-sensitive reads flow through the SECURITY DEFINER RPCs.
+-- ============================================================
+
+-- Remove default broad table SELECT from client roles
+revoke select on public.explorers from anon, authenticated;
+
+-- Grant only the safe, non-sensitive columns so the
+-- security_invoker view can still resolve them.
+grant select (
+  id, nickname, server, marker,
+  exp, level, visit_count,
+  last_seen, achievements, pages_explored, created_at
+) on public.explorers to anon, authenticated;
+
+-- View and RPC access
+grant select   on public.explorers_public                    to anon, authenticated;
+grant execute  on function public.register_explorer(text, text, text, text)
+  to anon, authenticated;
+grant execute  on function public.track_explorer_page(text, text, text)
+  to anon, authenticated;
+
+-- _explorer_achievements is an internal helper — intentionally not exposed.
 
 -- ============================================================
 -- MIGRATION — run ONLY these statements if you already have
@@ -225,6 +287,7 @@ $$;
 --
 -- drop policy if exists "explorers_insert" on public.explorers;
 -- drop policy if exists "explorers_update" on public.explorers;
+-- drop function if exists public.track_explorer_page(text, text);
 --
 -- Then run the three create-or-replace statements above
 -- (_explorer_achievements, register_explorer, track_explorer_page).
