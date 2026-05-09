@@ -303,7 +303,10 @@ import Header from '../../components/Header.astro';
       <button class="bbo-marker-opt" type="button" data-marker="glow">🌟</button>
       <button class="bbo-marker-opt" type="button" data-marker="compass">🧭</button>
     </div>
-    <button class="bbo-settings-save" id="bboSettingsSave" type="button">SAVE CHANGES</button>
+    <div class="bbo-settings-actions">
+      <button class="bbo-settings-save" id="bboSettingsSave" type="button">SAVE CHANGES</button>
+      <button class="bbo-settings-logout" id="bboSettingsLogout" type="button">LOGOUT</button>
+    </div>
   </div>
 </div>
 
@@ -632,6 +635,10 @@ import Header from '../../components/Header.astro';
 }
 .bbo-marker-opt:hover { border-color: var(--bbo-accent); }
 .bbo-marker-opt.sel { border-color: var(--bbo-accent); box-shadow: 0 0 10px var(--bbo-glow); }
+.bbo-settings-actions {
+  display: grid;
+  gap: 10px;
+}
 .bbo-settings-save {
   width: 100%;
   background: var(--bbo-accent);
@@ -647,6 +654,25 @@ import Header from '../../components/Header.astro';
   transition: opacity 0.2s;
 }
 .bbo-settings-save:hover { opacity: 0.85; }
+.bbo-settings-logout {
+  width: 100%;
+  background: rgba(255, 96, 96, 0.14);
+  border: 1px solid rgba(255, 120, 120, 0.55);
+  color: rgba(255, 150, 150, 0.95);
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.bbo-settings-logout:hover {
+  background: rgba(255, 96, 96, 0.2);
+  border-color: rgba(255, 130, 130, 0.8);
+  color: #ffd3d3;
+}
 
 /* ── Quiz dock ── */
 .bbo-quiz-dock {
@@ -668,7 +694,7 @@ import Header from '../../components/Header.astro';
 
 /* Collapsed: only the tab strip is visible (~36px) */
 .bbo-quiz-dock.collapsed {
-  max-height: 36px;
+  max-height: 42px;
 }
 
 /* Tab strip — always visible, sits at the very top of the dock */
@@ -677,7 +703,7 @@ import Header from '../../components/Header.astro';
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  height: 36px;
+  height: 42px;
   cursor: pointer;
   user-select: none;
   border-bottom: 1px solid transparent;
@@ -703,24 +729,24 @@ import Header from '../../components/Header.astro';
 }
 .bbo-dock-label {
   font-family: 'Orbitron', monospace;
-  font-size: 8px;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   color: var(--bbo-accent);
   text-transform: uppercase;
 }
 .bbo-dock-status {
   font-family: 'Orbitron', monospace;
-  font-size: 8px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--bbo-text2);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
 }
 
 /* Scrollable content area below the tab strip */
 .bbo-dock-body {
-  padding: 12px 20px 20px;
-  max-height: calc(500px - 36px);
+  padding: 14px 20px 20px;
+  max-height: calc(500px - 42px);
   overflow-y: auto;
 }
 @keyframes bboSlideUp {
@@ -833,11 +859,13 @@ import Header from '../../components/Header.astro';
 }
 
 @keyframes bboWrongShake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-5px); }
-  40% { transform: translateX(5px); }
-  60% { transform: translateX(-3px); }
-  80% { transform: translateX(3px); }
+  0%   { transform: translateX(0) rotate(0deg); }
+  16%  { transform: translateX(-7px) rotate(-0.6deg); }
+  32%  { transform: translateX(6px) rotate(0.6deg); }
+  48%  { transform: translateX(-5px) rotate(-0.4deg); }
+  64%  { transform: translateX(4px) rotate(0.4deg); }
+  80%  { transform: translateX(-2px) rotate(-0.2deg); }
+  100% { transform: translateX(0) rotate(0deg); }
 }
 
 @keyframes bboCorrectGlow {
@@ -855,8 +883,9 @@ import Header from '../../components/Header.astro';
   }
 }
 
-.bbo-opt-btn.wrong {
-  animation: bboWrongShake 0.42s ease;
+.bbo-opt-btn.shake {
+  animation: bboWrongShake 0.46s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  will-change: transform;
 }
 
 .bbo-opt-btn.correct {
@@ -1249,6 +1278,52 @@ async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButton
   const WRONG_FEEDBACK_MS = 520;
   const CORRECT_FEEDBACK_MS = 560;
 
+  function playWrongFeedback(targetBtn: HTMLButtonElement) {
+    targetBtn.classList.add('wrong');
+    // Force-restart so repeated wrong clicks still visibly shake.
+    targetBtn.classList.remove('shake');
+    void targetBtn.offsetWidth;
+    targetBtn.classList.add('shake');
+
+    // Runtime fallback: works even if CSS animation rules are not applied.
+    if (typeof targetBtn.animate === 'function') {
+      targetBtn.animate(
+        [
+          { transform: 'translateX(0) rotate(0deg)' },
+          { transform: 'translateX(-7px) rotate(-0.6deg)' },
+          { transform: 'translateX(6px) rotate(0.6deg)' },
+          { transform: 'translateX(-5px) rotate(-0.4deg)' },
+          { transform: 'translateX(4px) rotate(0.4deg)' },
+          { transform: 'translateX(-2px) rotate(-0.2deg)' },
+          { transform: 'translateX(0) rotate(0deg)' },
+        ],
+        {
+          duration: 460,
+          easing: 'cubic-bezier(0.36, 0.07, 0.19, 0.97)',
+        }
+      );
+    }
+  }
+
+  function playCorrectFeedback(targetBtn: HTMLButtonElement) {
+    targetBtn.classList.add('correct');
+
+    // Runtime fallback: visible success pulse before popup/advance.
+    if (typeof targetBtn.animate === 'function') {
+      targetBtn.animate(
+        [
+          { transform: 'translateX(0) scale(1)', boxShadow: '0 0 0 rgba(47,199,142,0)' },
+          { transform: 'translateX(0) scale(1.015)', boxShadow: '0 0 22px rgba(47,199,142,0.48)' },
+          { transform: 'translateX(0) scale(1)', boxShadow: '0 0 0 rgba(47,199,142,0)' },
+        ],
+        {
+          duration: CORRECT_FEEDBACK_MS,
+          easing: 'ease-out',
+        }
+      );
+    }
+  }
+
   // Disable all options immediately
   quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = true);
 
@@ -1261,9 +1336,10 @@ async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButton
   });
 
   if (error || !data?.ok) {
-    btn.classList.add('wrong');
+    playWrongFeedback(btn);
     setTimeout(() => {
       btn.classList.remove('wrong');
+      btn.classList.remove('shake');
       quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = false);
     }, WRONG_FEEDBACK_MS);
     return;
@@ -1271,7 +1347,7 @@ async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButton
 
   if (data.correct) {
     node.completed = true;
-    btn.classList.add('correct');
+    playCorrectFeedback(btn);
 
     // Update HUD EXP
     if (data.new_exp !== undefined) {
@@ -1310,9 +1386,10 @@ async function handleAnswer(node: QuizNode, selectedOpt: string, btn: HTMLButton
     }, CORRECT_FEEDBACK_MS);
   } else {
     // Wrong — re-enable only the options that weren't selected
-    btn.classList.add('wrong');
+    playWrongFeedback(btn);
     setTimeout(() => {
       btn.classList.remove('wrong');
+      btn.classList.remove('shake');
       quizOptions.querySelectorAll<HTMLButtonElement>('.bbo-opt-btn').forEach(b => b.disabled = false);
     }, WRONG_FEEDBACK_MS);
   }
@@ -1357,6 +1434,7 @@ dockTab.addEventListener('click', () => {
 const settingsModal = document.getElementById('bboSettingsModal') as HTMLElement;
 const settingsNick  = document.getElementById('bboSettingsNick') as HTMLInputElement;
 const settingsSave  = document.getElementById('bboSettingsSave')!;
+const settingsLogout = document.getElementById('bboSettingsLogout')!;
 
 const MARKER_EMOJI: Record<string, string> = {
   pin: '📍', star: '⭐', rocket: '🚀', target: '🎯',
@@ -1401,6 +1479,20 @@ settingsSave.addEventListener('click', () => {
   } catch(_) {}
 
   settingsModal.hidden = true;
+});
+
+settingsLogout.addEventListener('click', () => {
+  settingsModal.hidden = true;
+  try {
+    localStorage.removeItem('ex-profile');
+    localStorage.removeItem('ex-pin-hash');
+    localStorage.removeItem('ex-nickname');
+    localStorage.removeItem('ex-server');
+    localStorage.removeItem('ex-marker');
+  } catch (_) {}
+
+  // Return to explorer login/start screen after clearing session.
+  window.location.href = '/explorer_start';
 });
 
 // Exit Explorer Mode
