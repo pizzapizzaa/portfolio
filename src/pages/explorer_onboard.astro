@@ -57,6 +57,7 @@
       width: 100%;
       height: 100%;
       display: block;
+      pointer-events: none;
     }
 
     .space-fade {
@@ -75,21 +76,116 @@
     .star.s3 { animation-delay: 1.5s; }
     .star.s4 { animation-delay: 2.1s; }
 
-    .light-cone {
-      opacity: 0;
-      animation: lightOn 1.1s 1.2s ease forwards;
+    .brief-image-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 0;
+      transform: translateY(-20%);
     }
 
-    .light-core {
+    .brief-image {
+      width: min(760px, 84vw);
+      height: auto;
+      max-height: 60vh;
+      border-radius: 14px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(146, 211, 79, 0.25);
       opacity: 0;
-      animation: lightPulse 1.1s 1.2s ease forwards;
+      animation: panelOpen 0.9s 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      object-fit: contain;
     }
 
-    .terminal-group {
+    .brief-image.hidden {
       opacity: 0;
-      transform: translateY(40px) scale(0.94);
-      transform-origin: center;
-      animation: panelOpen 0.95s 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      visibility: hidden;
+    }
+
+    .pre-screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background: radial-gradient(circle at 50% 20%, rgba(9, 26, 22, 0.65), rgba(0, 0, 0, 0.85));
+      z-index: 3;
+      pointer-events: auto;
+      transition: opacity 0.4s ease;
+    }
+
+    .pre-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .email-chip {
+      width: min(520px, 86vw);
+      padding: 18px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(146, 211, 79, 0.4);
+      background: rgba(5, 13, 19, 0.8);
+      box-shadow: 0 0 24px rgba(146, 211, 79, 0.2);
+      font-family: 'Orbitron', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      text-align: center;
+      color: var(--accent-hi);
+    }
+
+    .email-anim {
+      width: 160px;
+      height: 120px;
+      position: relative;
+    }
+
+    .email-anim .envelope {
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(146, 211, 79, 0.7);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #05090e;
+    }
+
+    .email-anim .envelope::before,
+    .email-anim .envelope::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-left: 2px solid rgba(146, 211, 79, 0.5);
+      border-right: 2px solid rgba(146, 211, 79, 0.5);
+      transform: skewY(-22deg);
+    }
+
+    .email-anim .envelope::after {
+      transform: skewY(22deg);
+    }
+
+    .email-anim .scan-bars {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 20px;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, rgba(146, 211, 79, 0.1), rgba(146, 211, 79, 0.9), rgba(146, 211, 79, 0.1));
+      animation: emailPulse 1.6s ease-in-out infinite;
+    }
+
+    .email-anim .scan-bars:nth-child(2) {
+      top: 50px;
+      animation-delay: 0.3s;
+    }
+
+    .email-anim .scan-bars:nth-child(3) {
+      top: 80px;
+      animation-delay: 0.6s;
     }
 
     .scanline {
@@ -105,6 +201,7 @@
       justify-content: flex-end;
       padding: 24px;
       pointer-events: none;
+      z-index: 2;
     }
 
     .message-card {
@@ -249,6 +346,11 @@
       100% { opacity: 1; transform: scale(1); }
     }
 
+    @keyframes emailPulse {
+      0%, 100% { opacity: 0.25; transform: scaleX(0.8); }
+      50% { opacity: 1; transform: scaleX(1); }
+    }
+
     @keyframes panelOpen {
       from { opacity: 0; transform: translateY(40px) scale(0.94); }
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -282,6 +384,17 @@
 </head>
 <body>
   <main class="onboard-root" aria-label="Explorer onboarding">
+    <section class="pre-screen" id="preScreen" aria-live="polite">
+      <div class="email-anim" aria-hidden="true">
+        <div class="envelope"></div>
+        <div class="scan-bars"></div>
+        <div class="scan-bars"></div>
+        <div class="scan-bars"></div>
+      </div>
+      <div class="email-chip">Incoming Transmission</div>
+      <button class="btn primary" id="openMessageBtn" type="button">Open Message</button>
+    </section>
+
     <svg class="scene-svg" viewBox="0 0 1440 900" role="img" aria-label="Deep-space onboarding scene">
       <defs>
         <radialGradient id="lightCone" cx="50%" cy="22%" r="48%">
@@ -309,23 +422,13 @@
         <circle class="star s1" cx="1306" cy="142" r="1.9" />
       </g>
 
-      <ellipse class="light-core" cx="720" cy="135" rx="80" ry="36" fill="#d3ed66" />
-      <polygon class="light-cone" points="660,136 780,136 1130,760 310,760" fill="url(#lightCone)" />
-
-      <g class="terminal-group">
-        <rect x="320" y="220" width="800" height="390" rx="18" fill="url(#panelFill)" stroke="#2F8986" stroke-width="2" />
-        <rect x="350" y="258" width="740" height="70" rx="8" fill="rgba(146,211,79,0.08)" stroke="rgba(146,211,79,0.35)" />
-        <rect x="350" y="350" width="740" height="232" rx="10" fill="rgba(5,13,19,0.72)" stroke="rgba(47,137,134,0.45)" />
-
-        <rect class="scanline" x="382" y="286" width="250" height="10" rx="4" fill="#92D34F" opacity="0.85" />
-        <rect class="scanline" x="382" y="390" width="610" height="7" rx="3" fill="#7db05a" opacity="0.66" />
-        <rect class="scanline" x="382" y="424" width="560" height="7" rx="3" fill="#7db05a" opacity="0.58" />
-        <rect class="scanline" x="382" y="458" width="630" height="7" rx="3" fill="#7db05a" opacity="0.58" />
-        <rect class="scanline" x="382" y="492" width="522" height="7" rx="3" fill="#7db05a" opacity="0.58" />
-      </g>
     </svg>
 
-    <section class="hud-overlay">
+    <div class="brief-image-wrap">
+      <img class="brief-image hidden" id="briefImage" src="/assets/game-ui/city-scene-dwarf-star.jpg" alt="Mission brief scene" />
+    </div>
+
+    <section class="hud-overlay" id="hudOverlay">
       <article class="message-card" aria-live="polite" aria-atomic="true">
         <div class="message-top">
           <span class="message-tag">Incoming Transmission</span>
@@ -333,7 +436,7 @@
         </div>
         <h1 class="message-title" id="messageTitle">Mission Brief</h1>
         <p class="message-body" id="messageBody">
-          Ten and a half light-years from Earth, orbiting the orange dwarf star Epsilon Eridani, lies Aethelgard—a cold, metal-rich tundra world. Aethelgard is ruled by The Great Ledger, a planetary supercomputer network. Generations ago, the Ledger predicted The $10^{-12}$ Variance: a mathematical certainty that without completely foreign, chaotic intellectual stimuli, Aethelgard’s society would hit a permanent cognitive plateau and slowly decay into machine-tended stagnation over the next several millennia.
+          Ten and a half light-years from Earth, orbiting the orange dwarf star Epsilon Eridani, lies Aethelgard - a cold, metal-rich tundra world. Aethelgard is ruled by The Great Ledger, a planetary supercomputer network. Generations ago, the Ledger predicted The 10^-12 Variance: a mathematical certainty that without completely foreign, chaotic intellectual stimuli, Aethelgard's society would hit a permanent cognitive plateau and slowly decay into machine-tended stagnation over the next several millennia.
         </p>
       </article>
 
@@ -349,86 +452,125 @@
     </section>
   </main>
 
-  <script>
-    const steps = [
+  <script is:inline>
+    const initExplorerOnboard = () => {
+      const steps = [
       {
         title: 'Mission Brief',
-        body: 'Ten and a half light-years from Earth, orbiting the orange dwarf star Epsilon Eridani, lies Aethelgard—a cold, metal-rich tundra world.Aethelgard is ruled by The Great Ledger, a planetary supercomputer network. Generations ago, the Ledger predicted The  10⁻¹² Variance: a mathematical certainty that without completely foreign, chaotic intellectual stimuli, Aethelgard\’s society would hit a permanent cognitive plateau and slowly decay into machine-tended stagnation over the next several millennia.',
+        body: 'Ten and a half light-years from Earth, orbiting the orange dwarf star Epsilon Eridani, lies Aethelgard - a cold, metal-rich tundra world. Aethelgard is ruled by The Great Ledger, a planetary supercomputer network. Generations ago, the Ledger predicted The 10^-12 Variance: a mathematical certainty that without completely foreign, chaotic intellectual stimuli, Aethelgard\'s society would hit a permanent cognitive plateau and slowly decay into machine-tended stagnation over the next several millennia.',
+        image: '/assets/game-ui/city-scene-dwarf-star.jpg',
       },
       {
         title: 'Mission Brief',
-        body: 'To save their future from this slow intellectual death, the Consensus launched Project Catalyst—sending advanced scouts across the stars to harvest "Cognitive Fragments" from external civilizations. These Fragments are bursts of alien knowledge, culture, and creativity that can be integrated into the Ledger to revitalize Aethelgard\’s intellectual ecosystem. Your team was assigned to go on a terrestrial life in space mission to collect proof of smart living objects in space.',
+        body: 'To save their future from this slow intellectual death, the Consensus launched Project Catalyst—sending advanced scouts across the stars to harvest "Cognitive Fragments" from external civilizations. These Fragments are bursts of alien knowledge, culture, and creativity that can be integrated into the Ledger to revitalize Aethelgard\'s intellectual ecosystem. Your team was assigned to go on a terrestrial life in space mission to collect proof of smart living objects in space.',
+        image: '/assets/game-ui/mission_brief_page_2.jpg',
       },
       {
         title: 'Mission Brief',
         body: 'You landed on a pale blue planet with a rich, but fading atmosphere. This is Earth—now a semi-dead world. Centuries after an ecological collapse, its vast cities are swallowed by wild forests and dust. Only a few selective animal species roam the quiet ruins, alongside a scattering of small, nomadic human tribes living in the shell of their ancestors\' past. While surveying a crumbling, overgrown library, your scanners detected a series of localized data-caches. These fragmented intelligent information blocks were deliberately left behind, preserved in protective stasis fields. They wanted to be found.',
+        image: '/assets/game-ui/mission_brief_page_3.jpg',
       },
-    ];
+      ];
 
-    let index = 0;
+      let index = 0;
+      let isOpened = false;
 
-    const stepIndicator = document.getElementById('stepIndicator');
-    const messageTitle = document.getElementById('messageTitle');
-    const messageBody = document.getElementById('messageBody');
-    const backBtn = document.getElementById('backBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const skipBtn = document.getElementById('skipBtn');
+      const preScreen = document.getElementById('preScreen');
+      const openMessageBtn = document.getElementById('openMessageBtn');
+      const hudOverlay = document.getElementById('hudOverlay');
+      const briefImage = document.getElementById('briefImage');
+      const stepIndicator = document.getElementById('stepIndicator');
+      const messageTitle = document.getElementById('messageTitle');
+      const messageBody = document.getElementById('messageBody');
+      const backBtn = document.getElementById('backBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const skipBtn = document.getElementById('skipBtn');
 
-    if (
-      !stepIndicator ||
-      !messageTitle ||
-      !messageBody ||
-      !(backBtn instanceof HTMLButtonElement) ||
-      !(nextBtn instanceof HTMLButtonElement) ||
-      !(skipBtn instanceof HTMLButtonElement)
-    ) {
-      throw new Error('Onboarding UI is missing required elements.');
-    }
-
-    function renderStep() {
-      const step = steps[index];
-      messageTitle.textContent = step.title;
-      messageBody.textContent = step.body;
-      stepIndicator.textContent = `${String(index + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`;
-
-      backBtn.disabled = index === 0;
-      nextBtn.textContent = index === steps.length - 1 ? 'Begin Mission' : 'Next';
-
-      if (typeof messageBody.animate === 'function') {
-        messageBody.animate(
-          [
-            { opacity: 0.45, transform: 'translateY(8px)' },
-            { opacity: 1, transform: 'translateY(0)' },
-          ],
-          { duration: 260, easing: 'ease-out' }
-        );
-      }
-    }
-
-    function goToExplorerStart() {
-      window.location.href = '/explorer_start';
-    }
-
-    backBtn.addEventListener('click', () => {
-      if (index === 0) return;
-      index -= 1;
-      renderStep();
-    });
-
-    nextBtn.addEventListener('click', () => {
-      if (index < steps.length - 1) {
-        index += 1;
-        renderStep();
+      if (
+        !preScreen ||
+        !(openMessageBtn instanceof HTMLButtonElement) ||
+        !hudOverlay ||
+        !(briefImage instanceof HTMLImageElement) ||
+        !stepIndicator ||
+        !messageTitle ||
+        !messageBody ||
+        !(backBtn instanceof HTMLButtonElement) ||
+        !(nextBtn instanceof HTMLButtonElement) ||
+        !(skipBtn instanceof HTMLButtonElement)
+      ) {
+        console.error('Onboarding UI is missing required elements.');
         return;
       }
-      goToExplorerStart();
-    });
 
-    skipBtn.addEventListener('click', () => {
-      goToExplorerStart();
-    });
+      function showMissionBrief() {
+        isOpened = true;
+        preScreen.classList.add('hidden');
+        hudOverlay.style.opacity = '1';
+        hudOverlay.style.pointerEvents = 'auto';
+        briefImage.classList.remove('hidden');
+        renderStep();
+      }
 
-    renderStep();
+      function renderStep() {
+        const step = steps[index];
+        messageTitle.textContent = step.title;
+        messageBody.textContent = step.body;
+        briefImage.src = step.image;
+        stepIndicator.textContent = `${String(index + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`;
+
+        backBtn.disabled = index === 0;
+        nextBtn.textContent = index === steps.length - 1 ? 'Begin Mission' : 'Next';
+
+        if (typeof messageBody.animate === 'function') {
+          messageBody.animate(
+            [
+              { opacity: 0.45, transform: 'translateY(8px)' },
+              { opacity: 1, transform: 'translateY(0)' },
+            ],
+            { duration: 260, easing: 'ease-out' }
+          );
+        }
+      }
+
+      function goToExplorerStart() {
+        window.location.href = '/explorer_start';
+      }
+
+      openMessageBtn.addEventListener('click', () => {
+        showMissionBrief();
+      });
+
+      backBtn.addEventListener('click', () => {
+        if (!isOpened) return;
+        if (index === 0) return;
+        index -= 1;
+        renderStep();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if (!isOpened) return;
+        if (index < steps.length - 1) {
+          index += 1;
+          renderStep();
+          return;
+        }
+        goToExplorerStart();
+      });
+
+      skipBtn.addEventListener('click', () => {
+        if (!isOpened) return;
+        goToExplorerStart();
+      });
+
+      hudOverlay.style.opacity = '0';
+      hudOverlay.style.pointerEvents = 'none';
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExplorerOnboard);
+    } else {
+      initExplorerOnboard();
+    }
   </script>
 </body>
 </html>
