@@ -26,24 +26,46 @@ export function decode(el: HTMLElement, duration = 0.9) {
   const final = el.dataset.decodeText ?? el.textContent ?? '';
   el.dataset.decodeText = final;
   if (reducedMotion) { el.textContent = final; return; }
+  // Wait for webfonts so word widths are measured in the final font
+  (document.fonts?.ready ?? Promise.resolve()).then(() => runDecode(el, final, duration));
+}
+
+// Each word is locked to its final width, so scrambled glyphs (which have different
+// widths) can never change where a multi-line heading wraps.
+function runDecode(el: HTMLElement, final: string, duration: number) {
+  const parts = final.split(/(\s+)/);
+  el.textContent = '';
+  const words: { span: HTMLSpanElement; text: string; start: number }[] = [];
+  let offset = 0;
+  for (const part of parts) {
+    if (!part) continue;
+    if (/^\s+$/.test(part)) { el.append(part); offset += part.length; continue; }
+    const span = document.createElement('span');
+    span.textContent = part;
+    span.style.display = 'inline-block';
+    span.style.whiteSpace = 'nowrap';
+    el.append(span);
+    words.push({ span, text: part, start: offset });
+    offset += part.length;
+  }
+  for (const w of words) w.span.style.width = `${w.span.getBoundingClientRect().width}px`;
+
   const state = { p: 0 };
-  // keep layout stable while scrambling
-  el.style.minWidth = `${el.offsetWidth}px`;
   gsap.to(state, {
     p: 1,
     duration,
     ease: 'none',
     onUpdate() {
       const reveal = Math.floor(state.p * final.length);
-      let out = '';
-      for (let i = 0; i < final.length; i++) {
-        const ch = final[i];
-        if (i < reveal || ch === ' ') out += ch;
-        else out += GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+      for (const w of words) {
+        let out = '';
+        for (let i = 0; i < w.text.length; i++) {
+          out += w.start + i < reveal ? w.text[i] : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        }
+        w.span.textContent = out;
       }
-      el.textContent = out;
     },
-    onComplete() { el.textContent = final; el.style.minWidth = ''; },
+    onComplete() { el.textContent = final; },
   });
 }
 

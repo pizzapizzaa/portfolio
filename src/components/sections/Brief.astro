@@ -6,10 +6,10 @@ const vitals = [
   { value: 13, suffix: '+', label: 'Years in product' },
   { value: missions.length, pad: 2, label: 'Missions logged' },
   { value: 4, pad: 2, label: 'Sectors: climate, fintech, mobility, sport' },
-  { value: 70, suffix: '+', label: 'Countries reached' },
+  { value: 15, label: 'Countries reached' },
 ];
 
-// Oliv cycles through these when tapped
+// Oliv shows facts[0] first, then the rest in a shuffled order each time you tap
 const facts = [
   "Hi, I'm Oliv — the ship AI. Tap me for intel on the captain.",
   "The captain founded Vietnam's first boutique bouldering gym — 250% sales growth in year two.",
@@ -155,12 +155,27 @@ const facts = [
   const btn = document.querySelector<HTMLButtonElement>('[data-oliv]')!;
   const text = document.querySelector<HTMLElement>('[data-oliv-text]')!;
   const facts = JSON.parse(document.getElementById('oliv-facts')!.textContent!) as string[];
-  let i = 0;
+  // Shuffle the facts (excluding the greeting); reshuffle after each full pass,
+  // never showing the same fact twice in a row.
+  const pool = facts.slice(1);
+  let queue: string[] = [];
+  let last = '';
+  function nextFact() {
+    if (!queue.length) {
+      queue = [...pool];
+      for (let k = queue.length - 1; k > 0; k--) {
+        const j = Math.floor(Math.random() * (k + 1));
+        [queue[k], queue[j]] = [queue[j], queue[k]];
+      }
+      if (queue.length > 1 && queue[0] === last) queue.push(queue.shift()!);
+    }
+    last = queue.shift()!;
+    return last;
+  }
   let typing: number | undefined;
 
   btn.addEventListener('click', () => {
-    i = (i + 1) % facts.length;
-    const msg = facts[i];
+    const msg = nextFact();
     btn.classList.remove('is-talking');
     void btn.offsetWidth;
     btn.classList.add('is-talking');

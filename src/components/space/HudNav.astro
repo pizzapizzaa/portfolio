@@ -10,13 +10,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 
 <header class="hud-nav" data-hud-nav>
   <a href={href('launch-pad')} class="hud-brand" aria-label="Olivia Nguyen — back to Launch Pad" data-sfx="hover">
-    <svg class="hud-brand__mark" viewBox="0 0 32 32" aria-hidden="true">
-      <path d="M16 2 30 16 16 30 2 16Z" fill="none" stroke="currentColor" stroke-width="1.5" />
-      <path d="M16 9 23 16 16 23 9 16Z" fill="currentColor" />
-    </svg>
     <span class="hud-brand__text">
       <span class="hud-brand__name">O. Nguyen</span>
-      <span class="hud-brand__sub">Ship log // v2.0</span>
+      <span class="hud-brand__sub">Product &amp; Design Lead</span>
     </span>
   </a>
 
@@ -113,8 +109,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     color: var(--accent);
     flex-shrink: 0;
   }
-  .hud-brand__mark { width: 28px; height: 28px; transition: transform 0.6s var(--ease-out); }
-  .hud-brand:hover .hud-brand__mark { transform: rotate(90deg); filter: drop-shadow(0 0 6px var(--accent)); }
+  .hud-brand:hover .hud-brand__name { color: var(--accent-hi); }
   .hud-brand__text { display: grid; line-height: 1.2; }
   .hud-brand__name { font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: 0.14em; color: var(--text-1); text-transform: uppercase; }
   .hud-brand__sub { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--text-2); text-transform: uppercase; }
