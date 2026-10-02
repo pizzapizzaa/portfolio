@@ -4,10 +4,11 @@
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="description" content="Explorer Mode — Olivia Nguyen Portfolio" />
   <title>Explorer Mode — Olivia Nguyen</title>
 
@@ -36,24 +37,6 @@
       --glow-teal:  rgba(47,137,134,0.38);
       --nav-bg:     rgba(3,8,12,0.96);
       --grid-line:  rgba(47,137,134,0.06);
-    }
-
-    [data-theme="light"] {
-      --bg:         #dff0dd;
-      --bg-panel:   rgba(218,242,218,0.94);
-      --bg-input:   rgba(185,228,185,0.55);
-      --border:     #2a7a77;
-      --border-hi:  #4a9a28;
-      --accent:     #2a6d0e;
-      --accent-hi:  #3a8c20;
-      --accent-dim: #2a7a50;
-      --text-1:     #081408;
-      --text-2:     #1d481d;
-      --text-muted: #3a6a3a;
-      --glow:       rgba(55,130,20,0.22);
-      --glow-teal:  rgba(40,118,116,0.28);
-      --nav-bg:     rgba(205,238,205,0.96);
-      --grid-line:  rgba(40,118,116,0.08);
     }
 
     /* =============================================
@@ -158,9 +141,8 @@
     .game-btn .btn-icon,
     .game-btn .btn-label { position: relative; z-index: 1; }
 
-    /* Icon Button + Theme Toggle — shared nav icon style */
-    .icon-btn,
-    .theme-toggle {
+    /* Icon Button — shared nav icon style */
+    .icon-btn {
       width: 46px; height: 46px;
       background: var(--bg-panel);
       border: 1px solid var(--border);
@@ -172,16 +154,8 @@
       color: var(--text-1);
     }
 
-    .icon-btn:hover,
-    .theme-toggle:hover { border-color: var(--accent); background: #f7ffc7; color: #081014ed; box-shadow: 0 0 12px var(--glow); }
+    .icon-btn:hover { border-color: var(--accent); background: #f7ffc7; color: #081014ed; box-shadow: 0 0 12px var(--glow); }
     .icon-btn img { width: 26px; height: 26px; pointer-events: none; }
-
-    .toggle-thumb {
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      line-height: 1;
-      background: transparent;
-    }
 
     /* =============================================
        MAIN CONTENT
@@ -388,10 +362,6 @@
 
     .cta-btn:hover { background: #f7ffc7; box-shadow: 0 4px 36px var(--glow), 0 0 70px rgba(211,237,102,0.22); transform: translateY(-2px); }
     .cta-btn:active { transform: translateY(0); }
-    [data-theme="light"] .cta-btn { background: #4bd311; }
-    [data-theme="light"] .cta-btn:hover { background: #59f815; }
-    [data-theme="light"] #saucer-cursor polygon { fill: #0d1f5c; }
-    [data-theme="light"] #saucer-cursor polygon:first-of-type { fill: rgba(13,31,92,0.35); } /* glow bloom */
 
     /* =============================================
        MODALS
@@ -753,13 +723,6 @@
       animation: toastIn 0.35s ease forwards, toastOut 0.35s ease 3.2s forwards;
     }
 
-    [data-theme="light"] .ach-item {
-      background:
-        linear-gradient(140deg, rgba(226, 245, 227, 0.97), rgba(206, 234, 206, 0.95));
-      border-color: rgba(42, 122, 119, 0.55);
-      box-shadow: 0 8px 24px rgba(26, 62, 26, 0.18), 0 0 14px var(--glow);
-    }
-
     .ach-icon { font-size: 18px; line-height: 1; }
 
     .ach-label {
@@ -789,7 +752,7 @@
       .welcome-panel { padding: 28px 22px 26px; }
       .explorer-hud { display: none; }
 
-      /* Nav buttons become icon-only squares matching .icon-btn / .theme-toggle */
+      /* Nav buttons become icon-only squares matching .icon-btn */
       .nav-left .game-btn {
         width: 46px;
         height: 46px;
@@ -954,11 +917,6 @@
         </div>
       </div>
 
-      <button class="theme-toggle" id="btnTheme" title="Toggle light / dark" aria-label="Toggle theme">
-        <div class="toggle-thumb" id="toggleThumb">
-          <span id="themeIcon">&#127769;</span>
-        </div>
-      </button>
       <button class="icon-btn" id="btnSettings" aria-label="Explorer settings">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40q-2.17-.06-4.32,0L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84q-.06,2.17,0,4.32L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.17.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.9,123.66Z"></path></svg>
       </button>
@@ -1312,23 +1270,6 @@
           setTimeout(() => item.remove(), (i * 0.45 + 3.7) * 1000);
         });
     }
-
-    // ─────────────────────────────────────────────────────────
-    // Theme
-    // ─────────────────────────────────────────────────────────
-    const html      = document.documentElement;
-    const themeIcon = document.getElementById('themeIcon');
-
-    function applyTheme(t: string) {
-      html.setAttribute('data-theme', t);
-      themeIcon!.textContent = t === 'dark' ? '\u{1F319}' : '\u2600\uFE0F';
-      try { localStorage.setItem('ex-theme', t); } catch (_) {}
-    }
-
-    try { applyTheme(localStorage.getItem('ex-theme') || 'dark'); } catch(_) { applyTheme('dark'); }
-    document.getElementById('btnTheme')!.addEventListener('click', () => {
-      applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    });
 
     // ─────────────────────────────────────────────────────────
     // Restore HUD if explorer was already registered this session
@@ -1789,16 +1730,9 @@
 
           const r   = p.size * 2.8;
           const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
-          const isLight = document.documentElement.dataset.theme === 'light';
-          if (isLight) {
-            grd.addColorStop(0,   `hsla(225,70%,22%,${p.life * 0.05})`);
-            grd.addColorStop(0.35,`hsla(225,70%,22%,${p.life * 0.02})`);
-            grd.addColorStop(1,   `hsla(225,70%,22%,0)`);
-          } else {
-            grd.addColorStop(0,   `hsla(${p.hue},${p.sat}%,78%,${p.life * 0.14})`);
-            grd.addColorStop(0.35,`hsla(${p.hue},${p.sat}%,62%,${p.life * 0.06})`);
-            grd.addColorStop(1,   `hsla(${p.hue},${p.sat}%,50%,0)`);
-          }
+          grd.addColorStop(0,   `hsla(${p.hue},${p.sat}%,78%,${p.life * 0.14})`);
+          grd.addColorStop(0.35,`hsla(${p.hue},${p.sat}%,62%,${p.life * 0.06})`);
+          grd.addColorStop(1,   `hsla(${p.hue},${p.sat}%,50%,0)`);
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, r, 0, Math.PI * 2);

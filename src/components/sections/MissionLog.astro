@@ -1,0 +1,218 @@
+---
+import { workExperience } from '../../data/experience';
+import { missions } from '../../data/missions';
+
+const entries = workExperience.map((job, i) => {
+  const links = [job.projectLink, ...(job.projectLinks ?? [])].filter(Boolean) as string[];
+  return {
+    ...job,
+    code: `LOG-${String(workExperience.length - i).padStart(2, '0')}`,
+    current: /present/i.test(job.period),
+    linked: links.map((href) => missions.find((m) => m.href === href)).filter((m) => !!m),
+  };
+});
+---
+
+<section id="mission-log" class="section-shell log" aria-labelledby="log-title">
+  <header class="chapter">
+    <p class="chapter__index">03 // Mission log</p>
+    <h2 id="log-title" class="chapter__title" data-decode>Mission Log</h2>
+    <p class="chapter__lead" data-reveal>
+      Work & business management experience, condensed for clarity. The full flight record lives on
+      <a href="https://www.linkedin.com/in/huyennguyenthu/" target="_blank" rel="noopener" class="log__inline-link">LinkedIn ↗</a>.
+    </p>
+  </header>
+
+  <div class="log__track" data-draw-scope>
+  <span class="log__rail" aria-hidden="true"><span class="log__rail-fill" data-draw></span></span>
+  <ol class="log__list">
+    {entries.map((job) => (
+      <li class:list={['log__entry', { 'is-current': job.current }]} data-reveal>
+        <span class="log__node" aria-hidden="true"></span>
+        <div class="log__card hud-panel">
+          <div class="log__meta">
+            <span class="hud-label hud-label--signal">{job.code}</span>
+            <span class="log__period">{job.period}</span>
+            {job.current && <span class="log__status">Active</span>}
+          </div>
+          <h3 class="log__title">{job.title}</h3>
+          <p class="log__company">{job.company}</p>
+          <p class="log__desc">{job.description}</p>
+
+          {job.linked.length > 0 && (
+            <div class="log__missions">
+              <span class="hud-label">Linked missions</span>
+              {job.linked.map((m) => (
+                <a href={m!.href} class="log__chip" data-warp data-sfx="both">
+                  <span class="log__chip-dot" aria-hidden="true"></span>{m!.shortTitle} →
+                </a>
+              ))}
+            </div>
+          )}
+
+          <details class="log__details">
+            <summary data-sfx="click">
+              <span class="log__summary-closed">Decrypt full log</span>
+              <span class="log__summary-open">Collapse log</span>
+              <span class="log__count">{String(job.responsibilities.length).padStart(2, '0')} entries</span>
+            </summary>
+            <ul class="log__resp">
+              {job.responsibilities.map((r) => <li>{r}</li>)}
+            </ul>
+          </details>
+        </div>
+      </li>
+    ))}
+  </ol>
+  </div>
+
+  <div class="log__cta" data-reveal>
+    <a href="#missions" class="hud-btn" data-sfx="both">View missions →</a>
+  </div>
+</section>
+
+<style>
+  .log__inline-link { color: var(--accent-hi); text-underline-offset: 4px; }
+  .log__inline-link:hover { color: var(--text-1); }
+
+  .log__track { position: relative; padding-left: 44px; }
+  .log__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 28px;
+  }
+  .log__rail {
+    position: absolute;
+    left: 11px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background-image: linear-gradient(180deg, rgba(146, 211, 79, 0.3) 50%, transparent 50%);
+    background-size: 1px 6px;
+  }
+  .log__rail-fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--signal), var(--accent) 30%, var(--border));
+    box-shadow: 0 0 8px rgba(146, 211, 79, 0.6);
+    transform-origin: top;
+  }
+
+  .log__entry { position: relative; }
+  .log__node {
+    position: absolute;
+    left: -39px;
+    top: 30px;
+    width: 13px;
+    height: 13px;
+    border: 1px solid var(--accent);
+    background: var(--bg);
+    transform: rotate(45deg);
+  }
+  .log__entry.is-current .log__node { background: var(--signal); border-color: var(--signal-hi); box-shadow: var(--shadow-glow-signal); }
+
+  .log__card { padding: 24px 28px; transition: border-color 0.3s; }
+  .log__card:hover { border-color: rgba(146, 211, 79, 0.55); }
+  .log__card:hover::before, .log__card:hover::after { width: 22px; height: 22px; }
+
+  .log__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .log__period { font-family: var(--font-mono); font-size: 12px; color: var(--text-1); letter-spacing: 0.06em; }
+  .log__status {
+    padding: 2px 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-hi);
+    border: 1px solid var(--accent);
+    background: rgba(146, 211, 79, 0.08);
+  }
+  .log__title { font-size: clamp(18px, 2.2vw, 24px); font-weight: 700; text-transform: uppercase; color: var(--text-1); }
+  .log__company { margin-top: 6px; font-size: 15px; color: var(--text-2); }
+  .log__desc { margin-top: 14px; color: rgba(247, 255, 199, 0.8); line-height: 1.75; }
+
+  .log__missions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; }
+  .log__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--text-1);
+    border: 1px solid var(--border);
+    background: rgba(47, 137, 134, 0.12);
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+  }
+  .log__chip:hover { border-color: var(--signal); color: #fff; background: rgba(245, 58, 2, 0.15); }
+  .log__chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal-hi); box-shadow: 0 0 6px var(--signal); }
+
+  .log__details { margin-top: 18px; border-top: 1px dashed var(--hairline); }
+  .log__details summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0 4px;
+    list-style: none;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .log__details summary::-webkit-details-marker { display: none; }
+  .log__details summary::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 0.3s var(--ease-out);
+  }
+  .log__details[open] summary::before { transform: rotate(45deg); }
+  .log__details summary:hover { color: var(--accent-hi); }
+  .log__summary-open { display: none; }
+  .log__details[open] .log__summary-open { display: inline; }
+  .log__details[open] .log__summary-closed { display: none; }
+  .log__count { margin-left: auto; font-family: var(--font-mono); font-weight: 400; color: var(--text-2); }
+
+  .log__resp { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 10px; }
+  .log__resp li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(247, 255, 199, 0.75);
+  }
+  .log__resp li::before {
+    content: '›';
+    position: absolute;
+    left: 4px;
+    top: -1px;
+    font-family: var(--font-mono);
+    color: var(--signal-hi);
+  }
+  .log__details[open] .log__resp li { animation: resp-in 0.45s var(--ease-out) both; }
+  .log__details[open] .log__resp li:nth-child(2) { animation-delay: 0.04s; }
+  .log__details[open] .log__resp li:nth-child(3) { animation-delay: 0.08s; }
+  .log__details[open] .log__resp li:nth-child(4) { animation-delay: 0.12s; }
+  .log__details[open] .log__resp li:nth-child(5) { animation-delay: 0.16s; }
+  .log__details[open] .log__resp li:nth-child(n+6) { animation-delay: 0.2s; }
+  @keyframes resp-in { from { opacity: 0; transform: translateX(-8px); } }
+
+  .log__cta { margin-top: 40px; padding-left: 44px; }
+
+  @media (max-width: 600px) {
+    .log__track { padding-left: 28px; }
+    .log__list { gap: 20px; }
+    .log__rail { left: 5px; }
+    .log__node { left: -29px; width: 11px; height: 11px; }
+    .log__card { padding: 20px 18px; }
+    .log__cta { padding-left: 28px; }
+  }
+</style>

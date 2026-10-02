@@ -1,0 +1,430 @@
+---
+// Shared shell for every case study ("mission report"): hero briefing with the
+// project's planet, case-study typography, gallery behaviour, next/previous mission
+// navigation and the optional Explorer-mode overlay.
+import Layout from './Layout.astro';
+import ExplorerProjectOverlay from '../components/ExplorerProjectOverlay.astro';
+import { missions, domainColors } from '../data/missions';
+import { EXPLORER_ENABLED } from '../data/features';
+
+interface Props {
+  slug: string;
+  /** H1 shown in the hero (defaults to the mission's short title) */
+  heading?: string;
+  timeline: string;
+  status: string;
+  statusHref?: string;
+  heroImage?: string;
+  /** Background gradient used by the Explorer overlay */
+  explorerGradient?: string;
+}
+
+const { slug, heading, timeline, status, statusHref, heroImage, explorerGradient } = Astro.props;
+
+const index = missions.findIndex((m) => m.slug === slug);
+if (index < 0) throw new Error(`MissionLayout: unknown mission slug "${slug}"`);
+const mission = missions[index];
+const color = domainColors[mission.domain];
+const code = `P-${String(index + 1).padStart(2, '0')}`;
+const prev = missions[(index - 1 + missions.length) % missions.length];
+const next = missions[(index + 1) % missions.length];
+const uncharted = mission.status === 'uncharted';
+const title = heading ?? mission.shortTitle;
+
+const domainLabel: Record<string, string> = {
+  climate: 'Climate tech',
+  fintech: 'Fintech',
+  community: 'Community',
+  sport: 'Sport & lifestyle',
+  consumer: 'Consumer',
+};
+---
+
+<Layout title={`${title} — Mission report · Olivia Nguyen`} description={mission.description}>
+  <main class:list={['mreport', { 'mreport--uncharted': uncharted }]} style={`--c: ${color}`}>
+    <section class="mreport__hero">
+      {heroImage && <img class="mreport__hero-bg" src={heroImage} alt="" />}
+      <div class="mreport__hero-shade" aria-hidden="true"></div>
+      <span class="mreport__planet" aria-hidden="true"></span>
+
+      <div class="mreport__hero-inner">
+        <nav class="mreport__crumbs" aria-label="Breadcrumb">
+          <a href="/#launch-pad">Star map</a>
+          <span aria-hidden="true">/</span>
+          <a href="/#missions">Missions</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{code}</span>
+        </nav>
+        <p class="hud-label hud-label--signal">Mission report // {code} · {domainLabel[mission.domain]}</p>
+        <h1 class="mreport__title" data-decode-now>{title}</h1>
+        <p class="mreport__summary">{mission.description}</p>
+
+        <dl class="mreport__meta">
+          <div class="mreport__meta-item">
+            <dt class="hud-label">Role</dt>
+            <dd>{mission.role}</dd>
+          </div>
+          <div class="mreport__meta-item">
+            <dt class="hud-label">Timeline</dt>
+            <dd>{timeline}</dd>
+          </div>
+          <div class="mreport__meta-item">
+            <dt class="hud-label">Status</dt>
+            <dd>
+              {statusHref
+                ? <a href={statusHref} target="_blank" rel="noopener">{status} ↗</a>
+                : status}
+            </dd>
+          </div>
+        </dl>
+
+        {uncharted && (
+          <p class="mreport__pending">
+            <span aria-hidden="true"></span>
+            Uncharted planet — full mission report is being written. Check back soon.
+          </p>
+        )}
+      </div>
+
+      <a href="#report" class="mreport__cue" aria-label="Scroll to mission report">
+        <span class="hud-label">Begin report</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+      </a>
+    </section>
+
+    <div class="mreport__body" id="report">
+      <slot />
+    </div>
+
+    <nav class="mreport__next" aria-label="More missions">
+      <a href={prev.href} class="mreport__jump" data-warp data-sfx="both" style={`--jc: ${domainColors[prev.domain]}`}>
+        <span class="hud-label">← Previous mission</span>
+        <span class="mreport__jump-title"><span class="mreport__jump-dot" aria-hidden="true"></span>{prev.shortTitle}</span>
+      </a>
+      <a href={next.href} class="mreport__jump mreport__jump--next" data-warp data-sfx="both" style={`--jc: ${domainColors[next.domain]}`}>
+        <span class="hud-label">Next mission →</span>
+        <span class="mreport__jump-title"><span class="mreport__jump-dot" aria-hidden="true"></span>{next.shortTitle}</span>
+      </a>
+      <a href="/#missions" class="mreport__home hud-btn" data-sfx="both">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" /><circle cx="12" cy="12" r="3" /></svg>
+        Back to star map
+      </a>
+    </nav>
+  </main>
+
+  {EXPLORER_ENABLED && (
+    <ExplorerProjectOverlay
+      projectSlug={slug}
+      projectTitle={`${title} - Portfolio Case Study`}
+      explorerGradient={explorerGradient}
+    />
+  )}
+</Layout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────── */
+  .mreport__hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 120px 24px 120px;
+    overflow: hidden;
+  }
+  .mreport__hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.7) brightness(0.55);
+    transform: scale(1.04);
+    animation: hero-drift 24s ease-in-out infinite alternate;
+  }
+  @keyframes hero-drift { to { transform: scale(1.12) translate(-1.5%, -1%); } }
+  .mreport__hero-shade {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px),
+      linear-gradient(90deg, rgba(5, 9, 14, 0.95) 0%, rgba(5, 9, 14, 0.75) 45%, rgba(5, 9, 14, 0.35) 100%),
+      linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+  }
+  .mreport__planet {
+    position: absolute;
+    right: -6vw;
+    top: 50%;
+    width: min(38vw, 520px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background: radial-gradient(circle at 30% 28%, color-mix(in srgb, var(--c) 40%, white) 0%, var(--c) 28%, color-mix(in srgb, var(--c) 40%, #02060a) 62%, #02060a 100%);
+    box-shadow: inset -40px -50px 120px rgba(0, 0, 0, 0.75), 0 0 120px color-mix(in srgb, var(--c) 35%, transparent);
+    opacity: 0.6;
+    animation: planet-rise 1.6s var(--ease-out) both;
+  }
+  .mreport__planet::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-linear-gradient(-16deg, transparent 0 26px, rgba(0, 0, 0, 0.08) 26px 34px, transparent 34px 56px);
+    mix-blend-mode: multiply;
+  }
+  @keyframes planet-rise { from { opacity: 0; transform: translateY(-40%) scale(0.85); } }
+
+  .mreport--uncharted .mreport__planet { filter: saturate(0.35) brightness(0.75); }
+
+  .mreport__hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    gap: 18px;
+  }
+  .mreport__crumbs { display: flex; gap: 10px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); }
+  .mreport__crumbs a { color: var(--text-1); text-decoration: none; }
+  .mreport__crumbs a:hover { color: var(--accent-hi); }
+  .mreport__title {
+    max-width: 16ch;
+    font-size: clamp(38px, 6.5vw, 88px);
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--text-1);
+    text-shadow: 0 0 40px rgba(5, 9, 14, 0.8);
+  }
+  .mreport__summary { max-width: 560px; font-size: 18px; color: rgba(247, 255, 199, 0.8); }
+
+  .mreport__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0 0;
+  }
+  .mreport__meta-item {
+    min-width: 160px;
+    padding: 12px 16px;
+    border: 1px solid var(--hairline);
+    border-left: 2px solid var(--c);
+    background: rgba(5, 12, 18, 0.7);
+    backdrop-filter: blur(8px);
+  }
+  .mreport__meta-item dd { margin: 4px 0 0; font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-1); }
+  .mreport__meta-item dd a { color: var(--accent-hi); text-decoration: none; }
+  .mreport__meta-item dd a:hover { text-shadow: var(--text-glow); }
+
+  .mreport__pending {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 560px;
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--signal-hi);
+    border: 1px dashed rgba(245, 58, 2, 0.5);
+    background: rgba(245, 58, 2, 0.06);
+  }
+  .mreport__pending span { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); animation: pend 1.2s steps(2) infinite; flex-shrink: 0; }
+  @keyframes pend { 50% { opacity: 0.2; } }
+
+  .mreport__cue {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    transform: translateX(-50%);
+    text-decoration: none;
+  }
+  .mreport__cue svg { width: 22px; height: 22px; fill: none; stroke: var(--accent); stroke-width: 1.8; animation: cue 2s ease-in-out infinite; }
+  @keyframes cue { 50% { transform: translateY(6px); } }
+
+  /* ── Report body (content comes from each page via the slot) ── */
+  .mreport__body { max-width: 900px; margin: 0 auto; padding: 40px 24px 40px; }
+
+  :global(.mreport .case-section) {
+    position: relative;
+    margin-bottom: 40px;
+    padding: 36px 36px 12px;
+    border: 1px solid var(--hairline);
+    background: linear-gradient(160deg, rgba(10, 26, 30, 0.78), rgba(5, 12, 18, 0.85));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  :global(.mreport .case-section)::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 16px; height: 16px;
+    border-top: 1px solid var(--c);
+    border-left: 1px solid var(--c);
+  }
+  :global(.mreport .case-section-title) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+    margin-bottom: 28px;
+    font-size: clamp(20px, 2.6vw, 26px);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-1);
+  }
+  :global(.mreport .case-section-sub) {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-2);
+  }
+  :global(.mreport .case-field) { margin-bottom: 28px; }
+  :global(.mreport .case-field-label) {
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--signal-hi);
+  }
+  :global(.mreport .case-field-value),
+  :global(.mreport .case-field-list) {
+    font-size: 17px;
+    line-height: 1.75;
+    color: rgba(247, 255, 199, 0.85);
+  }
+  :global(.mreport .case-field-list) { margin: 10px 0 0; padding-left: 0; list-style: none; display: grid; gap: 8px; }
+  :global(.mreport .case-field-list li) { position: relative; padding-left: 22px; }
+  :global(.mreport .case-field-list li)::before { content: '›'; position: absolute; left: 4px; font-family: var(--font-mono); color: var(--accent); }
+  :global(.mreport .case-field-value strong),
+  :global(.mreport .case-field-list strong) { color: var(--text-1); }
+  :global(.mreport .case-link) { color: var(--accent-hi); text-underline-offset: 4px; }
+  :global(.mreport .case-link:hover) { color: var(--text-1); }
+  :global(.mreport .visual-placeholder) {
+    margin-top: 16px;
+    padding: 48px 24px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-2);
+    border: 1px dashed var(--hairline);
+    background: repeating-linear-gradient(45deg, transparent 0 10px, rgba(47, 137, 134, 0.05) 10px 20px);
+  }
+
+  /* Gallery */
+  :global(.mreport .gallery-wrap) { margin-top: 16px; }
+  :global(.mreport .gallery-track-wrap) { position: relative; overflow: hidden; border: 1px solid var(--hairline); background: rgba(0, 0, 0, 0.35); }
+  :global(.mreport .gallery-track) { display: flex; transition: transform 0.6s var(--ease-out); }
+  :global(.mreport .gallery-img) { flex: 0 0 100%; width: 100%; max-height: 480px; object-fit: contain; cursor: zoom-in; display: block; }
+  :global(.mreport .gallery-controls) { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+  :global(.mreport .gallery-btn) {
+    padding: 9px 18px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-1);
+    background: rgba(10, 26, 30, 0.7);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  :global(.mreport .gallery-btn:hover) { border-color: var(--accent); color: var(--accent-hi); }
+  :global(.mreport .gallery-counter) { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; color: var(--text-2); }
+
+  /* ── Next / previous ──────────────────────────── */
+  .mreport__next {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    gap: 16px;
+    max-width: 1180px;
+    margin: 40px auto 0;
+    padding: 0 24px 96px;
+  }
+  .mreport__jump {
+    display: grid;
+    gap: 8px;
+    padding: 18px 20px;
+    text-decoration: none;
+    border: 1px solid var(--hairline);
+    background: rgba(5, 12, 18, 0.75);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .mreport__jump--next { text-align: right; justify-items: end; }
+  .mreport__jump:hover { border-color: var(--jc); background: rgba(10, 26, 30, 0.85); }
+  .mreport__jump-title { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-1); }
+  .mreport__jump-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--jc); box-shadow: 0 0 10px var(--jc); flex-shrink: 0; }
+  .mreport__home { grid-column: 1 / -1; justify-self: center; margin-top: 24px; }
+
+  @media (max-width: 760px) {
+    .mreport__hero { padding: 100px 16px 100px; align-items: flex-end; }
+    .mreport__planet { width: 80vw; right: -35vw; top: 26%; opacity: 0.55; }
+    .mreport__summary { font-size: 16px; }
+    .mreport__meta-item { min-width: 0; flex: 1 1 140px; }
+    .mreport__body { padding: 24px 16px; }
+    :global(.mreport .case-section) { padding: 26px 18px 6px; }
+    :global(.mreport .case-field-value), :global(.mreport .case-field-list) { font-size: 16px; }
+    .mreport__next { padding: 0 16px 72px; }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { decode, reducedMotion } from '../scripts/motion';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.querySelectorAll<HTMLElement>('[data-decode-now]').forEach((el) => decode(el, 1.1));
+
+  // Report sections slide in as they enter
+  if (!reducedMotion) {
+    gsap.utils.toArray<HTMLElement>('.mreport .case-section').forEach((sec) => {
+      gsap.from(sec, {
+        autoAlpha: 0,
+        y: 40,
+        duration: 1,
+        ease: 'expo.out',
+        scrollTrigger: { trigger: sec, start: 'top 88%', once: true },
+      });
+    });
+  }
+
+  // Galleries: any number per page
+  document.querySelectorAll<HTMLElement>('.mreport .gallery-wrap').forEach((wrap) => {
+    const track = wrap.querySelector<HTMLElement>('.gallery-track');
+    const imgs = wrap.querySelectorAll<HTMLImageElement>('.gallery-img');
+    const counter = wrap.querySelector<HTMLElement>('.gallery-counter');
+    const [prevBtn, nextBtn] = wrap.querySelectorAll<HTMLButtonElement>('.gallery-btn');
+    if (!track || !imgs.length) return;
+    let current = 0;
+    const goTo = (i: number) => {
+      current = (i + imgs.length) % imgs.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      if (counter) counter.textContent = `${current + 1} / ${imgs.length}`;
+    };
+    prevBtn?.addEventListener('click', () => goTo(current - 1));
+    nextBtn?.addEventListener('click', () => goTo(current + 1));
+    imgs.forEach((img) => img.addEventListener('click', () => window.open(img.src, '_blank')));
+    // swipe on touch screens
+    let startX = 0;
+    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+    });
+  });
+</script>

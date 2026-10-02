@@ -1,0 +1,127 @@
+---
+// Star Atlas–style chapter rail: diamonds joined by lines that fill as you scroll.
+import { navItems } from '../../data/nav';
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+---
+
+<nav class="rail" aria-label="Section progress">
+  {navItems.map((item, i) => (
+    <>
+      <a href={`#${item.id}`} class="rail__stop" data-rail-stop={item.id} data-sfx="hover">
+        <span class="rail__diamond" aria-hidden="true"><span></span></span>
+        <span class="rail__tip"><span class="rail__num">{pad(i)}</span>{item.name}</span>
+      </a>
+      {i < navItems.length - 1 && <span class="rail__line" aria-hidden="true"><span data-rail-fill={i}></span></span>}
+    </>
+  ))}
+</nav>
+
+<style>
+  .rail {
+    position: fixed;
+    right: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .rail__stop {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 22px; height: 22px;
+    text-decoration: none;
+  }
+  .rail__diamond {
+    display: grid;
+    place-items: center;
+    width: 11px; height: 11px;
+    border: 1px solid rgba(146, 211, 79, 0.45);
+    transform: rotate(45deg);
+    transition: border-color 0.3s, transform 0.4s var(--ease-out), box-shadow 0.3s;
+  }
+  .rail__diamond span {
+    width: 5px; height: 5px;
+    background: var(--accent);
+    transform: scale(0);
+    transition: transform 0.4s var(--ease-out);
+  }
+  .rail__stop.is-passed .rail__diamond { border-color: var(--accent); }
+  .rail__stop.is-current .rail__diamond { border-color: var(--accent-hi); transform: rotate(45deg) scale(1.35); box-shadow: var(--shadow-glow-ui); }
+  .rail__stop.is-current .rail__diamond span,
+  .rail__stop.is-passed .rail__diamond span { transform: scale(1); }
+  .rail__stop:hover .rail__diamond { border-color: var(--accent-hi); transform: rotate(45deg) scale(1.25); }
+
+  .rail__tip {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    display: flex;
+    gap: 8px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-1);
+    background: rgba(3, 8, 12, 0.85);
+    border: 1px solid var(--hairline);
+    opacity: 0;
+    transform: translate(8px, -50%);
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.35s var(--ease-out);
+  }
+  .rail__num { font-family: var(--font-mono); color: var(--signal-hi); }
+  .rail__stop:hover .rail__tip,
+  .rail__stop:focus-visible .rail__tip { opacity: 1; transform: translate(0, -50%); }
+
+  .rail__line {
+    position: relative;
+    width: 1px;
+    height: 38px;
+    background-image: linear-gradient(180deg, rgba(146, 211, 79, 0.35) 50%, transparent 50%);
+    background-size: 1px 4px;
+  }
+  .rail__line span {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  @media (max-width: 900px) { .rail { display: none; } }
+</style>
+
+<script>
+  const stops = [...document.querySelectorAll<HTMLElement>('[data-rail-stop]')];
+  const fills = [...document.querySelectorAll<HTMLElement>('[data-rail-fill]')];
+  const sections = stops.map((s) => document.getElementById(s.dataset.railStop!));
+
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const mid = window.scrollY + window.innerHeight * 0.45;
+    const tops = sections.map((s) => (s ? s.getBoundingClientRect().top + window.scrollY : Infinity));
+    let current = 0;
+    tops.forEach((t, i) => { if (mid >= t) current = i; });
+    stops.forEach((s, i) => {
+      s.classList.toggle('is-current', i === current);
+      s.classList.toggle('is-passed', i < current);
+    });
+    fills.forEach((f, i) => {
+      const start = tops[i], end = tops[i + 1];
+      const p = Math.min(1, Math.max(0, (mid - start) / (end - start)));
+      f.style.transform = `scaleY(${p})`;
+    });
+  }
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+</script>

@@ -1,0 +1,332 @@
+---
+import { navItems } from '../../data/nav';
+import { EXPLORER_ENABLED } from '../../data/features';
+
+// On the homepage links are in-page anchors; elsewhere they point back to /#section.
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+const href = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+---
+
+<header class="hud-nav" data-hud-nav>
+  <a href={href('launch-pad')} class="hud-brand" aria-label="Olivia Nguyen — back to Launch Pad" data-sfx="hover">
+    <svg class="hud-brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 2 30 16 16 30 2 16Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <path d="M16 9 23 16 16 23 9 16Z" fill="currentColor" />
+    </svg>
+    <span class="hud-brand__text">
+      <span class="hud-brand__name">O. Nguyen</span>
+      <span class="hud-brand__sub">Ship log // v2.0</span>
+    </span>
+  </a>
+
+  <nav class="hud-links" aria-label="Main">
+    {navItems.map((item, i) => (
+      <a href={href(item.id)} class="hud-link" data-nav-id={item.id} data-sfx="hover">
+        <span class="hud-link__index">{pad(i)}</span>
+        <span class="hud-link__name">{item.name}</span>
+      </a>
+    ))}
+  </nav>
+
+  <div class="hud-tools">
+    {EXPLORER_ENABLED && (
+    <a href="/explorer_onboard" class="hud-explorer" data-explorer-chip data-sfx="hover">
+      <span class="hud-explorer__dot" aria-hidden="true"></span>
+      <span class="hud-explorer__label" data-explorer-label>Explorer mode</span>
+      <span class="hud-explorer__exp" data-explorer-exp hidden>
+        <span class="hud-explorer__bar"><span data-explorer-fill></span></span>
+        <span class="hud-explorer__exp-text" data-explorer-exp-text></span>
+      </span>
+    </a>
+    )}
+
+    <button class="hud-icon-btn" type="button" data-sound-toggle aria-pressed="false" aria-label="Sound effects" title="Sound effects">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor" />
+        <path class="snd-on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        <path class="snd-off" d="m16 9 6 6m0-6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+      </svg>
+    </button>
+
+    <button class="hud-icon-btn hud-burger" type="button" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="hud-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="hud-menu" id="hud-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="hud-menu__top">
+    <span class="hud-label">Navigation // select destination</span>
+    <button class="hud-icon-btn" type="button" data-menu-close aria-label="Close menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+    </button>
+  </div>
+  <nav class="hud-menu__list" aria-label="Main">
+    {navItems.map((item, i) => (
+      <a href={href(item.id)} class="hud-menu__item" data-menu-link data-sfx="both">
+        <span class="hud-menu__diamond" aria-hidden="true"></span>
+        <span class="hud-menu__index">{pad(i)}</span>
+        <span class="hud-menu__name">{item.name}</span>
+      </a>
+    ))}
+  </nav>
+  {EXPLORER_ENABLED && (
+    <div class="hud-menu__foot">
+      <a href="/explorer_onboard" class="hud-btn" data-explorer-chip-menu>Enter explorer mode</a>
+    </div>
+  )}
+</div>
+
+<style>
+  .hud-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: 68px;
+    padding: 0 24px;
+    background: linear-gradient(180deg, rgba(3, 8, 12, 0.92), rgba(3, 8, 12, 0.72));
+    border-bottom: 1px solid var(--hairline);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .hud-nav::after {
+    /* scanning highlight that sweeps along the bottom edge */
+    content: '';
+    position: absolute;
+    left: 0; bottom: -1px;
+    width: 18%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: nav-scan 7s linear infinite;
+  }
+  @keyframes nav-scan { from { transform: translateX(-100%); } to { transform: translateX(600%); } }
+
+  .hud-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .hud-brand__mark { width: 28px; height: 28px; transition: transform 0.6s var(--ease-out); }
+  .hud-brand:hover .hud-brand__mark { transform: rotate(90deg); filter: drop-shadow(0 0 6px var(--accent)); }
+  .hud-brand__text { display: grid; line-height: 1.2; }
+  .hud-brand__name { font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: 0.14em; color: var(--text-1); text-transform: uppercase; }
+  .hud-brand__sub { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--text-2); text-transform: uppercase; }
+
+  .hud-links { display: flex; align-items: center; gap: 2px; }
+  .hud-link {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: rgba(247, 255, 199, 0.62);
+    transition: color 0.25s;
+  }
+  .hud-link__index { font-family: var(--font-mono); font-size: 10px; color: var(--text-2); transition: color 0.25s; }
+  .hud-link__name { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+  .hud-link::before,
+  .hud-link::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 5px; height: 5px;
+    border: 1px solid var(--accent);
+    transform: translateY(-50%) rotate(45deg) scale(0);
+    transition: transform 0.35s var(--ease-out);
+  }
+  .hud-link::before { left: 0; }
+  .hud-link::after { right: 0; }
+  .hud-link:hover { color: var(--text-1); }
+  .hud-link:hover::before, .hud-link:hover::after { transform: translateY(-50%) rotate(45deg) scale(1); }
+  .hud-link.is-active { color: var(--accent-hi); text-shadow: var(--text-glow); }
+  .hud-link.is-active .hud-link__index { color: var(--signal-hi); }
+  .hud-link.is-active::before, .hud-link.is-active::after { transform: translateY(-50%) rotate(45deg) scale(1); background: var(--accent); }
+
+  .hud-tools { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+  .hud-explorer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 14px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    background: rgba(10, 26, 30, 0.6);
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  }
+  .hud-explorer:hover { border-color: var(--accent); background: rgba(146, 211, 79, 0.1); }
+  .hud-explorer__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); box-shadow: 0 0 0 0 var(--glow); }
+  .hud-explorer.is-active .hud-explorer__dot { background: var(--accent); animation: dot-pulse 2s infinite; }
+  @keyframes dot-pulse { 0% { box-shadow: 0 0 0 0 rgba(146, 211, 79, 0.6); } 100% { box-shadow: 0 0 0 8px rgba(146, 211, 79, 0); } }
+  .hud-explorer__label { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-1); white-space: nowrap; }
+  .hud-explorer__exp { display: flex; align-items: center; gap: 8px; }
+  .hud-explorer__bar { width: 70px; height: 4px; background: rgba(146, 211, 79, 0.15); overflow: hidden; }
+  .hud-explorer__bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-dim), var(--accent-hi)); box-shadow: 0 0 8px var(--accent); transition: width 1s var(--ease-out); }
+  .hud-explorer__exp-text { font-family: var(--font-mono); font-size: 10px; color: var(--text-2); white-space: nowrap; }
+
+  .hud-icon-btn {
+    display: grid;
+    place-items: center;
+    width: 40px; height: 40px;
+    padding: 0;
+    color: var(--text-1);
+    background: rgba(10, 26, 30, 0.6);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.25s, color 0.25s, box-shadow 0.25s;
+  }
+  .hud-icon-btn:hover { border-color: var(--accent); color: var(--accent-hi); box-shadow: var(--shadow-glow-soft); }
+  .hud-icon-btn svg { width: 20px; height: 20px; }
+  .hud-icon-btn .snd-on { display: none; }
+  .hud-icon-btn[aria-pressed='true'] { color: var(--accent-hi); border-color: var(--accent); }
+  .hud-icon-btn[aria-pressed='true'] .snd-on { display: block; }
+  .hud-icon-btn[aria-pressed='true'] .snd-off { display: none; }
+
+  .hud-burger { display: none; gap: 4px; align-content: center; }
+  .hud-burger span { display: block; width: 18px; height: 1.5px; background: currentColor; }
+  .hud-burger span:nth-child(2) { width: 12px; justify-self: end; }
+
+  /* Mobile / tablet menu */
+  .hud-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 20px 28px;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 47px, var(--grid-line) 47px 48px),
+      repeating-linear-gradient(90deg, transparent 0 47px, var(--grid-line) 47px 48px),
+      rgba(3, 8, 12, 0.97);
+  }
+  .hud-menu[hidden] { display: none; }
+  .hud-menu__top { display: flex; align-items: center; justify-content: space-between; }
+  .hud-menu__list { display: grid; gap: 4px; margin: auto 0; }
+  .hud-menu__item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 4px;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--hairline);
+    opacity: 0;
+    transform: translateX(-16px);
+    animation: menu-in 0.5s var(--ease-out) forwards;
+  }
+  .hud-menu__item:nth-child(2) { animation-delay: 0.05s; }
+  .hud-menu__item:nth-child(3) { animation-delay: 0.1s; }
+  .hud-menu__item:nth-child(4) { animation-delay: 0.15s; }
+  .hud-menu__item:nth-child(5) { animation-delay: 0.2s; }
+  .hud-menu__item:nth-child(6) { animation-delay: 0.25s; }
+  @keyframes menu-in { to { opacity: 1; transform: none; } }
+  .hud-menu__diamond { width: 10px; height: 10px; border: 1px solid var(--accent); transform: rotate(45deg); transition: background 0.2s; }
+  .hud-menu__item:hover .hud-menu__diamond, .hud-menu__item:focus-visible .hud-menu__diamond { background: var(--accent); box-shadow: var(--shadow-glow-ui); }
+  .hud-menu__index { font-family: var(--font-mono); font-size: 12px; color: var(--signal-hi); }
+  .hud-menu__name { font-family: var(--font-display); font-size: clamp(22px, 6vw, 34px); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-1); }
+  .hud-menu__foot { display: flex; justify-content: center; }
+
+  @media (max-width: 1180px) {
+    .hud-links { display: none; }
+    .hud-burger { display: grid; }
+  }
+  @media (max-width: 560px) {
+    .hud-nav { padding: 0 16px; height: 60px; }
+    .hud-brand__sub { display: none; }
+    .hud-explorer { display: none; }
+  }
+</style>
+
+<script>
+  import { calcLevel, expProgress, rankTitle } from '../../lib/explorerLevels';
+  import { isSoundOn, setSound, bindSfx } from '../../scripts/sound';
+
+  bindSfx();
+
+  // ── Explorer status chip (explorer mode is optional) ─────
+  try {
+    const raw = localStorage.getItem('ex-profile');
+    const nick = localStorage.getItem('ex-nickname');
+    if (raw && nick) {
+      const profile = JSON.parse(raw) as { exp?: number };
+      const exp = profile.exp ?? 0;
+      const level = calcLevel(exp);
+      const chip = document.querySelector<HTMLAnchorElement>('[data-explorer-chip]');
+      if (!chip) throw 0; // explorer mode disabled
+      chip.classList.add('is-active');
+      chip.href = '/explorer_start';
+      chip.querySelector('[data-explorer-label]')!.textContent = `${rankTitle(level)} · ${nick}`;
+      const expEl = chip.querySelector<HTMLElement>('[data-explorer-exp]')!;
+      expEl.hidden = false;
+      expEl.querySelector('[data-explorer-exp-text]')!.textContent = `LV ${level}`;
+      requestAnimationFrame(() => {
+        expEl.querySelector<HTMLElement>('[data-explorer-fill]')!.style.width = `${Math.round(expProgress(exp) * 100)}%`;
+      });
+      const menuChip = document.querySelector<HTMLAnchorElement>('[data-explorer-chip-menu]');
+      if (menuChip) { menuChip.href = '/explorer_start'; menuChip.textContent = `${rankTitle(level)} · ${nick}`; }
+    }
+  } catch { /* storage blocked or bad JSON — keep the default chip */ }
+
+  // ── Sound toggle ─────────────────────────────────────────
+  const soundBtn = document.querySelector<HTMLButtonElement>('[data-sound-toggle]')!;
+  const syncSound = () => soundBtn.setAttribute('aria-pressed', String(isSoundOn()));
+  syncSound();
+  soundBtn.addEventListener('click', () => { setSound(!isSoundOn()); syncSound(); });
+
+  // ── Active section highlight ─────────────────────────────
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-nav-id]');
+  const sections = [...links]
+    .map((l) => document.getElementById(l.dataset.navId!))
+    .filter((s): s is HTMLElement => !!s);
+  if (sections.length) {
+    const setActive = (id: string) => links.forEach((l) => {
+      const on = l.dataset.navId === id;
+      l.classList.toggle('is-active', on);
+      if (on) l.setAttribute('aria-current', 'location'); else l.removeAttribute('aria-current');
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach((s) => io.observe(s));
+  }
+
+  // ── Mobile menu with focus trap ──────────────────────────
+  const menu = document.getElementById('hud-menu')!;
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]')!;
+  const closeBtn = menu.querySelector<HTMLButtonElement>('[data-menu-close]')!;
+
+  function openMenu() {
+    menu.hidden = false;
+    openBtn.setAttribute('aria-expanded', 'true');
+    window.__lenis?.stop();
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+  function closeMenu(returnFocus = true) {
+    menu.hidden = true;
+    openBtn.setAttribute('aria-expanded', 'false');
+    window.__lenis?.start();
+    document.body.style.overflow = '';
+    if (returnFocus) openBtn.focus();
+  }
+  openBtn.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', () => closeMenu());
+  menu.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => closeMenu(false)));
+  menu.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeMenu(); return; }
+    if (e.key !== 'Tab') return;
+    const f = menu.querySelectorAll<HTMLElement>('a, button');
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+</script>

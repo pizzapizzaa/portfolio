@@ -167,11 +167,8 @@ const {
     font-family: 'Orbitron', 'Albert Sans', monospace;
   }
 
-  :global(body.explorer-active .header-wrapper) {
-    display: none !important;
-  }
-
-  :global(body.explorer-active > div.fixed) {
+  /* Explorer HUD replaces the site nav while explorer mode is active */
+  :global(body.explorer-active [data-hud-nav]) {
     display: none !important;
   }
 
@@ -461,10 +458,12 @@ const {
     max-width: none;
     margin: 0;
     padding: 0 24px 96px;
-    display: flex;
+    display: none; /* shown only in explorer mode (rule below) */
     justify-content: center;
     background: var(--bbo-page-bg, linear-gradient(40deg, #071207 0%, #0d2c1a 100%));
   }
+  :global(body.explorer-active) .bbo-share-page-end-wrap { display: flex; }
+
   .bbo-share-page-end {
     display: flex;
     flex-direction: column;

@@ -1,183 +1,94 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import ExplorerProjectOverlay from '../../components/ExplorerProjectOverlay.astro';
+import MissionLayout from '../../layouts/MissionLayout.astro';
 ---
 
-<Layout title="MBFS Australia - Case Study">
-  <Header basePath="/" />
-
-  <main class="pt-24">
-
-    <!-- Hero -->
-    <section class="relative min-h-screen flex items-center py-24" style="background-image: url('/assets/projects/mb-thumbnail-2.avif'); background-size: cover; background-position: center;">
-      <div class="absolute inset-0" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.85));"></div>
-      <div class="relative z-10" style="max-width: 860px; margin-left: auto; margin-right: auto; width: 100%; padding-left: 24px; padding-right: 24px;">
-        <h1 class="text-[36px] sm:text-[56px] md:text-[100px] leading-none font-heading font-bold text-white mb-4">MBFS Australia</h1>
-        <p style="color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 20px; font-style: italic;">Case study will be updated soon...</p>
-        <div class="flex flex-wrap gap-3 text-[15px]" style="color: rgb(255,184,0);">
-          <span>Role: Lead Product Designer</span>
-          <span style="opacity:0.4;">|</span>
-          <span>Timeline: X Months</span>
-          <span style="opacity:0.4;">|</span>
-          <span>Status: Shipped / MVP</span>
-        </div>
-      </div>
-      <div class="scroll-cue">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
-      </div>
-    </section>
-
-    <!-- Case Study Body -->
-    <div class="case-study-body reveal-hidden">
-
-      <section class="case-section">
-        <h2 class="case-section-title">1. The TL;DR <span class="case-section-sub">(Executive Summary)</span></h2>
-        <div class="case-field">
-          <h3 class="case-field-label">The Purpose</h3>
-          <p class="case-field-value">Why does this product exist? What is the broader goal or mission it serves?</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">The Problem</h3>
-          <p class="case-field-value">What was the single biggest pain point for the user or the business?</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">The Solution</h3>
-          <p class="case-field-value">One sentence describing the core product/feature delivered.</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">The Impact</h3>
-          <p class="case-field-value">The &ldquo;Hero&rdquo; Metric. (e.g., +25% conversion, -40% support tickets, or $1M in revenue).</p>
-        </div>
-      </section>
-
-      <section class="case-section">
-        <h2 class="case-section-title">2. Strategy &amp; Discovery</h2>
-        <div class="case-field">
-          <h3 class="case-field-label">Insight</h3>
-          <p class="case-field-value">What did the data or user research tell you that others missed?</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">Stakeholders</h3>
-          <p class="case-field-value">How did you align the Product, Engineering, and Marketing teams?</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">Constraint</h3>
-          <p class="case-field-value">What was the main &ldquo;blocker&rdquo; (Technical debt, tight deadline, or budget)?</p>
-        </div>
-      </section>
-
-      <section class="case-section">
-        <h2 class="case-section-title">3. Execution <span class="case-section-sub">(The &ldquo;How&rdquo;)</span></h2>
-        <div class="case-field">
-          <h3 class="case-field-label">Key Decision</h3>
-          <p class="case-field-value">&ldquo;We chose [Option A] over [Option B] because of [Data/Logic].&rdquo;</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">Design Leadership</h3>
-          <p class="case-field-value">Mention the Design System, components, or accessibility standards you enforced.</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">Visual Highlights</h3>
-          <!-- Gallery -->
-          <div class="gallery-wrap">
-            <div class="gallery-track-wrap">
-              <div class="gallery-track" id="galleryTrack">
-                <img class="gallery-img" src="/assets/projects/mb-thumbnail-2.avif" alt="Project screen 1" />
-                <img class="gallery-img" src="/assets/projects/mb-thumbnail-2.avif" alt="Project screen 2" />
-              </div>
-            </div>
-            <div class="gallery-controls">
-              <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
-              <span class="gallery-counter" id="galleryCounter">1 / 2</span>
-              <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="case-section">
-        <h2 class="case-section-title">4. Outcome &amp; Lessons</h2>
-        <div class="case-field">
-          <h3 class="case-field-label">KPIs</h3>
-          <p class="case-field-value">Did you meet your success metrics? Use a simple table or bullet list.</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">Post-Launch</h3>
-          <p class="case-field-value">What did you learn from real-world usage?</p>
-        </div>
-        <div class="case-field">
-          <h3 class="case-field-label">Next Steps</h3>
-          <p class="case-field-value">How would you iterate on this in &ldquo;Phase 2&rdquo;?</p>
-        </div>
-      </section>
-
+<MissionLayout
+  slug="mbfs-au"
+  heading="MBFS Australia"
+  timeline="—"
+  status="Shipped / MVP"
+  heroImage="/assets/projects/mb-thumbnail-2.avif"
+  explorerGradient="linear-gradient(40deg, #141414 0%, #242424 100%)"
+>
+  <section class="case-section">
+    <h2 class="case-section-title">1. The TL;DR <span class="case-section-sub">(Executive Summary)</span></h2>
+    <div class="case-field">
+      <h3 class="case-field-label">The Purpose</h3>
+      <p class="case-field-value">Why does this product exist? What is the broader goal or mission it serves?</p>
     </div>
-  </main>
+    <div class="case-field">
+      <h3 class="case-field-label">The Problem</h3>
+      <p class="case-field-value">What was the single biggest pain point for the user or the business?</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">The Solution</h3>
+      <p class="case-field-value">One sentence describing the core product/feature delivered.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">The Impact</h3>
+      <p class="case-field-value">The &ldquo;Hero&rdquo; Metric. (e.g., +25% conversion, -40% support tickets, or $1M in revenue).</p>
+    </div>
+  </section>
 
-  <ExplorerProjectOverlay
-    projectSlug="mbfs-au"
-    projectTitle="MBFS Australia - Portfolio Case Study"
-    explorerGradient="linear-gradient(40deg, #141414 0%, #242424 100%)"
-  />
-</Layout>
+  <section class="case-section">
+    <h2 class="case-section-title">2. Strategy &amp; Discovery</h2>
+    <div class="case-field">
+      <h3 class="case-field-label">Insight</h3>
+      <p class="case-field-value">What did the data or user research tell you that others missed?</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Stakeholders</h3>
+      <p class="case-field-value">How did you align the Product, Engineering, and Marketing teams?</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Constraint</h3>
+      <p class="case-field-value">What was the main &ldquo;blocker&rdquo; (Technical debt, tight deadline, or budget)?</p>
+    </div>
+  </section>
 
-<!-- TODO: Remove when case study content is ready -->
-<style is:global>body { overflow: hidden; }</style>
+  <section class="case-section">
+    <h2 class="case-section-title">3. Execution <span class="case-section-sub">(The &ldquo;How&rdquo;)</span></h2>
+    <div class="case-field">
+      <h3 class="case-field-label">Key Decision</h3>
+      <p class="case-field-value">&ldquo;We chose [Option A] over [Option B] because of [Data/Logic].&rdquo;</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Design Leadership</h3>
+      <p class="case-field-value">Mention the Design System, components, or accessibility standards you enforced.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Visual Highlights</h3>
+      <!-- Gallery -->
+      <div class="gallery-wrap">
+        <div class="gallery-track-wrap">
+          <div class="gallery-track" id="galleryTrack">
+            <img class="gallery-img" src="/assets/projects/mb-thumbnail-2.avif" alt="Project screen 1" />
+            <img class="gallery-img" src="/assets/projects/mb-thumbnail-2.avif" alt="Project screen 2" />
+          </div>
+        </div>
+        <div class="gallery-controls">
+          <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
+          <span class="gallery-counter" id="galleryCounter">1 / 2</span>
+          <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
+        </div>
+      </div>
+  
+    </div>
+  </section>
 
-<style>
-  .case-study-body { max-width: 860px; margin: 0 auto; padding: 64px 24px 96px; color: #fff; }
-  .case-section { margin-bottom: 64px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 48px; }
-  .case-section-title { font-size: 26px; font-weight: 700; color: rgb(255,184,0); margin-bottom: 36px; }
-  .case-section-sub { font-size: 18px; font-weight: 400; color: rgba(255,184,0,0.6); }
-  .case-field { margin-bottom: 32px; }
-  .case-field-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
-  .case-field-value { font-size: 17px; line-height: 1.75; color: #fafafa; }
-  /* Gallery */
-  .gallery-wrap { margin-top: 20px; }
-  .gallery-track-wrap { overflow: hidden; border-radius: 12px; background: rgba(0,0,0,0.25); }
-  .gallery-track { display: flex; transition: transform 0.4s ease; }
-  .gallery-img { flex: 0 0 100%; width: 100%; max-height: 480px; object-fit: contain; cursor: pointer; display: block; }
-  .gallery-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
-  .gallery-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fafafa; padding: 8px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
-  .gallery-btn:hover { background: rgba(255,255,255,0.16); }
-  .gallery-counter { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; }
-  .reveal-hidden { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal-visible { opacity: 1; transform: translateY(0); }
-  .scroll-cue { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); color: rgba(255,184,0,0.55); animation: cue-bounce 2s ease-in-out infinite; pointer-events: none; }
-  @keyframes cue-bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
-</style>
-
-<script>
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('reveal-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal-hidden').forEach(el => observer.observe(el));
-
-  // Gallery
-  const imgs = document.querySelectorAll<HTMLImageElement>('.gallery-img');
-  const track = document.getElementById('galleryTrack') as HTMLElement;
-  const counter = document.getElementById('galleryCounter') as HTMLElement;
-  let current = 0;
-  const total = imgs.length;
-
-  function goTo(index: number) {
-    current = (index + total) % total;
-    (track as HTMLElement).style.transform = `translateX(-${current * 100}%)`;
-    counter.textContent = `${current + 1} / ${total}`;
-  }
-
-  document.getElementById('galleryPrev')?.addEventListener('click', () => goTo(current - 1));
-  document.getElementById('galleryNext')?.addEventListener('click', () => goTo(current + 1));
-
-  imgs.forEach(img => {
-    img.addEventListener('click', () => window.open(img.src, '_blank'));
-  });
-</script>
+  <section class="case-section">
+    <h2 class="case-section-title">4. Outcome &amp; Lessons</h2>
+    <div class="case-field">
+      <h3 class="case-field-label">KPIs</h3>
+      <p class="case-field-value">Did you meet your success metrics? Use a simple table or bullet list.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Post-Launch</h3>
+      <p class="case-field-value">What did you learn from real-world usage?</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Next Steps</h3>
+      <p class="case-field-value">How would you iterate on this in &ldquo;Phase 2&rdquo;?</p>
+    </div>
+  </section>
+</MissionLayout>

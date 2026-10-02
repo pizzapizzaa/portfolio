@@ -1,0 +1,247 @@
+---
+import { skills, tools, languages, education } from '../../data/skills';
+
+const SEGMENTS = 10;
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+const fluency = (level: number) => (level >= 90 ? 'Native / fluent' : level >= 50 ? 'Professional' : 'Basic');
+---
+
+<section id="skills" class="section-shell skills" aria-labelledby="skills-title">
+  <header class="chapter">
+    <p class="chapter__index">04 // Skills</p>
+    <h2 id="skills-title" class="chapter__title" data-decode>Skills</h2>
+    <p class="chapter__lead" data-reveal>Ship systems, loadout and comms — everything online and mission-ready.</p>
+  </header>
+
+  <div class="skills__block">
+    <h3 class="skills__heading"><span class="hud-label hud-label--signal">A</span> Core systems</h3>
+    <ul class="skills__systems">
+      {skills.map((skill, i) => (
+        <li class="skills__module hud-panel" data-reveal>
+          <span class="skills__module-code">SYS-{pad(i)}</span>
+          <span class="skills__module-name">{skill}</span>
+          <span class="skills__module-status"><span aria-hidden="true"></span>Online</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="skills__row">
+    <div class="skills__block">
+      <h3 class="skills__heading"><span class="hud-label hud-label--signal">B</span> Loadout</h3>
+      <ul class="skills__tools">
+        {tools.map((tool) => (
+          <li class="skills__slot" data-reveal data-sfx="hover">
+            <span class="skills__slot-icon"><img src={tool.icon} alt="" width="40" height="40" loading="lazy" /></span>
+            <span class="skills__slot-name">{tool.name}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="skills__block">
+      <h3 class="skills__heading"><span class="hud-label hud-label--signal">C</span> Comms languages</h3>
+      <ul class="skills__langs">
+        {languages.map((lang) => {
+          const lit = Math.max(1, Math.round((lang.level / 100) * SEGMENTS));
+          return (
+            <li class="skills__lang" data-reveal>
+              <div class="skills__lang-head">
+                <span class="skills__lang-name">{lang.name}</span>
+                <span class="hud-label">{fluency(lang.level)}</span>
+              </div>
+              <div class="skills__signal" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow={lang.level} aria-label={`${lang.name} proficiency`}>
+                {Array.from({ length: SEGMENTS }, (_, s) => (
+                  <span class:list={{ 'is-lit': s < lit }} style={`--i:${s}`}></span>
+                ))}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </div>
+
+  <div class="skills__block">
+    <h3 class="skills__heading"><span class="hud-label hud-label--signal">D</span> Certifications</h3>
+    <ul class="skills__badges">
+      {education.map((edu) => (
+        <li class="skills__badge hud-panel" data-reveal>
+          <span class="skills__badge-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M20 3 35 12v16L20 37 5 28V12Z" /><path d="m13 20 5 5 9-10" /></svg>
+          </span>
+          <span class="skills__badge-text">
+            <span class="skills__badge-cred">{edu.credential}</span>
+            <span class="skills__badge-inst">{edu.institution}{edu.year && ` · ${edu.year}`}</span>
+          </span>
+          {edu.link && (
+            <a href={edu.link} target="_blank" rel="noopener" class="skills__verify" aria-label={`Verify ${edu.credential} certificate`} data-sfx="both">Verify ↗</a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .skills__block + .skills__block,
+  .skills__row,
+  .skills__row + .skills__block { margin-top: 56px; }
+  .skills__row .skills__block { margin-top: 0; }
+  .skills__row { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+  .skills__heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-1);
+  }
+  .skills__heading .hud-label {
+    display: grid;
+    place-items: center;
+    width: 24px; height: 24px;
+    border: 1px solid var(--signal);
+    letter-spacing: 0;
+  }
+
+  .skills__systems {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .skills__module {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 10px;
+    min-height: 150px;
+    padding: 18px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.4s var(--ease-out);
+  }
+  .skills__module::after { transition: width 0.4s var(--ease-out), height 0.4s var(--ease-out); }
+  .skills__module:hover { border-color: rgba(146, 211, 79, 0.6); transform: translateY(-3px); }
+  .skills__module:hover::before, .skills__module:hover::after { width: 24px; height: 24px; }
+  .skills__module-code { font-family: var(--font-mono); font-size: 11px; color: var(--signal-hi); letter-spacing: 0.12em; }
+  .skills__module-name { font-family: var(--font-display); font-size: 14px; font-weight: 600; line-height: 1.4; letter-spacing: 0.04em; color: var(--text-1); }
+  .skills__module-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .skills__module-status span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .skills__module:hover .skills__module-status span { animation: blink 0.6s steps(2) 3; }
+  @keyframes blink { 50% { opacity: 0.2; } }
+
+  .skills__tools {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .skills__slot {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding: 16px 8px 12px;
+    border: 1px solid var(--hairline);
+    background: rgba(10, 26, 30, 0.55);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .skills__slot::after {
+    /* scan line on hover */
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 40%;
+    background: linear-gradient(180deg, transparent, rgba(146, 211, 79, 0.25), transparent);
+    transform: translateY(-100%);
+    pointer-events: none;
+  }
+  .skills__slot:hover { border-color: var(--accent); background: rgba(146, 211, 79, 0.06); }
+  .skills__slot:hover::after { animation: slot-scan 0.9s var(--ease-out); }
+  @keyframes slot-scan { to { transform: translateY(260%); } }
+  .skills__slot-icon { width: 40px; height: 40px; display: grid; place-items: center; }
+  .skills__slot-icon img { width: 36px; height: 36px; object-fit: contain; border-radius: 8px; }
+  .skills__slot-name { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--text-1); }
+
+  .skills__langs { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .skills__lang-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .skills__lang-name { font-family: var(--font-display); font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .skills__signal { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+  .skills__signal span {
+    height: 10px;
+    background: rgba(146, 211, 79, 0.1);
+    border: 1px solid rgba(146, 211, 79, 0.18);
+    transform: skewX(-20deg);
+  }
+  .skills__signal span.is-lit { background: var(--accent); border-color: var(--accent-hi); box-shadow: 0 0 6px rgba(146, 211, 79, 0.5); }
+  :global(html.motion-ok) .skills__lang .skills__signal span.is-lit { opacity: 0; }
+  :global(html.motion-ready) .skills__lang.is-in .skills__signal span.is-lit {
+    animation: seg-in 0.25s var(--ease-out) forwards;
+    animation-delay: calc(var(--i) * 0.06s + 0.2s);
+  }
+  @keyframes seg-in { from { opacity: 0; } to { opacity: 1; } }
+
+  .skills__badges {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .skills__badge { display: flex; align-items: center; gap: 16px; padding: 14px 18px; }
+  .skills__badge-mark svg { width: 34px; height: 34px; fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+  .skills__badge-text { display: grid; gap: 2px; flex: 1; min-width: 0; }
+  .skills__badge-cred { font-weight: 600; font-size: 15px; line-height: 1.4; color: var(--text-1); }
+  .skills__badge-inst { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); }
+  .skills__verify {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--accent-hi);
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .skills__verify:hover { border-color: var(--accent); background: rgba(146, 211, 79, 0.1); }
+
+  @media (max-width: 1000px) {
+    .skills__systems { grid-template-columns: repeat(2, 1fr); }
+    .skills__row { grid-template-columns: 1fr; gap: 56px; }
+  }
+  @media (max-width: 640px) {
+    .skills__badges { grid-template-columns: 1fr; }
+    .skills__tools { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .skills__module { min-height: 0; padding: 14px; }
+    .skills__module-name { font-size: 12px; }
+  }
+</style>
+
+<script>
+  // Light the language signal bars when they scroll into view
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.skills__lang').forEach((el) => io.observe(el));
+</script>

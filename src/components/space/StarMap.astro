@@ -1,0 +1,1035 @@
+---
+// Launch Pad: a zoomed-out map of the whole system. Projects orbit the home star as
+// planets; the other sections are landmarks. Clicking anything zooms the camera in
+// and opens a scan card. Positions are projected in JS (2.5D) so planets stay crisp
+// and readable at every zoom level. A list view mirrors every destination for
+// keyboard / screen reader / small-screen use.
+import { missions, domainColors } from '../../data/missions';
+import { profile } from '../../data/profile';
+
+const landmarks = [
+  {
+    id: 'brief',
+    name: 'Brief',
+    kind: 'mascot',
+    tag: "Captain's transmission",
+    blurb: 'Who Olivia is, how she leads, and what drives her work — relayed by Oliv, the ship AI.',
+  },
+  {
+    id: 'mission-log',
+    name: 'Mission Log',
+    kind: 'recorder',
+    tag: 'Flight recorder',
+    blurb: 'Command posts across climate tech, fintech, mobility and sport — from Mercedes-Benz to her own bouldering gym.',
+  },
+  {
+    id: 'skills',
+    name: 'Skills',
+    kind: 'station',
+    tag: 'Systems bay',
+    blurb: 'Core capabilities, toolkit, languages and certifications that keep the ship running.',
+  },
+  {
+    id: 'comms',
+    name: 'Comms',
+    kind: 'relay',
+    tag: 'Comms relay',
+    blurb: 'Open a channel — email, LinkedIn or phone — or download the CV.',
+  },
+];
+
+const domainLabel: Record<string, string> = {
+  climate: 'Climate tech',
+  fintech: 'Fintech',
+  community: 'Community',
+  sport: 'Sport & lifestyle',
+  consumer: 'Consumer',
+};
+
+const mapData = {
+  missions: missions.map((m) => ({
+    slug: m.slug,
+    title: m.shortTitle,
+    fullTitle: m.title,
+    description: m.description,
+    image: m.image,
+    href: m.href,
+    role: m.role,
+    domain: domainLabel[m.domain],
+    color: domainColors[m.domain],
+    size: m.size,
+    orbit: m.orbit,
+    status: m.status,
+  })),
+  landmarks,
+};
+
+const charted = missions.filter((m) => m.status === 'charted').length;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section id="launch-pad" class="launch" aria-labelledby="launch-title">
+  <div class="map" data-map role="group" aria-label="Star map of projects and sections">
+    <svg class="map__svg" data-map-svg aria-hidden="true">
+      <defs>
+        <radialGradient id="map-radar" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#2F8986" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="#2F8986" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <ellipse class="map__radar" data-radar />
+      <g data-orbits>
+        {[0, 1, 2, 3].map((i) => <ellipse class="map__orbit" data-orbit={i} />)}
+      </g>
+      <line class="map__axis" data-axis="x" />
+      <line class="map__axis" data-axis="y" />
+      <g data-links></g>
+    </svg>
+
+    <div class="map__star" data-star aria-hidden="true">
+      <span class="map__corona"></span>
+      <span class="map__core"></span>
+    </div>
+
+    {mapData.missions.map((m, i) => (
+      <button
+        type="button"
+        class:list={['planet', `planet--${m.size}`, { 'planet--uncharted': m.status === 'uncharted' }]}
+        style={`--c: ${m.color}`}
+        data-body={`mission:${m.slug}`}
+        data-index={i}
+        data-sfx="hover"
+        aria-label={`Planet ${m.title}${m.status === 'uncharted' ? ' (uncharted)' : ''} — scan`}
+      >
+        <span class="planet__sphere" aria-hidden="true">
+          {m.size === 'lg' && <span class="planet__ring"></span>}
+        </span>
+        <span class="planet__label" aria-hidden="true">
+          <span class="planet__code">P-{pad(i + 1)}</span>{m.title}
+        </span>
+      </button>
+    ))}
+
+    {landmarks.map((l) => (
+      <button
+        type="button"
+        class={`landmark landmark--${l.kind}`}
+        data-body={`section:${l.id}`}
+        data-sfx="hover"
+        aria-label={`${l.name} — ${l.tag}. Scan`}
+      >
+        <span class="landmark__icon" aria-hidden="true">
+          {l.kind === 'mascot' && <img src="/assets/game-ui/oliv-the-mascot.png" alt="" width="64" height="78" />}
+          {l.kind === 'recorder' && (
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13" /><path d="M32 6v10M32 48v10M6 32h10M48 32h10" /><path d="M14 14l7 7M43 43l7 7M50 14l-7 7M21 43l-7 7" /><circle cx="32" cy="32" r="4" class="fill" /></svg>
+          )}
+          {l.kind === 'station' && (
+            <svg viewBox="0 0 64 64"><rect x="24" y="24" width="16" height="16" /><path d="M4 26h16v12H4zM44 26h16v12H44z" /><path d="M20 32h4M40 32h4M32 10v14M32 40v14" /><circle cx="32" cy="8" r="3" class="fill" /></svg>
+          )}
+          {l.kind === 'relay' && (
+            <svg viewBox="0 0 64 64"><path d="M32 30 20 58M32 30l12 28M24 48h16" /><circle cx="32" cy="26" r="5" class="fill" /><path d="M20 14a17 17 0 0 0 0 24M44 14a17 17 0 0 1 0 24M13 8a26 26 0 0 0 0 36M51 8a26 26 0 0 1 0 36" class="wave" /></svg>
+          )}
+        </span>
+        <span class="landmark__label" aria-hidden="true">
+          <span class="landmark__tag">{l.tag}</span>{l.name}
+        </span>
+      </button>
+    ))}
+  </div>
+
+  <div class="launch__intro">
+    <p class="hud-label hud-label--signal launch__sector">Sector 01 // Launch pad</p>
+    <h1 id="launch-title" class="launch__name" data-intro>
+      <span data-decode-now>Olivia</span>
+      <span data-decode-now>Nguyen</span>
+    </h1>
+    <p class="launch__tagline" data-intro>{profile.tagline}</p>
+    <div class="launch__ctas" data-intro>
+      <a href="#brief" class="hud-btn hud-btn--signal" data-sfx="both">
+        Begin mission
+        <svg viewBox="0 0 256 256" aria-hidden="true"><path d="M213.66 101.66l-80 80a8 8 0 0 1-11.32 0l-80-80a8 8 0 0 1 11.32-11.32L128 164.69l74.34-74.35a8 8 0 0 1 11.32 11.32Z" /></svg>
+      </a>
+      <a href={profile.cvUrl} target="_blank" rel="noopener" class="hud-btn" data-sfx="both">
+        <svg viewBox="0 0 256 256" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z" /></svg>
+        Download CV
+      </a>
+    </div>
+  </div>
+
+  <div class="launch__telemetry" aria-hidden="true">
+    <p><span>SYS</span> {pad(missions.length)} missions · {pad(charted)} charted · {pad(missions.length - charted)} uncharted</p>
+    <p><span>LOC</span> {profile.location}</p>
+    <p><span>T+</span> <span data-stardate>—</span></p>
+  </div>
+
+  <p class="launch__hint" data-map-hint>
+    <span class="launch__hint-diamond" aria-hidden="true"></span>
+    Select a planet to scan <span class="launch__hint-sep">·</span> scroll to begin
+  </p>
+
+  <div class="map__controls">
+    <button type="button" class="map__ctrl" data-system-view hidden data-sfx="both">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3" /></svg>
+      System view
+    </button>
+    <button type="button" class="map__ctrl" data-list-toggle aria-expanded="false" aria-controls="map-list" data-sfx="both">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" /></svg>
+      <span data-list-label>List view</span>
+    </button>
+  </div>
+
+  <div class="map__list hud-panel" id="map-list" hidden>
+    <p class="hud-label">Destinations</p>
+    <ul>
+      {mapData.missions.map((m, i) => (
+        <li>
+          <a href={m.href} data-warp data-sfx="both">
+            <span class="map__list-dot" style={`--c: ${m.color}`} aria-hidden="true"></span>
+            <span class="map__list-code">P-{pad(i + 1)}</span>
+            <span class="map__list-name">{m.title}</span>
+            <span class="map__list-meta">{m.status === 'uncharted' ? 'Uncharted' : m.domain}</span>
+          </a>
+        </li>
+      ))}
+      {landmarks.map((l) => (
+        <li>
+          <a href={`#${l.id}`} data-sfx="both" data-list-section>
+            <span class="map__list-dot map__list-dot--section" aria-hidden="true"></span>
+            <span class="map__list-code">SEC</span>
+            <span class="map__list-name">{l.name}</span>
+            <span class="map__list-meta">{l.tag}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <aside class="scan hud-panel" data-scan aria-live="polite" hidden>
+    <div class="scan__head">
+      <p class="hud-label" data-scan-kind>Scan complete</p>
+      <button type="button" class="scan__close" data-scan-close aria-label="Close scan and return to system view">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+    </div>
+    <div class="scan__media" data-scan-media>
+      <img data-scan-img alt="" />
+      <span class="scan__sweep" aria-hidden="true"></span>
+    </div>
+    <h2 class="scan__title" data-scan-title></h2>
+    <dl class="scan__meta" data-scan-meta></dl>
+    <p class="scan__desc" data-scan-desc></p>
+    <a class="hud-btn hud-btn--signal scan__cta" data-scan-cta data-sfx="both"></a>
+  </aside>
+
+  <script type="application/json" id="map-data" set:html={JSON.stringify(mapData)} />
+</section>
+
+<style>
+  .launch {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    min-height: 640px;
+    overflow: hidden;
+  }
+
+  /* ── Map layer ─────────────────────────────────── */
+  .map { position: absolute; inset: 0; }
+  .map__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .map__radar { fill: url(#map-radar); }
+  .map__orbit {
+    fill: none;
+    stroke: rgba(47, 137, 134, 0.45);
+    stroke-width: 1;
+    stroke-dasharray: 2 6;
+  }
+  .map__orbit:nth-child(2) { stroke: rgba(47, 137, 134, 0.38); }
+  .map__orbit:nth-child(3) { stroke: rgba(47, 137, 134, 0.3); }
+  .map__orbit:nth-child(4) { stroke: rgba(47, 137, 134, 0.24); }
+  .map__axis { stroke: rgba(146, 211, 79, 0.08); stroke-width: 1; }
+  :global(.map__link) { stroke: rgba(146, 211, 79, 0.25); stroke-width: 1; stroke-dasharray: 3 5; fill: none; }
+
+  .map__star {
+    position: absolute;
+    left: 0; top: 0;
+    width: 0; height: 0;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .map__corona,
+  .map__core {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .map__corona {
+    width: calc(var(--star, 90px) * 3.2);
+    height: calc(var(--star, 90px) * 3.2);
+    background: radial-gradient(circle, rgba(245, 58, 2, 0.35) 0%, rgba(245, 58, 2, 0.12) 35%, transparent 68%);
+    animation: corona 6s ease-in-out infinite;
+  }
+  .map__core {
+    width: var(--star, 90px);
+    height: var(--star, 90px);
+    background: radial-gradient(circle at 38% 36%, #FFE3B8 0%, #FFB36B 22%, #FF6A33 50%, #F53A02 72%, #8C1E00 100%);
+    box-shadow: 0 0 40px rgba(245, 58, 2, 0.8), 0 0 120px rgba(245, 58, 2, 0.35);
+  }
+  @keyframes corona { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; } 50% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; } }
+
+  /* Planets & landmarks are positioned by JS via transform */
+  .planet,
+  .landmark {
+    position: absolute;
+    left: 0; top: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    will-change: transform;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* button box = sphere/icon size, centred on the projected point */
+  .planet,
+  .landmark {
+    width: var(--d, 50px);
+    height: var(--d, 50px);
+    margin: calc(var(--d, 50px) / -2) 0 0 calc(var(--d, 50px) / -2);
+  }
+  .planet__sphere {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 32% 30%, color-mix(in srgb, var(--c) 35%, white) 0%, var(--c) 32%, color-mix(in srgb, var(--c) 45%, #02060a) 70%, #02060a 100%);
+    box-shadow:
+      inset -6px -8px 18px rgba(0, 0, 0, 0.65),
+      0 0 18px color-mix(in srgb, var(--c) 45%, transparent);
+    transition: box-shadow 0.3s, filter 0.3s;
+  }
+  .planet__sphere::before {
+    /* surface bands */
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-linear-gradient(-18deg, transparent 0 7px, rgba(0, 0, 0, 0.14) 7px 10px, transparent 10px 15px);
+    mix-blend-mode: multiply;
+  }
+  .planet__sphere::after {
+    /* hover/focus target bracket */
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border: 1px solid var(--accent-hi);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(1.3);
+    transition: opacity 0.3s, transform 0.4s var(--ease-out);
+  }
+  .planet__ring {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 170%;
+    height: 44%;
+    border: 2px solid color-mix(in srgb, var(--c) 55%, white);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotate(-16deg);
+    opacity: 0.55;
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+  }
+  .planet:hover .planet__sphere,
+  .planet:focus-visible .planet__sphere,
+  .planet.is-focused .planet__sphere {
+    box-shadow: inset -6px -8px 18px rgba(0, 0, 0, 0.55), 0 0 34px color-mix(in srgb, var(--c) 80%, transparent);
+  }
+  .planet:hover .planet__sphere::after,
+  .planet:focus-visible .planet__sphere::after,
+  .planet.is-focused .planet__sphere::after { opacity: 0.8; transform: scale(1); }
+  .planet:focus-visible { outline: none; box-shadow: none; }
+
+  .planet--uncharted .planet__sphere {
+    filter: saturate(0.35) brightness(0.75);
+    box-shadow: inset -6px -8px 18px rgba(0, 0, 0, 0.65);
+  }
+  .planet--uncharted .planet__sphere::before { animation: static-flicker 0.4s steps(3) infinite; background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 3px); }
+  @keyframes static-flicker { 50% { transform: translateY(2px); opacity: 0.6; } }
+
+  .planet__label,
+  .landmark__label {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%);
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(247, 255, 199, 0.82);
+    text-shadow: 0 1px 6px #000;
+    pointer-events: none;
+    transition: opacity 0.3s, color 0.3s;
+  }
+  .planet__code,
+  .landmark__tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    color: var(--text-2);
+  }
+  .planet.is-behind .planet__label { opacity: 0.35; }
+  .planet:hover .planet__label,
+  .planet:focus-visible .planet__label,
+  .planet.is-focused .planet__label,
+  .landmark:hover .landmark__label { color: var(--accent-hi); opacity: 1; }
+
+  .landmark__icon {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(146, 211, 79, 0.35);
+    background: radial-gradient(circle, rgba(146, 211, 79, 0.12), rgba(5, 9, 14, 0.6) 70%);
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+    transition: border-color 0.3s, background 0.3s, filter 0.3s;
+    animation: landmark-float 5s ease-in-out infinite;
+  }
+  .landmark--recorder .landmark__icon { animation-delay: -1.2s; }
+  .landmark--station .landmark__icon { animation-delay: -2.4s; }
+  .landmark--relay .landmark__icon { animation-delay: -3.6s; }
+  @keyframes landmark-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
+  .landmark__icon svg { width: 52%; height: 52%; fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .landmark__icon svg .fill { fill: var(--accent); stroke: none; }
+  .landmark--relay .wave { animation: wave 2s ease-in-out infinite; }
+  @keyframes wave { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+  .landmark__icon img { width: 62%; height: auto; margin-top: 6%; filter: drop-shadow(0 0 6px rgba(65, 183, 116, 0.6)); }
+  .landmark:hover .landmark__icon,
+  .landmark:focus-visible .landmark__icon,
+  .landmark.is-focused .landmark__icon {
+    background: radial-gradient(circle, rgba(146, 211, 79, 0.28), rgba(5, 9, 14, 0.6) 70%);
+    filter: drop-shadow(0 0 10px rgba(146, 211, 79, 0.6));
+  }
+  .landmark:focus-visible { outline: none; box-shadow: none; }
+
+  /* When zoomed in on one body, fade the rest */
+  .map.is-zoomed .planet:not(.is-focused),
+  .map.is-zoomed .landmark:not(.is-focused) { opacity: 0.35; }
+  .map.is-zoomed .planet:not(.is-focused) .planet__label,
+  .map.is-zoomed .landmark:not(.is-focused) .landmark__label { opacity: 0; }
+
+  /* ── HUD overlay ───────────────────────────────── */
+  .launch__intro {
+    position: absolute;
+    left: clamp(16px, 5vw, 72px);
+    top: 50%;
+    transform: translateY(-46%);
+    z-index: 5;
+    max-width: 500px;
+    pointer-events: none;
+  }
+  .launch__intro > * { pointer-events: auto; }
+  .launch__sector { margin-bottom: 18px; }
+  .launch__name {
+    display: grid;
+    font-size: clamp(42px, 6.4vw, 92px);
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--text-1);
+    text-shadow: 0 0 30px rgba(5, 9, 14, 0.9);
+  }
+  .launch__name span:last-child { color: transparent; -webkit-text-stroke: 1px var(--accent); text-shadow: none; }
+  .launch__tagline {
+    margin-top: 22px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(247, 255, 199, 0.78);
+    text-shadow: 0 0 18px rgba(5, 9, 14, 1);
+  }
+  .launch__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+  .launch__telemetry {
+    position: absolute;
+    left: clamp(16px, 5vw, 72px);
+    bottom: 28px;
+    z-index: 5;
+    display: grid;
+    gap: 3px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(247, 255, 199, 0.55);
+    text-transform: uppercase;
+  }
+  .launch__telemetry span:first-child { display: inline-block; min-width: 34px; color: var(--signal-hi); }
+
+  .launch__hint {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-2);
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .launch__hint-diamond { width: 7px; height: 7px; border: 1px solid var(--accent); transform: rotate(45deg); animation: hint-blink 1.6s steps(2) infinite; }
+  @keyframes hint-blink { 50% { background: var(--accent); } }
+  .launch__hint-sep { color: var(--text-muted); }
+
+  .map__controls {
+    position: absolute;
+    right: 72px;
+    top: 92px;
+    z-index: 6;
+    display: flex;
+    gap: 8px;
+  }
+  .map__ctrl {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-1);
+    background: rgba(5, 12, 18, 0.75);
+    border: 1px solid var(--hairline);
+    cursor: pointer;
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .map__ctrl[hidden] { display: none; }
+  .map__ctrl svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+  .map__ctrl:hover { border-color: var(--accent); color: var(--accent-hi); }
+
+  .map__list {
+    position: absolute;
+    right: 72px;
+    top: 138px;
+    z-index: 7;
+    width: min(380px, calc(100vw - 32px));
+    max-height: calc(100% - 180px);
+    overflow-y: auto;
+    padding: 18px 18px 10px;
+  }
+  .map__list[hidden] { display: none; }
+  .map__list ul { list-style: none; margin: 12px 0 0; padding: 0; }
+  .map__list a {
+    display: grid;
+    grid-template-columns: 12px 36px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 6px;
+    border-top: 1px dashed var(--hairline);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .map__list a:hover { background: rgba(146, 211, 79, 0.06); }
+  .map__list-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); }
+  .map__list-dot--section { border-radius: 0; transform: rotate(45deg) scale(0.8); background: none; border: 1px solid var(--accent); box-shadow: none; }
+  .map__list-code { font-family: var(--font-mono); font-size: 10px; color: var(--text-2); }
+  .map__list-name { font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .map__list-meta { font-family: var(--font-mono); font-size: 10px; color: rgba(247, 255, 199, 0.5); text-transform: uppercase; }
+
+  /* ── Scan card ─────────────────────────────────── */
+  .scan {
+    position: absolute;
+    right: 72px;
+    top: 50%;
+    z-index: 8;
+    width: min(380px, calc(100vw - 32px));
+    padding: 18px;
+    transform: translateY(-50%);
+  }
+  .scan[hidden] { display: none; }
+  .scan__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .scan__close {
+    display: grid;
+    place-items: center;
+    width: 30px; height: 30px;
+    padding: 0;
+    color: var(--text-1);
+    background: none;
+    border: 1px solid var(--hairline);
+    cursor: pointer;
+  }
+  .scan__close:hover { border-color: var(--accent); color: var(--accent-hi); }
+  .scan__close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .scan__media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+    background: #02060a;
+  }
+  .scan__media[hidden] { display: none; }
+  .scan__media img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.85) contrast(1.05); }
+  .scan__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.18) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+  }
+  .scan__sweep {
+    position: absolute;
+    left: 0; right: 0;
+    top: 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent, rgba(146, 211, 79, 0.35), transparent);
+    animation: sweep 1.2s var(--ease-out) forwards;
+  }
+  @keyframes sweep { from { transform: translateY(-100%); } to { transform: translateY(400%); opacity: 0; } }
+  .scan__title { font-size: 20px; font-weight: 700; text-transform: uppercase; color: var(--text-1); }
+  .scan__meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 14px;
+    margin: 14px 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  .scan__meta :global(dt) { color: var(--text-2); letter-spacing: 0.14em; }
+  .scan__meta :global(dd) { margin: 0; color: var(--text-1); }
+  .scan__meta :global(dd.is-signal) { color: var(--signal-hi); }
+  .scan__desc { font-size: 15px; line-height: 1.6; color: rgba(247, 255, 199, 0.75); margin-bottom: 18px; }
+  .scan__cta { width: 100%; justify-content: center; }
+
+  /* ── Small screens: intro on top, map below ────── */
+  @media (max-width: 860px) {
+    .launch { min-height: 720px; }
+    .launch__intro { top: 92px; transform: none; right: 16px; max-width: none; }
+    .launch__name { font-size: clamp(38px, 11vw, 64px); }
+    .launch__tagline { font-size: 15px; margin-top: 14px; }
+    .launch__ctas { margin-top: 18px; }
+    .launch__ctas { flex-wrap: nowrap; gap: 8px; }
+    .launch__ctas .hud-btn { padding: 11px 12px; font-size: 10px; letter-spacing: 0.12em; }
+    .launch__telemetry { display: none; }
+    .launch__hint { display: none; }
+    .map__controls { right: 16px; top: auto; bottom: 14px; }
+    .map__list { right: 16px; top: auto; bottom: 60px; max-height: 60%; }
+    .planet.is-behind .planet__label { opacity: 0; }
+    .scan { right: 16px; left: 16px; width: auto; top: auto; bottom: 16px; transform: none; max-height: 70%; overflow-y: auto; }
+    .scan__media { display: none; }
+    .planet__label, .landmark__label { font-size: 9px; }
+    .planet__code, .landmark__tag { display: none; }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { reducedMotion, decode, scrollToTarget, warpTo } from '../../scripts/motion';
+  import { play } from '../../scripts/sound';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  interface MapMission {
+    slug: string; title: string; fullTitle: string; description: string; image: string; href: string;
+    role: string; domain: string; color: string; size: 'sm' | 'md' | 'lg'; orbit: number; status: string;
+  }
+  interface MapLandmark { id: string; name: string; kind: string; tag: string; blurb: string; }
+
+  const data = JSON.parse(document.getElementById('map-data')!.textContent!) as {
+    missions: MapMission[]; landmarks: MapLandmark[];
+  };
+
+  const section = document.getElementById('launch-pad')!;
+  const map = section.querySelector<HTMLElement>('[data-map]')!;
+  const svg = section.querySelector<SVGSVGElement>('[data-map-svg]')!;
+  const orbitEls = [...svg.querySelectorAll<SVGEllipseElement>('[data-orbit]')];
+  const radar = svg.querySelector<SVGEllipseElement>('[data-radar]')!;
+  const axisX = svg.querySelector<SVGLineElement>('[data-axis="x"]')!;
+  const axisY = svg.querySelector<SVGLineElement>('[data-axis="y"]')!;
+  const linksG = svg.querySelector<SVGGElement>('[data-links]')!;
+  const star = section.querySelector<HTMLElement>('[data-star]')!;
+  const planetEls = [...section.querySelectorAll<HTMLButtonElement>('.planet')];
+  const landmarkEls = [...section.querySelectorAll<HTMLButtonElement>('.landmark')];
+
+  // ── World model ─────────────────────────────────────────
+  // Landscape and portrait use different world shapes so the map fills the space.
+  const SIZE = { sm: 44, md: 58, lg: 76 } as const;
+  const STAR = 96;
+  const LANDMARK = 62;
+
+  interface Layout {
+    W: number; H: number;
+    orbitA: number[]; tilt: number;                 // ellipse: rx = a, ry = a * tilt
+    landmarks: [number, number][];                   // world positions, same order as data.landmarks
+    rect: () => { x: number; y: number; w: number; h: number }; // screen region the world fits in
+  }
+
+  const landscape: Layout = {
+    W: 1240, H: 860,
+    orbitA: [190, 290, 390, 490],
+    tilt: 0.4,
+    landmarks: [[250, 150], [1000, 140], [1020, 740], [230, 730]],
+    rect: () => ({ x: innerWidth * 0.36, y: 68, w: innerWidth * 0.64 - 70, h: innerHeight - 68 - 60 }),
+  };
+  const portrait: Layout = {
+    W: 1000, H: 1050,
+    orbitA: [150, 235, 320, 405],
+    tilt: 0.62,
+    landmarks: [[150, 150], [850, 150], [850, 900], [150, 900]],
+    rect: () => ({ x: 0, y: innerHeight * 0.45, w: innerWidth, h: innerHeight * 0.55 - 64 }),
+  };
+
+  let L: Layout = landscape;
+  let base = 1;               // world → screen scale at zoom 1
+  let center = { x: 0, y: 0 };// screen position of world centre at zoom 1
+  const cam = { x: 0, y: 0, zoom: 1 };     // camera offset (world units) + zoom
+  const parallax = { x: 0, y: 0, tx: 0, ty: 0 };
+  let orbitSpeed = reducedMotion ? 0 : 1;
+  let t = 0;
+
+  // Starting angles (degrees; 0 = right, 90 = front/bottom) hand-picked so labels
+  // don't collide and nothing sits on the star — this is also the static layout
+  // under reduced motion. New planets fall back to an even spread.
+  const START: Record<string, number> = {
+    'verity-nature-mrv': 20,
+    'boulder-box-saigon': 140,
+    'verity-east-africa': 230,
+    'e-america': 200,
+    'mbfs-sea': 35,
+    'mbfs-au': 285,
+    'semble': 340,
+    'gold-tracker': 100,
+  };
+  const phases = data.missions.map((m, i) =>
+    ((START[m.slug] ?? (i / data.missions.length) * 360) * Math.PI) / 180);
+  const speeds = [0.055, 0.04, 0.03, 0.022]; // rad/s per orbit — inner orbits move faster
+
+  function measure() {
+    L = innerWidth > 860 ? landscape : portrait;
+    const r = L.rect();
+    base = Math.min(r.w / L.W, r.h / L.H);
+    center = { x: r.x + r.w / 2, y: r.y + r.h / 2 };
+    svg.setAttribute('viewBox', `0 0 ${innerWidth} ${section.clientHeight}`);
+  }
+
+  // world (relative to centre) → screen
+  function project(wx: number, wy: number) {
+    const s = base * cam.zoom;
+    return {
+      x: center.x + (wx - cam.x) * s + parallax.x,
+      y: center.y + (wy - cam.y) * s + parallax.y,
+    };
+  }
+
+  function planetWorld(i: number) {
+    const m = data.missions[i];
+    const a = L.orbitA[m.orbit];
+    const ang = phases[i] + t * speeds[m.orbit];
+    return { x: Math.cos(ang) * a, y: Math.sin(ang) * a * L.tilt, depth: Math.sin(ang) };
+  }
+
+  function landmarkWorld(i: number) {
+    const [x, y] = L.landmarks[i];
+    return { x: x - L.W / 2, y: y - L.H / 2 };
+  }
+
+  function render() {
+    const s = base * cam.zoom;
+    const c = project(0, 0);
+
+    orbitEls.forEach((el, i) => {
+      el.setAttribute('cx', String(c.x));
+      el.setAttribute('cy', String(c.y));
+      el.setAttribute('rx', String(L.orbitA[i] * s));
+      el.setAttribute('ry', String(L.orbitA[i] * L.tilt * s));
+    });
+    const outer = L.orbitA[3] * 1.25;
+    radar.setAttribute('cx', String(c.x));
+    radar.setAttribute('cy', String(c.y));
+    radar.setAttribute('rx', String(outer * s));
+    radar.setAttribute('ry', String(outer * L.tilt * s));
+    axisX.setAttribute('x1', String(c.x - outer * s)); axisX.setAttribute('x2', String(c.x + outer * s));
+    axisX.setAttribute('y1', String(c.y)); axisX.setAttribute('y2', String(c.y));
+    axisY.setAttribute('x1', String(c.x)); axisY.setAttribute('x2', String(c.x));
+    axisY.setAttribute('y1', String(c.y - outer * L.tilt * s)); axisY.setAttribute('y2', String(c.y + outer * L.tilt * s));
+
+    star.style.transform = `translate3d(${c.x}px, ${c.y}px, 0)`;
+    star.style.setProperty('--star', `${Math.max(36, STAR * s)}px`);
+    star.style.zIndex = '50';
+
+    planetEls.forEach((el, i) => {
+      const p = planetWorld(i);
+      const sc = project(p.x, p.y);
+      const depthScale = 1 + p.depth * 0.14;
+      const d = Math.max(16, SIZE[data.missions[i].size] * s * depthScale);
+      el.style.transform = `translate3d(${sc.x}px, ${sc.y}px, 0)`;
+      el.style.setProperty('--d', `${d}px`);
+      el.style.zIndex = String(p.depth < 0 ? 40 : 60);
+      el.style.filter = p.depth < 0 ? `brightness(${0.75 + 0.25 * (1 + p.depth)})` : '';
+      el.classList.toggle('is-behind', p.depth < -0.35);
+    });
+
+    landmarkEls.forEach((el, i) => {
+      const w = landmarkWorld(i);
+      const sc = project(w.x, w.y);
+      el.style.transform = `translate3d(${sc.x}px, ${sc.y}px, 0)`;
+      el.style.setProperty('--d', `${Math.max(34, LANDMARK * s)}px`);
+      el.style.zIndex = '55';
+    });
+
+    // dashed "flight path" links from each landmark to the star
+    const lines = linksG.children;
+    landmarkEls.forEach((_, i) => {
+      const w = landmarkWorld(i);
+      const a = project(w.x, w.y);
+      let line = lines[i] as SVGLineElement | undefined;
+      if (!line) {
+        line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('class', 'map__link');
+        linksG.appendChild(line);
+      }
+      // stop short of both ends
+      const dx = c.x - a.x, dy = c.y - a.y;
+      line.setAttribute('x1', String(a.x + dx * 0.12)); line.setAttribute('y1', String(a.y + dy * 0.12));
+      line.setAttribute('x2', String(a.x + dx * 0.55)); line.setAttribute('y2', String(a.y + dy * 0.55));
+    });
+  }
+
+  // ── Loop (only while the map is on screen) ──────────────
+  let visible = true;
+  let last = performance.now();
+  function frame(now: number) {
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    t += dt * orbitSpeed;
+    parallax.x += (parallax.tx - parallax.x) * 0.06;
+    parallax.y += (parallax.ty - parallax.y) * 0.06;
+    render();
+    if (visible && !document.hidden) requestAnimationFrame(frame);
+  }
+  function startLoop() { last = performance.now(); requestAnimationFrame(frame); }
+
+  new IntersectionObserver(([e]) => {
+    const was = visible;
+    visible = e.isIntersecting;
+    if (visible && !was) startLoop();
+  }).observe(section);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && visible) startLoop(); });
+
+  if (!reducedMotion && matchMedia('(pointer: fine)').matches) {
+    section.addEventListener('pointermove', (e) => {
+      if (focused) return;
+      parallax.tx = (e.clientX / innerWidth - 0.5) * -24;
+      parallax.ty = (e.clientY / innerHeight - 0.5) * -16;
+    });
+  }
+
+  addEventListener('resize', () => { measure(); render(); });
+  measure();
+  render();
+  startLoop();
+
+  // ── Focus / zoom ────────────────────────────────────────
+  const scan = section.querySelector<HTMLElement>('[data-scan]')!;
+  const scanKind = scan.querySelector<HTMLElement>('[data-scan-kind]')!;
+  const scanTitle = scan.querySelector<HTMLElement>('[data-scan-title]')!;
+  const scanMeta = scan.querySelector<HTMLElement>('[data-scan-meta]')!;
+  const scanDesc = scan.querySelector<HTMLElement>('[data-scan-desc]')!;
+  const scanMedia = scan.querySelector<HTMLElement>('[data-scan-media]')!;
+  const scanImg = scan.querySelector<HTMLImageElement>('[data-scan-img]')!;
+  const scanCta = scan.querySelector<HTMLAnchorElement>('[data-scan-cta]')!;
+  const sysBtn = section.querySelector<HTMLButtonElement>('[data-system-view]')!;
+  const hint = section.querySelector<HTMLElement>('[data-map-hint]')!;
+  const intro = section.querySelector<HTMLElement>('.launch__intro')!;
+
+  let focused: HTMLButtonElement | null = null;
+
+  function metaRows(rows: [string, string, boolean?][]) {
+    scanMeta.replaceChildren(...rows.flatMap(([k, v, signal]) => {
+      const dt = document.createElement('dt'); dt.textContent = k;
+      const dd = document.createElement('dd'); dd.textContent = v;
+      if (signal) dd.className = 'is-signal';
+      return [dt, dd];
+    }));
+  }
+
+  function fillScan(kind: string, id: string) {
+    // restart sweep animation
+    const sweep = scanMedia.querySelector('.scan__sweep')!;
+    sweep.replaceWith(sweep.cloneNode());
+    if (kind === 'mission') {
+      const i = data.missions.findIndex((m) => m.slug === id);
+      const m = data.missions[i];
+      scanKind.textContent = `Planet P-${String(i + 1).padStart(2, '0')} // scan complete`;
+      scanTitle.textContent = m.title;
+      metaRows([
+        ['Role', m.role],
+        ['Sector', m.domain],
+        ['Status', m.status === 'uncharted' ? 'Uncharted — log pending' : 'Charted', m.status === 'uncharted'],
+      ]);
+      scanDesc.textContent = m.description;
+      scanMedia.hidden = false;
+      scanImg.src = m.image;
+      scanImg.alt = m.title;
+      scanCta.textContent = m.status === 'uncharted' ? 'Approach planet →' : 'Land on planet →';
+      scanCta.href = m.href;
+      scanCta.dataset.kind = 'mission';
+    } else {
+      const l = data.landmarks.find((x) => x.id === id)!;
+      scanKind.textContent = `${l.tag} // in range`;
+      scanTitle.textContent = l.name;
+      metaRows([['Type', 'Section'], ['Signal', 'Strong', true]]);
+      scanDesc.textContent = l.blurb;
+      scanMedia.hidden = true;
+      scanCta.textContent = 'Set course →';
+      scanCta.href = `#${l.id}`;
+      scanCta.dataset.kind = 'section';
+    }
+  }
+
+  function focusBody(el: HTMLButtonElement) {
+    const [kind, id] = el.dataset.body!.split(':');
+    let target: { x: number; y: number };
+    let zoom: number;
+    if (kind === 'mission') {
+      const p = planetWorld(planetEls.indexOf(el));
+      target = p; zoom = 2.3;
+    } else {
+      target = landmarkWorld(landmarkEls.indexOf(el)); zoom = 1.9;
+    }
+
+    focused?.classList.remove('is-focused');
+    focused = el;
+    el.classList.add('is-focused');
+    map.classList.add('is-zoomed');
+    fillScan(kind, id);
+    scan.hidden = false;
+    sysBtn.hidden = false;
+    play('scan');
+
+    // Offset the target so it isn't hidden under the scan card
+    const wide = innerWidth > 860;
+    const desired = wide
+      ? { x: innerWidth * 0.42, y: innerHeight * 0.5 }
+      : { x: innerWidth * 0.5, y: innerHeight * 0.28 };
+    // camera such that project(target) == desired at new zoom (ignoring parallax)
+    const s = base * zoom;
+    const camX = target.x - (desired.x - center.x) / s;
+    const camY = target.y - (desired.y - center.y) / s;
+
+    gsap.to(orbitSpeedProxy, { v: 0, duration: 0.6, ease: 'power2.out' });
+    gsap.to(parallax, { tx: 0, ty: 0, duration: 0.4 });
+    gsap.to(cam, { x: camX, y: camY, zoom, duration: reducedMotion ? 0 : 1.1, ease: 'expo.inOut' });
+    gsap.to([intro, hint], { autoAlpha: 0, duration: 0.3 });
+    if (!reducedMotion) {
+      gsap.fromTo(scan, { autoAlpha: 0, x: wide ? 24 : 0, y: wide ? '-50%' : 24 }, { autoAlpha: 1, x: 0, y: wide ? '-50%' : 0, duration: 0.6, delay: 0.35, ease: 'expo.out' });
+    }
+  }
+
+  function systemView(returnFocus = true) {
+    if (!focused) return;
+    const prev = focused;
+    focused.classList.remove('is-focused');
+    focused = null;
+    map.classList.remove('is-zoomed');
+    scan.hidden = true;
+    sysBtn.hidden = true;
+    gsap.to(cam, { x: 0, y: 0, zoom: 1, duration: reducedMotion ? 0 : 1, ease: 'expo.inOut' });
+    gsap.to(orbitSpeedProxy, { v: reducedMotion ? 0 : 1, duration: 1.2, ease: 'power2.in' });
+    gsap.to([intro, hint], { autoAlpha: 1, duration: 0.5, delay: 0.4 });
+    if (returnFocus) prev.focus({ preventScroll: true });
+  }
+
+  // gsap tweens this proxy; the loop reads it
+  const orbitSpeedProxy = {
+    get v() { return orbitSpeed; },
+    set v(n: number) { orbitSpeed = n; },
+  };
+
+  [...planetEls, ...landmarkEls].forEach((el) => {
+    el.addEventListener('click', () => (focused === el ? systemView() : focusBody(el)));
+  });
+  sysBtn.addEventListener('click', () => systemView());
+  scan.querySelector('[data-scan-close]')!.addEventListener('click', () => systemView());
+  section.addEventListener('keydown', (e) => { if (e.key === 'Escape') systemView(); });
+
+  // Clicking empty space returns to system view
+  map.addEventListener('click', (e) => {
+    if (focused && !(e.target as Element).closest('.planet, .landmark')) systemView(false);
+  });
+
+  scanCta.addEventListener('click', (e) => {
+    e.preventDefault();
+    const href = scanCta.getAttribute('href')!;
+    if (scanCta.dataset.kind === 'section') {
+      systemView(false);
+      scrollToTarget(href);
+      history.pushState(null, '', href);
+    } else {
+      warpTo(href);
+    }
+  });
+
+  // ── List view ───────────────────────────────────────────
+  const listBtn = section.querySelector<HTMLButtonElement>('[data-list-toggle]')!;
+  const list = section.querySelector<HTMLElement>('#map-list')!;
+  const listLabel = listBtn.querySelector('[data-list-label]')!;
+  listBtn.addEventListener('click', () => {
+    const open = list.hidden;
+    if (open) systemView(false);
+    list.hidden = !open;
+    listBtn.setAttribute('aria-expanded', String(open));
+    listLabel.textContent = open ? 'Map view' : 'List view';
+  });
+  list.querySelectorAll('[data-list-section]').forEach((a) => a.addEventListener('click', () => {
+    list.hidden = true;
+    listBtn.setAttribute('aria-expanded', 'false');
+    listLabel.textContent = 'List view';
+  }));
+
+  // ── Stardate telemetry ──────────────────────────────────
+  const sd = section.querySelector('[data-stardate]');
+  if (sd) {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const day = Math.floor((now.getTime() - start.getTime()) / 86400000);
+    sd.textContent = `Stardate ${now.getFullYear()}.${String(day).padStart(3, '0')}`;
+  }
+
+  // ── Intro sequence ──────────────────────────────────────
+  if (!reducedMotion) {
+    const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    tl.from(star, { scale: 0, autoAlpha: 0, duration: 1.4 })
+      .from(orbitEls, { autoAlpha: 0, duration: 1, stagger: 0.12 }, 0.2)
+      .from(planetEls.map((p) => p.querySelector('.planet__sphere')), { scale: 0, duration: 0.9, stagger: 0.07 }, 0.5)
+      .from(landmarkEls, { autoAlpha: 0, duration: 0.8, stagger: 0.1 }, 0.8)
+      .from(section.querySelectorAll('[data-intro]'), { autoAlpha: 0, y: 24, duration: 1, stagger: 0.1 }, 0.3)
+      .from('.launch__telemetry, .launch__hint, .map__controls', { autoAlpha: 0, duration: 0.8 }, 1.1);
+    section.querySelectorAll<HTMLElement>('[data-decode-now]').forEach((el, i) => {
+      setTimeout(() => decode(el, 1), 250 + i * 180);
+    });
+
+    // As you scroll away, the system recedes
+    gsap.to(map, {
+      scale: 0.86,
+      autoAlpha: 0.25,
+      ease: 'none',
+      scrollTrigger: { trigger: section, start: 'top top', end: 'bottom top', scrub: true },
+    });
+  }
+</script>
