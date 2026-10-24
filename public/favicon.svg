@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#05090e"/><path d="M16 4C8.82 4 5 8.88 5 16s3.82 12 11 12 11-4.88 11-12S23.18 4 16 4Zm0 4c4.46 0 7 2.9 7 8s-2.54 8-7 8-7-2.9-7-8 2.54-8 7-8Z" fill="#c8f169" fill-rule="evenodd"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960">
+  <title>Olivia Nguyen</title>
+  <desc>Orbitron Bold capital O, converted to an outline.</desc>
+  <rect width="960" height="960" rx="180" fill="#05090e"/>
+  <path transform="translate(66 840) scale(1 -1)" fill="#f7ffc7" fill-rule="evenodd" d="M193 0 Q155 0 123.5 19 Q92 38 73 69.5 Q54 101 54 139 L54 581 Q54 619 73 650.5 Q92 682 123.5 701 Q155 720 193 720 L635 720 Q673 720 704.5 701 Q736 682 755 650.5 Q774 619 774 581 L774 139 Q774 101 755 69.5 Q736 38 704.5 19 Q673 0 635 0 Z M198 133 L628 133 Q633 133 637 136.5 Q641 140 641 145 L641 575 Q641 580 637 583.5 Q633 587 628 587 L198 587 Q193 587 189.5 583.5 Q186 580 186 575 L186 145 Q186 140 189.5 136.5 Q193 133 198 133 Z"/>
+</svg>
