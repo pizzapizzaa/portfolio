@@ -36,7 +36,7 @@ export const workExperience: Job[] = [
 			'Strategized, planned, and executed targeted marketing campaigns to raise brand awareness and engage the climbing community. Over 3 successful events with a total of 100+ customers attended in the past year.',
 			'Passionately built Boulder Box Saigon as a testament to personal vision and a love for climbing, creating a space that bridges sport, lifestyle, and community.'
 		],
-		projectLink: '/projects/boulder-box-saigon'
+		projectLinks: ['/projects/boulder-box-saigon', '/projects/boulder-box-pos-system']
 	},
 	{
 		title: 'Head of Digital Product Research & Design',

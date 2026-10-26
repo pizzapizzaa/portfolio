@@ -11,7 +11,7 @@ interface Props {
   slug: string;
   /** H1 shown in the hero (defaults to the mission's short title) */
   heading?: string;
-  timeline: string;
+  timeline?: string;
   status: string;
   statusHref?: string;
   heroImage?: string;
@@ -64,10 +64,12 @@ const domainLabel: Record<string, string> = {
             <dt class="hud-label">Role</dt>
             <dd>{mission.role}</dd>
           </div>
-          <div class="mreport__meta-item">
-            <dt class="hud-label">Timeline</dt>
-            <dd>{timeline}</dd>
-          </div>
+          {timeline && (
+            <div class="mreport__meta-item">
+              <dt class="hud-label">Timeline</dt>
+              <dd>{timeline}</dd>
+            </div>
+          )}
           <div class="mreport__meta-item">
             <dt class="hud-label">Status</dt>
             <dd>

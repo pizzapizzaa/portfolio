@@ -1,0 +1,79 @@
+import MissionLayout from '../../layouts/MissionLayout.astro';
+---
+
+<MissionLayout
+  slug="boulder-box-pos-system"
+  heading="Boulder Box POS system"
+  status="Shipped and live"
+  statusHref="https://boulderbox.rocks/pos"
+  heroImage="/assets/projects/bbo-image-01.avif"
+  explorerGradient="linear-gradient(40deg, #141414 0%, #312116 100%)"
+>
+  <section class="case-section">
+    <h2 class="case-section-title">1. The TL;DR <span class="case-section-sub">(Executive Summary)</span></h2>
+    <div class="case-field">
+      <h3 class="case-field-label">The Purpose</h3>
+      <p class="case-field-value">Give Boulder Box one place to run the daily operations of its bouldering gym, from welcoming climbers to coordinating staff and tracking business activity.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">The Problem</h3>
+      <p class="case-field-value">Boulder Box needed a tool tailored to the day-to-day operations of a climbing gym, bringing customer visits and staff workflows together with scheduling, route-setting, and climbing-specific content.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">The Solution</h3>
+      <p class="case-field-value">A live, browser-based POS and operations system that brings customer management, check-ins, expenses, staff scheduling, promotions, referrals, events, route-setting, and beta-video management into a single gym-specific tool.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">The Impact</h3>
+      <p class="case-field-value">Boulder Box staff can manage key front-desk and back-office workflows through one system, with a dashboard for daily customer, check-in, revenue, and staffing figures.</p>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <h2 class="case-section-title">2. Strategy &amp; Discovery</h2>
+    <div class="case-field">
+      <h3 class="case-field-label">Insight</h3>
+      <p class="case-field-value">The system needed to reflect how a climbing gym actually operates—not just record transactions. Customer visits, staff shifts, wall resets, events, and route beta are part of the same day-to-day service.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Stakeholders</h3>
+      <p class="case-field-value">Built for Boulder Box administrators and front-line staff, with different access levels for sensitive management workflows.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Constraint</h3>
+      <p class="case-field-value">The tool has to support real gym operations on shared shop devices while keeping administrative data and actions restricted. The codebase addresses this with separate admin and staff roles, protected endpoints, revocable sessions, and short-lived elevated access for gated tasks.</p>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <h2 class="case-section-title">3. Execution <span class="case-section-sub">(The &ldquo;How&rdquo;)</span></h2>
+    <div class="case-field">
+      <h3 class="case-field-label">Key Decision</h3>
+      <p class="case-field-value">Rather than treat the POS as a checkout screen alone, the system connects front-desk work with the gym's ongoing operations: check-ins and customer records sit alongside scheduling, expenses, promotions, events, and route-setting tools.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Product Scope</h3>
+      <p class="case-field-value">The staff-facing app includes a daily operations dashboard, customer records and check-ins, expense tracking, schedules, promo and referral codes, event and route-setting records, and QR-supported beta videos for climbers.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Implementation</h3>
+      <p class="case-field-value">Built as an Astro web application with server-side API routes and Supabase-backed data. Role-aware access and short-lived sessions support use by both administrators and staff.</p>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <h2 class="case-section-title">4. Outcome &amp; Lessons</h2>
+    <div class="case-field">
+      <h3 class="case-field-label">Live Product</h3>
+      <p class="case-field-value">The system is deployed for Boulder Box operations. <a href="https://boulderbox.rocks/pos" target="_blank" rel="noopener">Visit the POS login page ↗</a> (staff account required).</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Measurement</h3>
+      <p class="case-field-value">The source code does not specify a quantified business outcome. The dashboard surfaces operational measures including total customers, daily check-ins, daily revenue, and staff on duty.</p>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Next Steps</h3>
+      <p class="case-field-value">Continue adapting the workflows as Boulder Box's operating needs evolve, using staff feedback and day-to-day usage to guide improvements.</p>
+    </div>
+  </section>
+</MissionLayout>
