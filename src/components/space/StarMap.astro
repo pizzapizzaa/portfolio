@@ -105,7 +105,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           {m.size === 'lg' && <span class="planet__ring"></span>}
         </span>
         <span class="planet__label" aria-hidden="true">
-          <span class="planet__code">P-{pad(i + 1)}</span>{m.title}
+          <span class="planet__code">M-{pad(i + 1)}</span>{m.title}
         </span>
       </button>
     ))}
@@ -185,7 +185,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
         <li>
           <a href={m.href} data-warp data-sfx="both">
             <span class="map__list-dot" style={`--c: ${m.color}`} aria-hidden="true"></span>
-            <span class="map__list-code">P-{pad(i + 1)}</span>
+            <span class="map__list-code">M-{pad(i + 1)}</span>
             <span class="map__list-name">{m.title}</span>
             <span class="map__list-meta">{m.status === 'uncharted' ? 'Uncharted' : m.domain}</span>
           </a>
@@ -875,7 +875,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     if (kind === 'mission') {
       const i = data.missions.findIndex((m) => m.slug === id);
       const m = data.missions[i];
-      scanKind.textContent = `Mission P-${String(i + 1).padStart(2, '0')} // scan complete`;
+      scanKind.textContent = `Mission M-${String(i + 1).padStart(2, '0')} // scan complete`;
       scanTitle.textContent = m.title;
       metaRows([
         ['Role', m.role],
