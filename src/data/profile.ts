@@ -1,11 +1,12 @@
 export const profile = {
 	name: 'Olivia Nguyen',
-	tagline: 'Product leader with 13+ years of experience in software development, product strategy, and UX/UI design.',
+	tagline: 'Hands-on product design leader with 13+ years turning complex, ambiguous challenges into user-centred digital products. Motivated to apply this work to services that deliver public good.',
 	summary: [
-		'Olivia is a product leader with 13+ years of experience in software development, product strategy, and UX/UI design. She has driven innovation across fintech, climate tech, and mobility - leading teams at Mission+, Mercedes-Benz, and Verity Nature. Her work spans financial platforms, sustainability tools, and user-centered digital experiences.',
-		'Olivia blends systems thinking with empathy-driven design and data-informed decision-making. She also solo-founded a bouldering gym in Saigon, bootstrapping it from concept to launch.',
+		'Product leader and hands-on UX/UI designer with 13+ years across software development, product strategy, and digital product design. I work from discovery and research through prototyping and delivery, partnering with engineering and business stakeholders to make complex problems understandable and buildable.',
+		'My work spans digital MRV for nature conservation, financial services, mobility, and community products. At Verity Nature, I translate complex environmental and geospatial requirements into product workflows and coordinate delivery across design, engineering, and compliance. I also founded Boulder Box Saigon, taking a climbing-gym concept from market research to launch and building operational tools for the business.',
+		'I’m motivated to bring this mix of hands-on product work and systems thinking to services that create clear public value.',
 	],
-	quote: 'I lead with clarity, empathy, and purpose - whether building products or communities. To me, meaningful impact starts with empowering people to thrive in the most sustainable & effective ways.',
+	quote: 'I lead with clarity, empathy, and purpose — making complex systems work better for the people who rely on them.',
 	location: 'Singapore / Vietnam',
 	cvUrl: 'https://drive.google.com/file/d/1iF74TASjJeKiZZAuCoOagqE-ROQNZRoi/view?usp=sharing',
 };
