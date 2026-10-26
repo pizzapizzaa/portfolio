@@ -32,7 +32,7 @@ const fluency = (level: number) => (level >= 90 ? 'Native / fluent' : level >= 5
       <ul class="skills__tools">
         {tools.map((tool) => (
           <li class="skills__slot" data-reveal data-sfx="hover">
-            <span class="skills__slot-icon"><img src={tool.icon} alt="" width="40" height="40" loading="lazy" /></span>
+            <span class="skills__slot-icon"><img class:list={{ 'skills__icon--github': tool.name === 'Github' }} src={tool.icon} alt="" width="40" height="40" loading="lazy" /></span>
             <span class="skills__slot-name">{tool.name}</span>
           </li>
         ))}
@@ -178,6 +178,7 @@ const fluency = (level: number) => (level >= 90 ? 'Native / fluent' : level >= 5
   @keyframes slot-scan { to { transform: translateY(260%); } }
   .skills__slot-icon { width: 40px; height: 40px; display: grid; place-items: center; }
   .skills__slot-icon img { width: 36px; height: 36px; object-fit: contain; border-radius: 8px; }
+  .skills__slot-icon .skills__icon--github { filter: brightness(0) invert(1); }
   .skills__slot-name { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--text-1); }
 
   .skills__langs { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }

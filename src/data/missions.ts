@@ -116,7 +116,7 @@ export const missions: Mission[] = [
 		domain: 'fintech',
 		size: 'md',
 		orbit: 3,
-		status: 'uncharted',
+		status: 'charted',
 	},
 	{
 		slug: 'semble',
