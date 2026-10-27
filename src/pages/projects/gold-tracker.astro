@@ -5,27 +5,27 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
 <MissionLayout
   slug="gold-tracker"
   heading="GoldTracker"
-  timeline="—"
-  status="Shipped / MVP"
+  status="Live site · Android download coming soon"
+  statusHref="https://gemsmint.com/"
   explorerGradient="linear-gradient(40deg, #0e0e0e 0%, #1f1a10 100%)"
 >
   <section class="case-section">
     <h2 class="case-section-title">1. The TL;DR <span class="case-section-sub">(Executive Summary)</span></h2>
     <div class="case-field">
       <h3 class="case-field-label">The Purpose</h3>
-      <p class="case-field-value">Why does this product exist? What is the broader goal or mission it serves?</p>
+      <p class="case-field-value">Make it easier to invest in gold without constantly checking market prices. GoldTracker began as a personal tool for setting a target and getting notified when the price reaches it.</p>
     </div>
     <div class="case-field">
       <h3 class="case-field-label">The Problem</h3>
-      <p class="case-field-value">What was the single biggest pain point for the user or the business?</p>
+      <p class="case-field-value">While investing in gold, I had no simple way to set a commodity price alert. Monitoring prices manually meant repeatedly checking the market and risked missing a move.</p>
     </div>
     <div class="case-field">
       <h3 class="case-field-label">The Solution</h3>
-      <p class="case-field-value">One sentence describing the core product/feature delivered.</p>
+      <p class="case-field-value">A free Android price-alert app and web dashboard for gold, silver, platinum, palladium, and crude oil, with live prices and alerts for price-above, price-below, or percentage-change conditions.</p>
     </div>
     <div class="case-field">
       <h3 class="case-field-label">The Impact</h3>
-      <p class="case-field-value">The &ldquo;Hero&rdquo; Metric. (e.g., +25% conversion, -40% support tickets, or $1M in revenue).</p>
+      <p class="case-field-value">The product website is live and describes a no-sign-up, no-subscription service. Adoption and financial outcomes have not been measured. The Android download link is still marked as coming soon.</p>
     </div>
   </section>
 
@@ -33,15 +33,15 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
     <h2 class="case-section-title">2. Strategy &amp; Discovery</h2>
     <div class="case-field">
       <h3 class="case-field-label">Insight</h3>
-      <p class="case-field-value">What did the data or user research tell you that others missed?</p>
+      <p class="case-field-value">The core need was not another trading or research platform; it was a dependable way to define a price trigger and stop watching charts. That shaped the product around simple alert conditions and background monitoring.</p>
     </div>
     <div class="case-field">
       <h3 class="case-field-label">Stakeholders</h3>
-      <p class="case-field-value">How did you align the Product, Engineering, and Marketing teams?</p>
+      <p class="case-field-value">A self-initiated product created by its founder around a real need from personal gold investing.</p>
     </div>
     <div class="case-field">
       <h3 class="case-field-label">Constraint</h3>
-      <p class="case-field-value">What was the main &ldquo;blocker&rdquo; (Technical debt, tight deadline, or budget)?</p>
+      <p class="case-field-value">The public site presents the product as free and usable without an account. At the time of review, Android build links were not yet published and SMS was described as coming soon, so the case study distinguishes current push and email alerts from planned SMS delivery.</p>
     </div>
   </section>
 
@@ -49,45 +49,37 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
     <h2 class="case-section-title">3. Execution <span class="case-section-sub">(The &ldquo;How&rdquo;)</span></h2>
     <div class="case-field">
       <h3 class="case-field-label">Key Decision</h3>
-      <p class="case-field-value">&ldquo;We chose [Option A] over [Option B] because of [Data/Logic].&rdquo;</p>
+      <p class="case-field-value">Focus on actionable price alerts rather than adding trading workflows: users choose a commodity and set an above, below, or percentage-change condition, while the app monitors prices and notifies them when the condition is met.</p>
     </div>
     <div class="case-field">
       <h3 class="case-field-label">Design Leadership</h3>
-      <p class="case-field-value">Mention the Design System, components, or accessibility standards you enforced.</p>
+      <p class="case-field-value">The experience makes current prices and alert setup the priority: a live market board, a seven-day chart for precious metals, clear commodity symbols, and a three-step getting-started flow. The product is presented as free and does not require account sign-up.</p>
     </div>
     <div class="case-field">
-      <h3 class="case-field-label">Visual Highlights</h3>
-      <!-- Gallery -->
-      <div class="gallery-wrap">
-        <div class="gallery-track-wrap">
-          <div class="gallery-track" id="galleryTrack">
-            <img class="gallery-img" src="/assets/projects/background-main.jpg" alt="Project screen 1" />
-            <img class="gallery-img" src="/assets/projects/background-main.jpg" alt="Project screen 2" />
-          </div>
-        </div>
-        <div class="gallery-controls">
-          <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
-          <span class="gallery-counter" id="galleryCounter">1 / 2</span>
-          <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
-        </div>
-      </div>
-  
+      <h3 class="case-field-label">Product Highlights</h3>
+      <ul class="case-field-list">
+        <li><strong>Five tracked markets:</strong> gold, silver, platinum, palladium, and crude oil.</li>
+        <li><strong>Market context:</strong> live prices for all five markets and a seven-day chart with intraday updates for the four precious metals.</li>
+        <li><strong>Flexible alerts:</strong> price-above, price-below, and percentage-change conditions.</li>
+        <li><strong>Notifications:</strong> push and email alerts are described in the getting-started flow; SMS is listed as coming soon.</li>
+        <li><strong>Web dashboard:</strong> remotely manage alerts, view registered devices and notification history, and access manual notification and broadcast controls.</li>
+      </ul>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Live Product</h3>
+      <p class="case-field-value"><a class="case-link" href="https://gemsmint.com/" target="_blank" rel="noopener">Visit GoldTracker ↗</a></p>
     </div>
   </section>
 
   <section class="case-section">
     <h2 class="case-section-title">4. Outcome &amp; Lessons</h2>
     <div class="case-field">
-      <h3 class="case-field-label">KPIs</h3>
-      <p class="case-field-value">Did you meet your success metrics? Use a simple table or bullet list.</p>
-    </div>
-    <div class="case-field">
       <h3 class="case-field-label">Post-Launch</h3>
-      <p class="case-field-value">What did you learn from real-world usage?</p>
+      <p class="case-field-value">The public site communicates the core alert workflow and web dashboard, while noting that Android download links and SMS delivery are still forthcoming. No real-world usage findings have been published yet.</p>
     </div>
     <div class="case-field">
       <h3 class="case-field-label">Next Steps</h3>
-      <p class="case-field-value">How would you iterate on this in &ldquo;Phase 2&rdquo;?</p>
+      <p class="case-field-value">Publish the Android build, validate alert delivery across supported channels, and measure whether alerts help investors avoid repeatedly checking prices. Revisit SMS once it is available and user demand is understood.</p>
     </div>
   </section>
 </MissionLayout>
