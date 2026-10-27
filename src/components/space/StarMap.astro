@@ -143,10 +143,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
       <span data-decode-now>Olivia</span>
       <span data-decode-now>Nguyen</span>
     </h1>
+    <p class="launch__role hud-label" data-intro>{profile.title}</p>
     <p class="launch__tagline" data-intro>{profile.tagline}</p>
     <div class="launch__ctas" data-intro>
       <a href="#brief" class="hud-btn hud-btn--signal" data-sfx="both">
-        Begin mission
+        Read Brief
         <svg viewBox="0 0 256 256" aria-hidden="true"><path d="M213.66 101.66l-80 80a8 8 0 0 1-11.32 0l-80-80a8 8 0 0 1 11.32-11.32L128 164.69l74.34-74.35a8 8 0 0 1 11.32 11.32Z" /></svg>
       </a>
       <a href={profile.cvUrl} target="_blank" rel="noopener" class="hud-btn" data-sfx="both">
@@ -235,6 +236,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
   /* ── Map layer ─────────────────────────────────── */
   .map { position: absolute; inset: 0; }
+  .map[hidden] { display: none; }
   .map__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .map__radar { fill: url(#map-radar); }
   .map__orbit {
@@ -446,6 +448,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     text-shadow: 0 0 30px rgba(5, 9, 14, 0.9);
   }
   .launch__name span:last-child { color: var(--text-1); }
+  .launch__role { display: none; }
   .launch__tagline {
     margin-top: 22px;
     font-size: 18px;
@@ -633,6 +636,35 @@ const pad = (n: number) => String(n).padStart(2, '0');
     .scan__media { display: none; }
     .planet__label, .landmark__label { font-size: 9px; }
     .planet__code, .landmark__tag { display: none; }
+    .launch.is-list-view {
+      height: auto;
+      padding: 92px 16px 24px;
+    }
+    .launch.is-list-view .launch__intro { position: relative; inset: auto; }
+    .launch.is-list-view .map__controls {
+      position: relative;
+      inset: auto;
+      justify-content: flex-end;
+      margin: 24px 0 12px;
+    }
+    .launch.is-list-view .map__list {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      max-height: none;
+      overflow: visible;
+    }
+    .map__list a { grid-template-columns: 12px 36px minmax(0, 1fr); }
+    .map__list-name { overflow-wrap: anywhere; }
+    .map__list-meta { grid-column: 3; }
+  }
+
+  @media (max-width: 560px) {
+    .launch__role {
+      display: block;
+      margin-top: 14px;
+      color: var(--accent-hi);
+    }
   }
 </style>
 
@@ -708,6 +740,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   const START: Record<string, number> = {
     'verity-nature-mrv': 20,
     'boulder-box-saigon': 140,
+    'bom-bom-singapore': 320,
     'verity-east-africa': 230,
     'e-america': 200,
     'mbfs-sea': 35,
@@ -989,17 +1022,27 @@ const pad = (n: number) => String(n).padStart(2, '0');
   const listBtn = section.querySelector<HTMLButtonElement>('[data-list-toggle]')!;
   const list = section.querySelector<HTMLElement>('#map-list')!;
   const listLabel = listBtn.querySelector('[data-list-label]')!;
-  listBtn.addEventListener('click', () => {
-    const open = list.hidden;
+  const narrowScreen = matchMedia('(max-width: 860px)');
+
+  function setListView(open: boolean) {
     if (open) systemView(false);
+    section.classList.toggle('is-list-view', open);
+    map.hidden = open && narrowScreen.matches;
     list.hidden = !open;
     listBtn.setAttribute('aria-expanded', String(open));
     listLabel.textContent = open ? 'Map view' : 'List view';
+    measure();
+    render();
+    ScrollTrigger.refresh();
+  }
+
+  setListView(narrowScreen.matches);
+  narrowScreen.addEventListener('change', () => setListView(narrowScreen.matches));
+  listBtn.addEventListener('click', () => {
+    setListView(list.hidden);
   });
   list.querySelectorAll('[data-list-section]').forEach((a) => a.addEventListener('click', () => {
-    list.hidden = true;
-    listBtn.setAttribute('aria-expanded', 'false');
-    listLabel.textContent = 'List view';
+    if (!narrowScreen.matches) setListView(false);
   }));
 
   // ── Stardate telemetry ──────────────────────────────────

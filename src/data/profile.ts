@@ -1,5 +1,6 @@
 export const profile = {
 	name: 'Olivia Nguyen',
+	title: 'Product & Design Lead',
 	tagline: 'Hands-on product design leader with 13+ years turning complex, ambiguous challenges into user-centred digital products. Motivated to apply this work to services that deliver public good.',
 	summary: [
 		'Product leader and hands-on UX/UI designer with 13+ years across software development, product strategy, and digital product design. I work from discovery and research through prototyping and delivery, partnering with engineering and business stakeholders to make complex problems understandable and buildable.',

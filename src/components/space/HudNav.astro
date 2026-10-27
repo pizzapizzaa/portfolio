@@ -1,6 +1,7 @@
 ---
 import { navItems } from '../../data/nav';
 import { EXPLORER_ENABLED } from '../../data/features';
+import { profile } from '../../data/profile';
 
 // On the homepage links are in-page anchors; elsewhere they point back to /#section.
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
@@ -12,7 +13,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   <a href={href('launch-pad')} class="hud-brand" aria-label="Olivia Nguyen — back to Launch Pad" data-sfx="hover">
     <span class="hud-brand__text">
       <span class="hud-brand__name">O. Nguyen</span>
-      <span class="hud-brand__sub">Product &amp; Design Lead</span>
+      <span class="hud-brand__sub">{profile.title}</span>
     </span>
   </a>
 
