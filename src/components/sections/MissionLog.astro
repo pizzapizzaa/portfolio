@@ -39,6 +39,10 @@ const entries = workExperience.map((job, i) => {
           <p class="log__company">{job.company}</p>
           <p class="log__desc">{job.description}</p>
 
+          {job.clients && (
+            <p class="log__desc"><strong>Clients:</strong> {job.clients.join(', ')}</p>
+          )}
+
           {job.linked.length > 0 && (
             <div class="log__missions">
               <span class="hud-label">Linked missions</span>
@@ -50,16 +54,18 @@ const entries = workExperience.map((job, i) => {
             </div>
           )}
 
-          <details class="log__details">
-            <summary data-sfx="click">
-              <span class="log__summary-closed">Decrypt full log</span>
-              <span class="log__summary-open">Collapse log</span>
-              <span class="log__count">{String(job.responsibilities.length).padStart(2, '0')} entries</span>
-            </summary>
-            <ul class="log__resp">
-              {job.responsibilities.map((r) => <li>{r}</li>)}
-            </ul>
-          </details>
+          {job.responsibilities.length > 0 && (
+            <details class="log__details">
+              <summary data-sfx="click">
+                <span class="log__summary-closed">Decrypt full log</span>
+                <span class="log__summary-open">Collapse log</span>
+                <span class="log__count">{String(job.responsibilities.length).padStart(2, '0')} entries</span>
+              </summary>
+              <ul class="log__resp">
+                {job.responsibilities.map((r) => <li>{r}</li>)}
+              </ul>
+            </details>
+          )}
         </div>
       </li>
     ))}

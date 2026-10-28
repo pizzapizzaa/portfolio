@@ -4,15 +4,30 @@ export interface Job {
 	period: string;
 	description: string;
 	responsibilities: string[];
+	clients?: string[];
 	projectLink?: string;
 	projectLinks?: string[];
 }
 
 export const workExperience: Job[] = [
 	{
+		title: 'Fractional Product Design Lead',
+		company: 'MISSION+',
+		period: '11/2025 - Current',
+		description: 'Providing fractional product design leadership across client engagements.',
+		responsibilities: [],
+		clients: [
+			'Draper Startup House - Singapore',
+			'Semble - Australia',
+			'Capelo Change - Australia',
+			'BOM BOM - Singapore',
+		],
+		projectLinks: ['/projects/semble', '/projects/bom-bom-singapore'],
+	},
+	{
 		title: 'Product Manager',
 		company: 'Verity Nature (a.k.a Blue Carbon S2C), Singapore',
-		period: 'Aug 2023 - Present',
+		period: 'Aug 2023 - Nov 2025',
 		description: 'As Product Manager at Verity Nature, I conceptualized and built software roadmap to translate physical nature-based conservation and restoration data into verifiable digital frameworks. My role involved leading specialized research and design workshops to facilitate innovation in MRV technology, ensuring that high-fidelity design mockups and interactive prototypes were technically aligned with complex environmental data requirements.',
 		responsibilities: [
 			'Working closely with Lead Developer, CTO, CEO, Co-founders to build strategy, roadmap & planning for multiple products which catered to various regions.',
