@@ -9,6 +9,19 @@ both layouts; crossing the breakpoint restores the default for that layout.
 The narrow-screen list flows below the introduction without covering it.
 At 560px or less, the profile job title appears beneath the large name.
 
+## Oliv's live portfolio facts
+
+Oliv's speech bubble reads a random published portfolio page on each request,
+using same-origin fetches with caching disabled. The generated
+`/oliv-pages.json` index automatically includes the homepage and all project
+showcases. Redirects and Explorer game/story pages are excluded from the factual
+corpus. Adding or removing a showcase updates the index on the next build.
+
+Replies quote eligible body copy directly and link to its source; they are not
+AI-generated claims. Oliv cycles through shuffled pages, avoids reusing excerpts
+until that page's pool is exhausted, and excludes short labels and template
+questions. Read failures show an explicit retry message instead of canned facts.
+
 ## Project case studies
 
 The [BOM BOM SINGAPORE case study](src/pages/projects/bom-bom-singapore.astro)

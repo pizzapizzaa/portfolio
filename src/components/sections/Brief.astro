@@ -8,15 +8,6 @@ const vitals = [
   { value: 4, pad: 2, label: 'Sectors: climate, fintech, mobility, sport' },
   { value: 15, label: 'Countries reached' },
 ];
-
-// Oliv shows facts[0] first, then the rest in a shuffled order each time you tap
-const facts = [
-  "Hi, I'm Oliv — the ship AI. Tap me for intel on the captain.",
-  "The captain founded Vietnam's first boutique bouldering gym — 250% sales growth in year two.",
-  'She co-led UX research & design for Mercedes-Benz Financial Services across Asia-Pacific, Australia, New Zealand and Europe.',
-  'Current mission: turning nature-based conservation data into verifiable digital MRV at Verity Nature.',
-  'She designed e-America\'s brand, landing page and dashboard in under two weeks.',
-];
 ---
 
 <section id="brief" class="section-shell brief" aria-labelledby="brief-title">
@@ -47,9 +38,11 @@ const facts = [
         <button type="button" class="brief__oliv-btn" data-oliv aria-label="Ask Oliv for another fact about Olivia" data-sfx="click">
           <img src="/assets/game-ui/oliv-the-mascot.png" alt="Oliv, the ship's robot mascot, waving" width="140" height="171" loading="lazy" />
         </button>
-        <div class="brief__bubble hud-panel" aria-live="polite">
+        <div class="brief__bubble" data-oliv-bubble aria-busy="false">
           <p class="hud-label">Oliv // ship AI</p>
-          <p class="brief__bubble-text" data-oliv-text>{facts[0]}</p>
+          <p class="brief__bubble-text" data-oliv-text role="status" aria-live="polite" aria-atomic="true">Hi, I'm Oliv — the ship AI. Ask me for a random fact from the captain's current portfolio pages.</p>
+          <a class="brief__bubble-source" data-oliv-source hidden>Read the source</a>
+          <button type="button" class="brief__ask" data-oliv-ask data-sfx="click">Tell me something →</button>
         </div>
       </div>
 
@@ -65,8 +58,6 @@ const facts = [
       </dl>
     </aside>
   </div>
-
-  <script type="application/json" id="oliv-facts" set:html={JSON.stringify(facts)} />
 </section>
 
 <style>
@@ -107,7 +98,7 @@ const facts = [
 
   .brief__side { display: grid; gap: 18px; }
 
-  .brief__oliv { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 14px; }
+  .brief__oliv { display: grid; grid-template-columns: 120px minmax(0, 1fr); align-items: start; gap: 20px; }
   .brief__oliv-btn {
     padding: 0;
     border: 0;
@@ -121,8 +112,32 @@ const facts = [
   @keyframes oliv-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
   @keyframes oliv-wave { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-9deg); } 70% { transform: rotate(7deg); } }
 
-  .brief__bubble { padding: 14px 16px; }
-  .brief__bubble-text { margin-top: 6px; font-size: 15px; line-height: 1.55; color: var(--text-1); min-height: 4.65em; }
+  .brief__bubble {
+    position: relative;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 22px 22px 22px 6px;
+    background: #0a1c22;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+  .brief__bubble::before {
+    content: '';
+    position: absolute;
+    left: -9px;
+    top: 34px;
+    width: 16px;
+    height: 16px;
+    background: #0a1c22;
+    border-left: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transform: rotate(45deg);
+  }
+  .brief__bubble-text { margin-top: 10px; font-size: 15px; line-height: 1.65; color: var(--text-1); min-height: 4.65em; overflow-wrap: anywhere; }
+  .brief__bubble-source { display: block; margin-top: 14px; font-size: 12px; color: var(--accent); text-underline-offset: 3px; overflow-wrap: anywhere; }
+  .brief__bubble-source[hidden] { display: none; }
+  .brief__ask { margin-top: 16px; padding: 0; border: 0; background: none; color: var(--accent-hi); font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+  .brief__ask:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .brief__ask:disabled, .brief__oliv-btn:disabled { cursor: wait; opacity: 0.65; }
 
   .brief__vitals { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0; }
   .brief__vital { padding: 16px 18px; display: flex; flex-direction: column-reverse; gap: 6px; }
@@ -151,42 +166,45 @@ const facts = [
 
 <script>
   import { reducedMotion } from '../../scripts/motion';
+  import { createOlivReader } from '../../lib/oliv';
 
   const btn = document.querySelector<HTMLButtonElement>('[data-oliv]')!;
+  const ask = document.querySelector<HTMLButtonElement>('[data-oliv-ask]')!;
+  const bubble = document.querySelector<HTMLElement>('[data-oliv-bubble]')!;
   const text = document.querySelector<HTMLElement>('[data-oliv-text]')!;
-  const facts = JSON.parse(document.getElementById('oliv-facts')!.textContent!) as string[];
-  // Shuffle the facts (excluding the greeting); reshuffle after each full pass,
-  // never showing the same fact twice in a row.
-  const pool = facts.slice(1);
-  let queue: string[] = [];
-  let last = '';
-  function nextFact() {
-    if (!queue.length) {
-      queue = [...pool];
-      for (let k = queue.length - 1; k > 0; k--) {
-        const j = Math.floor(Math.random() * (k + 1));
-        [queue[k], queue[j]] = [queue[j], queue[k]];
-      }
-      if (queue.length > 1 && queue[0] === last) queue.push(queue.shift()!);
-    }
-    last = queue.shift()!;
-    return last;
-  }
-  let typing: number | undefined;
+  const source = document.querySelector<HTMLAnchorElement>('[data-oliv-source]')!;
+  const nextFact = createOlivReader();
 
-  btn.addEventListener('click', () => {
-    const msg = nextFact();
-    btn.classList.remove('is-talking');
-    void btn.offsetWidth;
-    btn.classList.add('is-talking');
-    clearInterval(typing);
-    if (reducedMotion) { text.textContent = msg; return; }
-    let n = 0;
-    text.textContent = '';
-    typing = window.setInterval(() => {
-      n += 2;
-      text.textContent = msg.slice(0, n);
-      if (n >= msg.length) clearInterval(typing);
-    }, 18);
-  });
+  async function askOliv() {
+    if (btn.disabled) return;
+    btn.disabled = true;
+    ask.disabled = true;
+    bubble.setAttribute('aria-busy', 'true');
+    source.hidden = true;
+    text.textContent = 'Scanning the current portfolio pages…';
+    try {
+      const fact = await nextFact();
+      text.textContent = fact.text;
+      source.href = fact.href;
+      source.textContent = `Source: ${fact.source} →`;
+      source.hidden = false;
+      ask.textContent = 'Tell me another →';
+      if (!reducedMotion) {
+        btn.classList.remove('is-talking');
+        void btn.offsetWidth;
+        btn.classList.add('is-talking');
+      }
+    } catch (error) {
+      console.error('Oliv could not read the portfolio:', error);
+      text.textContent = "I couldn't read the portfolio pages just now. Please try again.";
+      ask.textContent = 'Try again →';
+    } finally {
+      btn.disabled = false;
+      ask.disabled = false;
+      bubble.setAttribute('aria-busy', 'false');
+    }
+  }
+
+  btn.addEventListener('click', askOliv);
+  ask.addEventListener('click', askOliv);
 </script>
