@@ -155,12 +155,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
         Download CV
       </a>
     </div>
-  </div>
-
-  <div class="launch__telemetry" aria-hidden="true">
-    <p><span>SYS</span> {pad(missions.length)} missions · {pad(charted)} charted · {pad(missions.length - charted)} uncharted</p>
-    <p><span>LOC</span> {profile.location}</p>
-    <p><span>T+</span> <span data-stardate>—</span></p>
+    <div class="launch__telemetry" aria-hidden="true">
+      <p><span>SYS</span> {pad(missions.length)} missions · {pad(charted)} charted · {pad(missions.length - charted)} uncharted</p>
+      <p><span>LOC</span> {profile.location}</p>
+      <p><span>T+</span> <span data-stardate>—</span></p>
+    </div>
   </div>
 
   <p class="launch__hint" data-map-hint>
@@ -461,10 +460,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .launch__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 
   .launch__telemetry {
-    position: absolute;
-    left: clamp(16px, 5vw, 72px);
-    bottom: 28px;
-    z-index: 5;
+    margin-top: 24px;
     display: grid;
     gap: 3px;
     font-family: var(--font-mono);
@@ -628,6 +624,17 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .scan__meta :global(dd.is-signal) { color: var(--signal-hi); }
   .scan__desc { font-size: 15px; line-height: 1.6; color: rgba(247, 255, 199, 0.75); margin-bottom: 18px; }
   .scan__cta { width: 100%; justify-content: center; }
+
+  @media (min-width: 861px) {
+    .launch {
+      display: grid;
+      align-items: center;
+      height: auto;
+      min-height: max(640px, 100svh);
+      padding: 110px 0 90px;
+    }
+    .launch__intro { position: relative; top: auto; transform: none; }
+  }
 
   /* ── Small screens: intro on top, map below ────── */
   @media (max-width: 860px) {
