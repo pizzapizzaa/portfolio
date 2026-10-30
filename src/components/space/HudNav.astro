@@ -128,23 +128,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   }
   .hud-link__index { font-family: var(--font-mono); font-size: 10px; color: var(--text-2); transition: color 0.25s; }
   .hud-link__name { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
-  .hud-link::before,
-  .hud-link::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 5px; height: 5px;
-    border: 1px solid var(--accent);
-    transform: translateY(-50%) rotate(45deg) scale(0);
-    transition: transform 0.35s var(--ease-out);
-  }
-  .hud-link::before { left: 0; }
-  .hud-link::after { right: 0; }
   .hud-link:hover { color: var(--text-1); }
-  .hud-link:hover::before, .hud-link:hover::after { transform: translateY(-50%) rotate(45deg) scale(1); }
   .hud-link.is-active { color: var(--accent-hi); text-shadow: var(--text-glow); }
   .hud-link.is-active .hud-link__index { color: var(--signal-hi); }
-  .hud-link.is-active::before, .hud-link.is-active::after { transform: translateY(-50%) rotate(45deg) scale(1); background: var(--accent); }
 
   .hud-tools { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 
