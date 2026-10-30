@@ -1,5 +1,9 @@
 ---
 import MissionLayout from '../../layouts/MissionLayout.astro';
+
+const updatedScreenshots = Object.keys(import.meta.glob('/public/assets/projects/Verity_MRV/*.png'))
+  .sort()
+  .map((path) => path.replace('/public', '').split('/').map(encodeURIComponent).join('/'));
 ---
 
 <MissionLayout
@@ -133,6 +137,9 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
       <div class="gallery-wrap" role="region" aria-label="Verity Nature MRV product screens and field-trip photos">
         <div class="gallery-track-wrap">
           <div class="gallery-track" id="galleryTrack">
+            {updatedScreenshots.map((src, i) => (
+              <img class="gallery-img" src={src} alt={`Verity Nature MRV product screenshot ${i + 1}`} loading="lazy" decoding="async" />
+            ))}
             <img class="gallery-img" src="/assets/projects/verity-nature-mrv/Select%20download%20package%20screen.png" alt="Verity Nature MRV download package selection screen" loading="lazy" decoding="async" />
             <img class="gallery-img" src="/assets/projects/verity-nature-mrv/Downloading%20package%20screen.png" alt="Verity Nature MRV package download progress screen" loading="lazy" decoding="async" />
             <img class="gallery-img" src="/assets/projects/verity-nature-mrv/VSC%20Release%20October%202023.png" alt="VSC release overview from October 2023" loading="lazy" decoding="async" />
@@ -145,7 +152,7 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
         </div>
         <div class="gallery-controls">
           <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
-          <span class="gallery-counter" id="galleryCounter">1 / 8</span>
+          <span class="gallery-counter" id="galleryCounter">1 / {updatedScreenshots.length + 8}</span>
           <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
         </div>
       </div>
