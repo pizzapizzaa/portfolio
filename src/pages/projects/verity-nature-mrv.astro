@@ -60,6 +60,44 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
   <section class="case-section">
     <h2 class="case-section-title">3. Technical Execution &amp; Rollouts <span class="case-section-sub">(The &ldquo;How&rdquo;)</span></h2>
     <div class="case-field">
+      <h3 class="case-field-label" id="system-map-title">System Mapping</h3>
+      <figure class="system-map" aria-labelledby="system-map-title" aria-describedby="system-map-caption">
+        <div class="system-map__inputs">
+          <div class="system-map__node">
+            <p class="hud-label hud-label--signal">Start // 01</p>
+            <h4>Field app</h4>
+            <p>Technicians conduct field sampling and examinations.</p>
+          </div>
+          <div class="system-map__node">
+            <p class="hud-label hud-label--signal">02 // Community scouting</p>
+            <h4>Mobile observation app</h4>
+            <p>Community-led observations and scouting by non-technical staff.</p>
+          </div>
+        </div>
+        <div class="system-map__merge" aria-hidden="true"><span></span><span></span></div>
+        <p class="system-map__connector"><span aria-hidden="true">&#8595;</span> Field data &amp; local backup</p>
+        <div class="system-map__node system-map__node--edge">
+          <p class="hud-label hud-label--signal">03 // Portable data center</p>
+          <h4>Verity Edgecase</h4>
+          <p class="system-map__alias">VSC &mdash; Verity Sync Case</p>
+          <p>Data backup and offline / online sync. Acts as a portable data center during field trips.</p>
+        </div>
+        <p class="system-map__connector"><span aria-hidden="true">&#8595;</span> Sync when devices are online</p>
+        <div class="system-map__node system-map__node--cloud">
+          <p class="hud-label hud-label--signal">05 // Central data hub</p>
+          <h4>Cloud data center</h4>
+          <p>All data syncs back here when devices are online.</p>
+        </div>
+        <p class="system-map__connector"><span aria-hidden="true">&#8597;</span> Setup, data management &amp; reporting</p>
+        <div class="system-map__node">
+          <p class="hud-label hud-label--signal">04 // Administration</p>
+          <h4>Admin dashboard</h4>
+          <p>Field-trip setup, data-field management, report generation, and analysis.</p>
+        </div>
+        <figcaption class="case-field-value" id="system-map-caption">The field and observation apps support two collection workflows. VSC provides portable backup and sync during field trips; the cloud centralizes data once devices are online, while the admin dashboard supports setup and analysis.</figcaption>
+      </figure>
+    </div>
+    <div class="case-field">
       <h3 class="case-field-label">Core Product Decisions</h3>
       <ul class="case-field-list">
         <li><strong>Deconstructed Feature Map:</strong> Broke down unstructured, massive scientific parameters into manageable API contracts and micro-workflows, allowing the platform to support evolving client requirements natively.</li>
@@ -77,9 +115,12 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
     </div>
     <div class="case-field">
       <h3 class="case-field-label">Visual Highlights</h3>
-      <div class="gallery-wrap">
+      <div class="gallery-wrap" role="region" aria-label="Verity Nature MRV product screens and field-trip photos">
         <div class="gallery-track-wrap">
           <div class="gallery-track" id="galleryTrack">
+            <img class="gallery-img" src="/assets/projects/verity-nature-mrv/Select%20download%20package%20screen.png" alt="Verity Nature MRV download package selection screen" loading="lazy" decoding="async" />
+            <img class="gallery-img" src="/assets/projects/verity-nature-mrv/Downloading%20package%20screen.png" alt="Verity Nature MRV package download progress screen" loading="lazy" decoding="async" />
+            <img class="gallery-img" src="/assets/projects/verity-nature-mrv/VSC%20Release%20October%202023.png" alt="VSC release overview from October 2023" loading="lazy" decoding="async" />
             <img class="gallery-img" src="/assets/projects/verity-nature-mrv/tablet-field-app.jpg" alt="Tablet field app" />
             <img class="gallery-img" src="/assets/projects/verity-nature-mrv/data-syncing-field-trip.jpg" alt="Data syncing during field trip" />
             <img class="gallery-img" src="/assets/projects/verity-nature-mrv/justin-baird-and-the-portable-data-backup.avif" alt="Justin Baird and the portable data backup" />
@@ -89,7 +130,7 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
         </div>
         <div class="gallery-controls">
           <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
-          <span class="gallery-counter" id="galleryCounter">1 / 5</span>
+          <span class="gallery-counter" id="galleryCounter">1 / 8</span>
           <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
         </div>
       </div>
@@ -108,3 +149,48 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
     </div>
   </section>
 </MissionLayout>
+
+<style>
+  .system-map {
+    margin: 20px 0 0;
+    padding: clamp(16px, 3vw, 32px);
+    border: 1px solid var(--hairline);
+    background: rgba(5, 12, 18, 0.65);
+  }
+  .system-map__inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .system-map__node {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-panel);
+  }
+  .system-map__node h4 { margin: 10px 0; font-size: clamp(16px, 2vw, 20px); line-height: 1.4; }
+  .system-map__node > p:not(.hud-label) { color: rgba(247, 255, 199, 0.8); font-size: 15px; line-height: 1.65; }
+  .system-map__node .system-map__alias { margin-bottom: 8px; }
+  .system-map__node--edge { border-color: var(--accent); }
+  .system-map__node--cloud { border-color: var(--accent-hi); background: rgba(65, 183, 116, 0.1); }
+  .system-map__merge { display: grid; grid-template-columns: 1fr 1fr; margin: 0 25%; height: 24px; }
+  .system-map__merge span { border-bottom: 1px solid var(--border); }
+  .system-map__merge span:first-child { border-left: 1px solid var(--border); }
+  .system-map__merge span:last-child { border-right: 1px solid var(--border); }
+  .system-map__connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 0 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--text-2);
+  }
+  .system-map__connector span { color: var(--accent-hi); font-size: 26px; line-height: 1; }
+  .system-map figcaption { margin-top: 24px; font-size: 14px; }
+  @media (max-width: 560px) {
+    .system-map__inputs { grid-template-columns: 1fr; gap: 12px; }
+    .system-map__merge { display: none; }
+    .system-map__node { padding: 14px; overflow-wrap: anywhere; }
+    .system-map__inputs .hud-label { letter-spacing: 0.1em; }
+  }
+</style>
