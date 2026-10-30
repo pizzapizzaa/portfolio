@@ -7,6 +7,7 @@ export interface Job {
 	clients?: string[];
 	projectLink?: string;
 	projectLinks?: string[];
+	ndaProjects?: string[];
 }
 
 export const workExperience: Job[] = [
@@ -22,7 +23,12 @@ export const workExperience: Job[] = [
 			'Capelo Change - Australia',
 			'BOM BOM - Singapore',
 		],
-		projectLinks: ['/projects/semble', '/projects/bom-bom-singapore'],
+		projectLinks: [
+			'/projects/bom-bom-singapore',
+			'/projects/bom-bom-order-delivery-management',
+			'/projects/e-america',
+		],
+		ndaProjects: ['Capelo Change', 'Semble'],
 	},
 	{
 		title: 'Product Manager',

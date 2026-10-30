@@ -54,6 +54,17 @@ const entries = workExperience.map((job, i) => {
             </div>
           )}
 
+          {job.ndaProjects && job.ndaProjects.length > 0 && (
+            <div class="log__missions">
+              <span class="hud-label">NDA // no public showcase</span>
+              {job.ndaProjects.map((project) => (
+                <span class="log__chip log__chip--nda">
+                  <span class="log__chip-dot" aria-hidden="true"></span>{project}
+                </span>
+              ))}
+            </div>
+          )}
+
           {job.responsibilities.length > 0 && (
             <details class="log__details">
               <summary data-sfx="click">
@@ -155,6 +166,8 @@ const entries = workExperience.map((job, i) => {
   }
   .log__chip:hover { border-color: var(--signal); color: #fff; background: rgba(245, 58, 2, 0.15); }
   .log__chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal-hi); box-shadow: 0 0 6px var(--signal); }
+  .log__chip--nda { color: rgba(247, 255, 199, 0.7); border-style: dashed; cursor: default; }
+  .log__chip--nda .log__chip-dot { background: var(--text-2); box-shadow: none; }
 
   .log__details { margin-top: 18px; border-top: 1px dashed var(--hairline); }
   .log__details summary {
