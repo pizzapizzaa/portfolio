@@ -62,6 +62,19 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
     <div class="case-field">
       <h3 class="case-field-label" id="system-map-title">System Mapping</h3>
       <figure class="system-map" aria-labelledby="system-map-title" aria-describedby="system-map-caption">
+        <div class="system-map__viewport" role="region" aria-label="System iteration loop">
+        <div class="system-map__loop">
+          <svg class="system-map__arrows" viewBox="0 0 920 620" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <marker id="system-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                <path d="M1 1 9 5 1 9" />
+              </marker>
+            </defs>
+            <path d="M260 190 H328" marker-end="url(#system-arrow)" />
+            <path d="M590 190 H658" marker-end="url(#system-arrow)" />
+            <path d="M790 190 V530 H592" marker-end="url(#system-arrow)" />
+            <path d="M330 530 H130 V382" marker-end="url(#system-arrow)" />
+          </svg>
         <div class="system-map__inputs">
           <div class="system-map__node">
             <p class="hud-label hud-label--signal">Start // 01</p>
@@ -74,27 +87,29 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
             <p>Community-led observations and scouting by non-technical staff.</p>
           </div>
         </div>
-        <div class="system-map__merge" aria-hidden="true"><span></span><span></span></div>
-        <p class="system-map__connector"><span aria-hidden="true">&#8595;</span> Field data &amp; local backup</p>
         <div class="system-map__node system-map__node--edge">
           <p class="hud-label hud-label--signal">03 // Portable data center</p>
           <h4>Verity Edgecase</h4>
           <p class="system-map__alias">VSC &mdash; Verity Sync Case</p>
           <p>Data backup and offline / online sync. Acts as a portable data center during field trips.</p>
         </div>
-        <p class="system-map__connector"><span aria-hidden="true">&#8595;</span> Sync when devices are online</p>
         <div class="system-map__node system-map__node--cloud">
           <p class="hud-label hud-label--signal">05 // Central data hub</p>
           <h4>Cloud data center</h4>
           <p>All data syncs back here when devices are online.</p>
         </div>
-        <p class="system-map__connector"><span aria-hidden="true">&#8597;</span> Setup, data management &amp; reporting</p>
-        <div class="system-map__node">
+        <div class="system-map__node system-map__node--admin">
           <p class="hud-label hud-label--signal">04 // Administration</p>
           <h4>Admin dashboard</h4>
           <p>Field-trip setup, data-field management, report generation, and analysis.</p>
         </div>
-        <figcaption class="case-field-value" id="system-map-caption">The field and observation apps support two collection workflows. VSC provides portable backup and sync during field trips; the cloud centralizes data once devices are online, while the admin dashboard supports setup and analysis.</figcaption>
+        <p class="system-map__label system-map__label--backup">Local backup</p>
+        <p class="system-map__label system-map__label--sync">Online sync</p>
+        <p class="system-map__label system-map__label--review">Review &amp; analysis</p>
+        <p class="system-map__label system-map__label--return">Set up the next field trip</p>
+        </div>
+        </div>
+        <figcaption class="case-field-value" id="system-map-caption">A continuous fieldwork loop, not a one-way pipeline: field and community observations are backed up through VSC, data syncs to the cloud when devices are online, and dashboard review and setup inform the next field trip. The loop runs horizontally on desktop and vertically on mobile.</figcaption>
       </figure>
     </div>
     <div class="case-field">
@@ -157,9 +172,20 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
     border: 1px solid var(--hairline);
     background: rgba(5, 12, 18, 0.65);
   }
-  .system-map__inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .system-map__viewport { overflow-x: auto; overscroll-behavior-x: contain; }
+  .system-map__loop {
+    position: relative;
+    display: grid;
+    grid-template-columns: 28.26% 7.61% 28.26% 7.61% 28.26%;
+    grid-template-rows: 380px 60px 180px;
+    width: 100%;
+    min-width: 760px;
+    margin-inline: auto;
+  }
+  .system-map__arrows { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--accent); stroke-width: 1.5; pointer-events: none; }
+  .system-map__inputs { grid-column: 1; grid-row: 1; display: grid; gap: 16px; z-index: 1; }
   .system-map__node {
-    padding: 20px;
+    padding: 18px;
     border: 1px solid var(--border);
     border-radius: 8px;
     background: var(--bg-panel);
@@ -167,30 +193,63 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
   .system-map__node h4 { margin: 10px 0; font-size: clamp(16px, 2vw, 20px); line-height: 1.4; }
   .system-map__node > p:not(.hud-label) { color: rgba(247, 255, 199, 0.8); font-size: 15px; line-height: 1.65; }
   .system-map__node .system-map__alias { margin-bottom: 8px; }
-  .system-map__node--edge { border-color: var(--accent); }
-  .system-map__node--cloud { border-color: var(--accent-hi); background: rgba(65, 183, 116, 0.1); }
-  .system-map__merge { display: grid; grid-template-columns: 1fr 1fr; margin: 0 25%; height: 24px; }
-  .system-map__merge span { border-bottom: 1px solid var(--border); }
-  .system-map__merge span:first-child { border-left: 1px solid var(--border); }
-  .system-map__merge span:last-child { border-right: 1px solid var(--border); }
-  .system-map__connector {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 8px 0 14px;
+  .system-map__node--edge { grid-column: 3; grid-row: 1; align-self: center; z-index: 1; border-color: var(--accent); }
+  .system-map__node--cloud { grid-column: 5; grid-row: 1; align-self: center; z-index: 1; border-color: var(--accent-hi); background: #0c251d; }
+  .system-map__node--admin { grid-column: 3; grid-row: 3; z-index: 1; }
+  .system-map__label {
+    position: absolute;
     font-family: var(--font-mono);
     font-size: 11px;
     line-height: 1.6;
     text-align: center;
     color: var(--text-2);
   }
-  .system-map__connector span { color: var(--accent-hi); font-size: 26px; line-height: 1; }
+  .system-map__label--backup { left: 28.26%; top: 140px; width: 7.61%; }
+  .system-map__label--sync { left: 64.13%; top: 140px; width: 7.61%; }
+  .system-map__label--review { left: 67.39%; top: 540px; width: 18.48%; }
+  .system-map__label--return { left: 15.22%; top: 540px; width: 19.56%; }
   .system-map figcaption { margin-top: 24px; font-size: 14px; }
-  @media (max-width: 560px) {
-    .system-map__inputs { grid-template-columns: 1fr; gap: 12px; }
-    .system-map__merge { display: none; }
+  @media (max-width: 860px) {
+    .system-map__viewport { overflow: visible; }
+    .system-map__loop {
+      min-width: 0;
+      grid-template-columns: 24px minmax(0, 1fr);
+      grid-template-rows: repeat(8, auto);
+    }
+    .system-map__arrows { display: none; }
+    .system-map__loop::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 28px;
+      bottom: 20px;
+      width: 24px;
+      border: 1px solid var(--accent);
+      border-right: 0;
+      border-radius: 12px 0 0 12px;
+    }
+    .system-map__loop::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 24px;
+      width: 8px;
+      height: 8px;
+      border-top: 1px solid var(--accent);
+      border-right: 1px solid var(--accent);
+      transform: rotate(45deg);
+    }
+    .system-map__inputs { grid-column: 2; grid-row: 1; }
     .system-map__node { padding: 14px; overflow-wrap: anywhere; }
-    .system-map__inputs .hud-label { letter-spacing: 0.1em; }
+    .system-map__node--edge { grid-column: 2; grid-row: 3; }
+    .system-map__node--cloud { grid-column: 2; grid-row: 5; }
+    .system-map__node--admin { grid-column: 2; grid-row: 7; }
+    .system-map__label { position: static; width: auto; grid-column: 2; padding: 12px 0; }
+    .system-map__label::before { content: '\2193'; display: block; color: var(--accent-hi); font-size: 22px; }
+    .system-map__label--backup { grid-row: 2; }
+    .system-map__label--sync { grid-row: 4; }
+    .system-map__label--review { grid-row: 6; }
+    .system-map__label--return { grid-row: 8; }
+    .system-map__label--return::before { content: '\21B6'; }
   }
 </style>
