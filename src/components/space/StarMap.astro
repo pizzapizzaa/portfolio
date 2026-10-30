@@ -168,6 +168,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
     Select a mission to scan <span class="launch__hint-sep">·</span> scroll to begin
   </p>
 
+  <div class="map__list-backdrop" data-list-backdrop hidden aria-hidden="true"></div>
+
   <div class="map__controls">
     <button type="button" class="map__ctrl" data-system-view hidden data-sfx="both">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3" /></svg>
@@ -179,7 +181,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     </button>
   </div>
 
-  <div class="map__list hud-panel" id="map-list" hidden>
+  <div class="map__list hud-panel" id="map-list" data-lenis-prevent tabindex="0" role="region" aria-label="Destinations" hidden>
     <p class="hud-label">Destinations</p>
     <ul>
       {mapData.missions.map((m, i) => (
@@ -495,11 +497,19 @@ const pad = (n: number) => String(n).padStart(2, '0');
   @keyframes hint-blink { 50% { background: var(--accent); } }
   .launch__hint-sep { color: var(--text-muted); }
 
+  .map__list-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    background: rgba(0, 0, 0, 0.55);
+  }
+  .map__list-backdrop[hidden] { display: none; }
+
   .map__controls {
     position: absolute;
     right: 72px;
     top: 92px;
-    z-index: 6;
+    z-index: 7;
     display: flex;
     gap: 8px;
   }
@@ -527,10 +537,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
     position: absolute;
     right: 72px;
     top: 138px;
-    z-index: 7;
+    z-index: 8;
     width: min(380px, calc(100vw - 32px));
     max-height: calc(100% - 180px);
     overflow-y: auto;
+    overscroll-behavior-y: contain;
     padding: 18px 18px 10px;
   }
   .map__list[hidden] { display: none; }
@@ -620,6 +631,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
   /* ── Small screens: intro on top, map below ────── */
   @media (max-width: 860px) {
+    .map__list-backdrop { display: none; }
     .launch { min-height: 720px; }
     .launch__intro { top: 92px; transform: none; right: 16px; max-width: none; }
     .launch__name { font-size: clamp(38px, 11vw, 64px); }
@@ -1021,6 +1033,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   // ── List view ───────────────────────────────────────────
   const listBtn = section.querySelector<HTMLButtonElement>('[data-list-toggle]')!;
   const list = section.querySelector<HTMLElement>('#map-list')!;
+  const listBackdrop = section.querySelector<HTMLElement>('[data-list-backdrop]')!;
   const listLabel = listBtn.querySelector('[data-list-label]')!;
   const narrowScreen = matchMedia('(max-width: 860px)');
 
@@ -1029,6 +1042,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     section.classList.toggle('is-list-view', open);
     map.hidden = open && narrowScreen.matches;
     list.hidden = !open;
+    listBackdrop.hidden = !open;
     listBtn.setAttribute('aria-expanded', String(open));
     listLabel.textContent = open ? 'Map view' : 'List view';
     measure();
@@ -1040,6 +1054,13 @@ const pad = (n: number) => String(n).padStart(2, '0');
   narrowScreen.addEventListener('change', () => setListView(narrowScreen.matches));
   listBtn.addEventListener('click', () => {
     setListView(list.hidden);
+  });
+  listBackdrop.addEventListener('click', () => setListView(false));
+  section.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !list.hidden && !narrowScreen.matches) {
+      setListView(false);
+      listBtn.focus({ preventScroll: true });
+    }
   });
   list.querySelectorAll('[data-list-section]').forEach((a) => a.addEventListener('click', () => {
     if (!narrowScreen.matches) setListView(false);
