@@ -36,11 +36,55 @@ function tone(freq: number, dur: number, type: OscillatorType, gain: number, sli
   osc.stop(t + dur + 0.02);
 }
 
+function ignition() {
+  const ac = audio();
+  if (!ac) return;
+  const t = ac.currentTime;
+  const duration = 0.48;
+  const envelope = ac.createGain();
+  envelope.gain.setValueAtTime(0.0001, t);
+  envelope.gain.exponentialRampToValueAtTime(0.09, t + 0.07);
+  envelope.gain.exponentialRampToValueAtTime(0.035, t + 0.24);
+  envelope.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+  envelope.connect(ac.destination);
+
+  const rumble = ac.createOscillator();
+  rumble.type = 'triangle';
+  rumble.frequency.setValueAtTime(42, t);
+  rumble.frequency.exponentialRampToValueAtTime(150, t + 0.3);
+  rumble.frequency.exponentialRampToValueAtTime(95, t + duration);
+  rumble.connect(envelope);
+
+  const buffer = ac.createBuffer(1, Math.ceil(ac.sampleRate * duration), ac.sampleRate);
+  const samples = buffer.getChannelData(0);
+  for (let i = 0; i < samples.length; i++) samples[i] = Math.random() * 2 - 1;
+  const exhaust = ac.createBufferSource();
+  exhaust.buffer = buffer;
+  const filter = ac.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.Q.value = 0.7;
+  filter.frequency.setValueAtTime(160, t);
+  filter.frequency.exponentialRampToValueAtTime(1800, t + 0.22);
+  filter.frequency.exponentialRampToValueAtTime(300, t + duration);
+  exhaust.connect(filter).connect(envelope);
+
+  rumble.start(t);
+  exhaust.start(t);
+  rumble.stop(t + duration);
+  exhaust.stop(t + duration);
+  exhaust.onended = () => {
+    rumble.disconnect();
+    exhaust.disconnect();
+    filter.disconnect();
+    envelope.disconnect();
+  };
+}
+
 export function play(name: Sfx) {
   if (!enabled) return;
   switch (name) {
     case 'tick': tone(2400, 0.035, 'square', 0.015); break;
-    case 'blip': tone(880, 0.08, 'triangle', 0.05, 1320); break;
+    case 'blip': ignition(); break;
     case 'confirm': tone(660, 0.09, 'triangle', 0.05); tone(990, 0.12, 'triangle', 0.05, undefined, 0.08); break;
     case 'scan': tone(320, 0.5, 'sine', 0.035, 1600); break;
     case 'warp': tone(90, 0.9, 'sawtooth', 0.03, 900); break;
