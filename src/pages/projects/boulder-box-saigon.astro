@@ -1,5 +1,19 @@
 ---
 import MissionLayout from '../../layouts/MissionLayout.astro';
+
+const photos = [
+  'bbo-image-01.avif',
+  'bbo-image-02.webp',
+  'bbo-image-03.avif',
+  'bbo-image-04.avif',
+  'bbo-image-05.avif',
+  'bbo-image-06.avif',
+  'bbo-image-08.avif',
+  'bbo-image-09.avif',
+  'bbo-image-10.webp',
+  'bbo-image-11.avif',
+  'bbo-image-12.webp',
+];
 ---
 
 <MissionLayout
@@ -8,7 +22,7 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
   timeline="Aug 2023 – Present"
   status="Live"
   statusHref="https://boulderbox.rocks"
-  heroImage="/assets/projects/bbo-image-01.avif"
+  heroImage="/assets/projects/Boulder%20Box%20Saigon/bbo-image-01.avif"
   explorerGradient="linear-gradient(40deg, #071207 0%, #0d2c1a 100%)"
 >
   <section class="case-section">
@@ -105,20 +119,17 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
     <h2 class="case-section-title">5. Visual Highlights</h2>
     <div class="case-field">
       <h3 class="case-field-label">Gallery</h3>
-      <div class="gallery-wrap">
+      <div class="gallery-wrap" role="region" aria-label="Boulder Box Saigon photos">
         <div class="gallery-track-wrap">
           <div class="gallery-track" id="galleryTrack">
-            <img class="gallery-img" src="/assets/projects/bbo-image-03.avif" alt="Boulder Box Saigon" />
-            <img class="gallery-img" src="/assets/projects/bbo-image-01.avif" alt="Boulder Box Saigon" />
-            <img class="gallery-img" src="/assets/projects/bbo-image-02.webp" alt="Boulder Box Saigon" />
-            <img class="gallery-img" src="/assets/projects/bbo-image-10.webp" alt="Boulder Box Saigon" />
-            <img class="gallery-img" src="/assets/projects/bbo-image-11.avif" alt="Boulder Box Saigon" />
-            <img class="gallery-img" src="/assets/projects/bbo-image-12.webp" alt="Boulder Box Saigon" />
+            {photos.map((photo, i) => (
+              <img class="gallery-img" src={`/assets/projects/Boulder%20Box%20Saigon/${photo}`} alt={`Boulder Box Saigon — photo ${i + 1}`} loading="lazy" decoding="async" />
+            ))}
           </div>
         </div>
         <div class="gallery-controls">
           <button class="gallery-btn" id="galleryPrev" aria-label="Previous">&#8592; Back</button>
-          <span class="gallery-counter" id="galleryCounter">1 / 6</span>
+          <span class="gallery-counter" id="galleryCounter">1 / {photos.length}</span>
           <button class="gallery-btn" id="galleryNext" aria-label="Next">Next &#8594;</button>
         </div>
       </div>
