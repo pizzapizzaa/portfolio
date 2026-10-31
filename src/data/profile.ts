@@ -9,7 +9,7 @@ export const profile = {
 	],
 	quote: 'I lead with clarity, empathy, and purpose - whether building products or communities. To me, meaningful impact starts with empowering people to thrive in the most sustainable & effective ways.',
 	location: 'Singapore / Vietnam',
-	cvUrl: 'https://drive.google.com/file/d/1iF74TASjJeKiZZAuCoOagqE-ROQNZRoi/view?usp=sharing',
+	cvUrl: 'https://drive.google.com/file/d/1DdJJI7K3oCNilX3Z4pt0G6GTuMKuMKdk/view?usp=drive_link',
 };
 
 export const comms = {
