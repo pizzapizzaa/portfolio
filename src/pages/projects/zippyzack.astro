@@ -1,5 +1,10 @@
 ---
 import MissionLayout from '../../layouts/MissionLayout.astro';
+
+const videos = [
+  { file: 'zippyzack-video-1.mp4', poster: 'zippyzack-video-1-poster.webp', title: 'A blue-green crochet project' },
+  { file: 'zippyzack-video-2.mp4', poster: 'zippyzack-video-2-poster.webp', title: 'A handmade crochet mouse' },
+];
 ---
 
 <MissionLayout
@@ -29,6 +34,10 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
   <section class="case-section">
     <h2 class="case-section-title">2. Strategy &amp; Discovery</h2>
     <div class="case-field">
+      <h3 class="case-field-label">Founder Story</h3>
+      <p class="case-field-value">Olivia picked up crochet a few months ago and quickly fell in love with making things by hand. But as a beginner, figuring out which yarn, tools, and quantities to buy felt overwhelming. She soon found herself with a &ldquo;yarn graveyard&rdquo; of unused supplies. That experience inspired ZippyZack: a platform that brings project-ready supplies together, helping new crocheters get started with less guesswork, fewer unnecessary purchases, and more joy in making.</p>
+    </div>
+    <div class="case-field">
       <h3 class="case-field-label">Audience &amp; Discovery</h3>
       <p class="case-field-value">The shop speaks to people who are new to crochet as well as experienced makers looking for their next project. Visitors can browse by difficulty (Beginner, Easy, Intermediate, or Advanced), search makes, or start with a project idea rather than sourcing supplies separately.</p>
     </div>
@@ -55,7 +64,7 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
     </div>
     <div class="case-field">
       <h3 class="case-field-label">Visual Highlights</h3>
-      <p class="case-field-value">Screenshots captured from the live site in November 2026. Browse the storefront, kit detail, finished-piece gallery, contact, order tracking, shipping and returns, and care instructions. There is no standalone FAQ page at the live /faq route; common customer questions are covered across the support pages.</p>
+      <p class="case-field-value">Photos from Olivia's crochet journey alongside screenshots captured from the live site in November 2026.</p>
       <div class="gallery-wrap">
         <div class="gallery-track-wrap">
           <div class="gallery-track">
@@ -66,15 +75,64 @@ import MissionLayout from '../../layouts/MissionLayout.astro';
             <img class="gallery-img" src="/assets/projects/zippyzack-order-tracking.png" alt="ZippyZack order tracking page with order number and email lookup form" />
             <img class="gallery-img" src="/assets/projects/zippyzack-shipping-returns.png" alt="ZippyZack shipping and returns page with shipping costs and delivery-time information" />
             <img class="gallery-img" src="/assets/projects/zippyzack-care.png" alt="ZippyZack care instructions page covering washing, blocking, and storage of crochet pieces" />
+            <img class="gallery-img" src="/assets/projects/zippyzack-hero.webp" alt="Olivia crocheting beside her laptop" loading="lazy" decoding="async" />
+            <img class="gallery-img" src="/assets/projects/zippyzack-crochet-in-progress.webp" alt="Blue-green crochet work in progress with a crochet hook and yarn" loading="lazy" decoding="async" />
           </div>
         </div>
         <div class="gallery-controls">
           <button class="gallery-btn" aria-label="Previous screenshot">&#8592; Back</button>
-          <span class="gallery-counter">1 / 7</span>
+          <span class="gallery-counter">1 / 9</span>
           <button class="gallery-btn" aria-label="Next screenshot">Next &#8594;</button>
         </div>
+      </div>
+    </div>
+    <div class="case-field">
+      <h3 class="case-field-label">Video Highlights</h3>
+      <div class="video-grid">
+        {videos.map((video) => (
+          <figure class="video-card">
+            <video
+              class="video-preview"
+              controls
+              playsinline
+              preload="metadata"
+              aria-label={video.title}
+              poster={`/assets/projects/${video.poster}`}
+            >
+              <source src={`/assets/projects/${video.file}`} type="video/mp4" />
+              Your browser does not support embedded videos.
+              <a href={`/assets/projects/${video.file}`}>Download {video.title}</a>
+            </video>
+            <figcaption class="case-field-label">{video.title}</figcaption>
+          </figure>
+        ))}
       </div>
     </div>
   </section>
 
 </MissionLayout>
+
+<style>
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .video-card { margin: 0; min-width: 0; }
+
+  .video-preview {
+    display: block;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: contain;
+    background: rgba(5, 12, 18, 0.65);
+    border: 1px solid var(--hairline);
+  }
+
+  .video-card .case-field-label { margin-top: 12px; }
+
+  @media (max-width: 600px) {
+    .video-grid { grid-template-columns: 1fr; }
+  }
+</style>
