@@ -151,7 +151,7 @@ export const missions: Mission[] = [
 		description: 'A project-based crochet storefront sneak peek with curated make kits, optional-tool pricing, finished pieces, and order-support flows ahead of its January 2027 launch.',
 		image: '/assets/projects/background-main.jpg',
 		href: '/projects/zippyzack',
-		role: 'Lead Product Designer',
+		role: 'Founder & Creator',
 		domain: 'consumer',
 		size: 'sm',
 		orbit: 3,
