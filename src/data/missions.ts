@@ -148,7 +148,7 @@ export const missions: Mission[] = [
 		slug: 'zippyzack',
 		title: 'ZippyZack.com',
 		shortTitle: 'ZippyZack.com',
-		description: 'A playful, crochet-inspired pre-launch website introducing ZippyZack ahead of its announced January 2027 launch.',
+		description: 'A project-based crochet storefront sneak peek with curated make kits, optional-tool pricing, finished pieces, and order-support flows ahead of its January 2027 launch.',
 		image: '/assets/projects/background-main.jpg',
 		href: '/projects/zippyzack',
 		role: 'Lead Product Designer',
