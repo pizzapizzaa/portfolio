@@ -1,18 +1,46 @@
 ---
 import MissionLayout from '../../layouts/MissionLayout.astro';
 
-const photos = [
-  'bbo-image-01.avif',
-  'bbo-image-02.webp',
-  'bbo-image-03.avif',
-  'bbo-image-04.avif',
-  'bbo-image-05.avif',
-  'bbo-image-06.avif',
-  'bbo-image-08.avif',
-  'bbo-image-09.avif',
-  'bbo-image-10.webp',
-  'bbo-image-11.avif',
-  'bbo-image-12.webp',
+interface PhotoHighlight {
+  file: string;
+  alt: string;
+}
+
+const photos: PhotoHighlight[] = [
+  { file: 'bbo-image-01.avif', alt: 'Boulder Box Saigon climbing gym' },
+  { file: 'bbo-image-02.webp', alt: 'Boulder Box Saigon project photo 2' },
+  { file: 'bbo-image-03.avif', alt: 'Boulder Box Saigon project photo 3' },
+  { file: 'bbo-image-04.avif', alt: 'Boulder Box Saigon project photo 4' },
+  { file: 'bbo-image-05.avif', alt: 'Boulder Box Saigon project photo 5' },
+  { file: 'bbo-image-06.avif', alt: 'Boulder Box Saigon project photo 6' },
+  { file: 'bbo-image-08.avif', alt: 'Boulder Box Saigon project photo 7' },
+  { file: 'bbo-image-09.avif', alt: 'Boulder Box Saigon project photo 8' },
+  { file: 'bbo-image-10.webp', alt: 'Boulder Box Saigon project photo 9' },
+  { file: 'bbo-image-11.avif', alt: 'Boulder Box Saigon project photo 10' },
+  { file: 'bbo-image-12.webp', alt: 'Boulder Box Saigon project photo 11' },
+  { file: 'bbo-archive-construction-wall.webp', alt: 'Unfinished plywood climbing wall during Boulder Box gym construction' },
+  { file: 'bbo-archive-gym-build.webp', alt: 'Climbing gym build nearing completion, with orange bouldering walls' },
+  { file: 'bbo-archive-signboard.webp', alt: 'Boulder Box indoor bouldering sign above the gym entrance' },
+  { file: 'bbo-archive-gym-opening.webp', alt: 'Boulder Box gym entrance and climbing walls during the opening build' },
+  { file: 'bbo-archive-design-mockup-01.webp', alt: '3D concept showing the planned bouldering gym entrance and wall layout' },
+  { file: 'bbo-archive-design-mockup-02.webp', alt: '3D bouldering wall layout concept with overhang and vertical sections' },
+  { file: 'bbo-archive-design-mockup-03.webp', alt: '3D concept of the climbing gym cave, overhang, and slab walls' },
+  { file: 'bbo-archive-design-mockup-04.webp', alt: 'Alternate 3D view of the planned Boulder Box climbing walls' },
+  { file: 'bbo-archive-wall-frame-01.webp', alt: 'Steel and timber framing for the indoor climbing walls' },
+  { file: 'bbo-archive-wall-frame-02.webp', alt: 'Interior construction frame for the Boulder Box climbing gym' },
+  { file: 'bbo-archive-interior-build.webp', alt: 'Workers building the interior structure of the climbing gym' },
+];
+
+interface VideoHighlight {
+  file: string;
+  title: string;
+  poster?: string;
+}
+
+const videos: VideoHighlight[] = [
+  { file: 'bbo-video-01.mp4', title: 'Climbing gym construction', poster: 'bbo-video-01-poster.webp' },
+  { file: 'bbo-video-02.mp4', title: 'Finished gym and climbing wall', poster: 'bbo-video-02-poster.webp' },
+  { file: 'bbo-video-03.mp4', title: 'Bouldering wall details', poster: 'bbo-video-03-poster.webp' },
 ];
 ---
 
@@ -122,8 +150,8 @@ const photos = [
       <div class="gallery-wrap" role="region" aria-label="Boulder Box Saigon photos">
         <div class="gallery-track-wrap">
           <div class="gallery-track" id="galleryTrack">
-            {photos.map((photo, i) => (
-              <img class="gallery-img" src={`/assets/projects/Boulder%20Box%20Saigon/${photo}`} alt={`Boulder Box Saigon — photo ${i + 1}`} loading="lazy" decoding="async" />
+            {photos.map((photo) => (
+              <img class="gallery-img" src={`/assets/projects/Boulder%20Box%20Saigon/${photo.file}`} alt={photo.alt} loading="lazy" decoding="async" />
             ))}
           </div>
         </div>
@@ -135,6 +163,32 @@ const photos = [
       </div>
     </div>
   </section>
+
+  {videos.length > 0 && (
+    <section class="case-section">
+      <h2 class="case-section-title">Video Highlights</h2>
+      <div class="video-grid">
+        {videos.map((video) => (
+          <article class="video-card">
+            <video
+              class="video-preview"
+              controls
+              playsinline
+              preload="metadata"
+              poster={video.poster ? `/assets/projects/Boulder%20Box%20Saigon/${video.poster}` : undefined}
+            >
+              <source
+                src={`/assets/projects/Boulder%20Box%20Saigon/${video.file}`}
+                type={video.file.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4'}
+              />
+              Your browser does not support embedded videos.
+            </video>
+            <h3 class="case-field-label">{video.title}</h3>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="case-section">
     <h2 class="case-section-title">6. Outcome &amp; Lessons</h2>
@@ -188,6 +242,22 @@ const photos = [
 
   .review-intro { margin-bottom: 18px; }
 
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .video-preview {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: rgba(5, 12, 18, 0.65);
+    object-fit: cover;
+  }
+
+  .video-card .case-field-label { margin-top: 12px; }
+
   .review-source {
     margin: 20px 0 0;
   }
@@ -199,5 +269,6 @@ const photos = [
 
   @media (max-width: 600px) {
     .review-grid { grid-template-columns: 1fr; }
+    .video-grid { grid-template-columns: 1fr; }
   }
 </style>
