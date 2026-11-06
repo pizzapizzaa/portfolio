@@ -8,7 +8,6 @@ const channels = [
   ...comms.phones.map((p, i) => ({ code: `CH-0${3 + i}`, name: i === 0 ? 'Phone · SG' : 'Phone · VN', value: p.label, href: p.href, copy: p.label })),
   { code: `CH-0${3 + comms.phones.length}`, name: 'Instagram', value: comms.instagram.label, href: comms.instagram.href, external: true },
 ];
-const year = new Date().getFullYear();
 ---
 
 <section id="comms" class="section-shell comms" aria-labelledby="comms-title">
@@ -62,13 +61,6 @@ const year = new Date().getFullYear();
       </a>}
     </div>
   </div>
-
-  <footer class="comms__footer">
-    <span class="hud-label">End of transmission</span>
-    <span class="comms__footer-line" aria-hidden="true"></span>
-    <span class="comms__footer-copy">© {year} {profile.name}</span>
-    <a href="#launch-pad" class="comms__top" data-sfx="both">Return to launch pad ↑</a>
-  </footer>
 
   <div class="comms__toast" role="status" aria-live="polite" data-toast hidden></div>
 </section>
@@ -162,20 +154,6 @@ const year = new Date().getFullYear();
   .comms__explorer:hover { color: var(--accent-hi); }
   .comms__explorer-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
 
-  .comms__footer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 16px;
-    margin-top: 96px;
-    padding-top: 22px;
-    border-top: 1px solid var(--hairline);
-  }
-  .comms__footer-line { flex: 1; height: 1px; min-width: 40px; background: linear-gradient(90deg, var(--signal), transparent); }
-  .comms__footer-copy { font-family: var(--font-mono); font-size: 12px; color: rgba(247, 255, 199, 0.5); }
-  .comms__top { font-family: var(--font-mono); font-size: 12px; color: var(--accent); text-decoration: none; }
-  .comms__top:hover { color: var(--accent-hi); }
-
   .comms__toast {
     position: fixed;
     left: 50%;
@@ -209,7 +187,6 @@ const year = new Date().getFullYear();
     .comms__name { grid-column: 1; }
     .comms__value { grid-column: 1; grid-row: 2; font-size: 15px; }
     .comms__copy { grid-column: 2; grid-row: 1 / span 2; }
-    .comms__footer-line { display: none; }
   }
 </style>
 
