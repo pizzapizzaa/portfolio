@@ -71,7 +71,7 @@ export const missions: Mission[] = [
 		title: 'BOM BOM Order & Delivery Management',
 		shortTitle: 'BOM BOM Order & Delivery',
 		description: 'Led the redesign of BOM BOM’s fresh pet-food order and delivery management system for the Singapore market, replacing a clunky legacy system that had been in place for roughly 10 years.',
-		image: '/assets/projects/bom-bom-homepage.webp',
+		image: '/assets/projects/BOMBOM_order/meal-plan-hero.png',
 		href: '/projects/bom-bom-order-delivery-management',
 		role: 'Design Lead',
 		domain: 'consumer',
